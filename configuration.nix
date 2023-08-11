@@ -210,7 +210,6 @@
     # Steam
     steam
     steam-run
-    tldr
     plasma5Packages.kio-gdrive
     libsForQt5.kinfocenter
     libsForQt5.kaccounts-integration
