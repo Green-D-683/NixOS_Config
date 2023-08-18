@@ -9,10 +9,10 @@
 
   outputs = { self, nixpkgs }: {
     nixosConfigurations = {
-      UnknownDevice-ux535 = nixpkgs.lib.nixosSystem {
+      UnknownDevice_ux535 = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          ./configuration.nix
+          ./config/systems/specific/UnknownDevice_ux535.nix
         ];
       };
     };

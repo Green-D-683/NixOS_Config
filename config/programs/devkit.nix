@@ -7,7 +7,9 @@
 
     environment.systemPackages = with pkgs; [
       # vscode # Included in core.nix
-      
+      # Python
+      python3Full
+      python310Packages.pip
     ]
   };
 }
