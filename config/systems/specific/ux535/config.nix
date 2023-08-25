@@ -22,6 +22,6 @@
     nvidiaBusId = "PCI:1:0:0";
   };
 
-  config.networking.hostname = "UnknownDevice"; # Define your hostname.
+  config.networking.hostName = "UnknownDevice"; # Define your hostname.
 
 }
