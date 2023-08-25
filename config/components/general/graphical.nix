@@ -42,7 +42,7 @@
     
     environment.systemPackages = with pkgs; [
       # SDDM theme
-      (pkgs.callPackage ../derivations/Win10-Breeze-SDDM {}).Win10-Breeze-SDDM
+      (pkgs.callPackage ../../derivations/Win10-Breeze-SDDM.nix {}).Win10-Breeze-SDDM
       # Kaccounts
       plasma5Packages.kio-gdrive
       libsForQt5.kaccounts-integration
