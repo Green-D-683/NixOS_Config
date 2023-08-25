@@ -13,6 +13,8 @@
           enableHidpi=true;
         };
         defaultSession="plasmawayland";
+      };
+      desktopManager={
         # Enable KDE Plasma
         plasma5.enable = true;
       };
