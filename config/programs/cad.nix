@@ -4,6 +4,6 @@
   config={
     environment.systemPackages= with pkgs; [
       freecad
-    ]
+    ];
   };
 }

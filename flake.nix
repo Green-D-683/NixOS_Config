@@ -12,7 +12,7 @@
       UnknownDevice_ux535 = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          ./config/systems/specific/UnknownDevice_ux535.nix
+          ./config/systems/specific/ux535/config.nix
         ];
       };
     };
