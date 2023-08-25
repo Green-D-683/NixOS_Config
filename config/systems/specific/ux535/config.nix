@@ -1,5 +1,8 @@
 {config, pkgs, lib, ...}:
+let 
+  updater = pkgs.writeScriptBin "update" "sudo nixos-rebuild switch --flake github:Lordraven19/NixOS_Config#UnknownDevice_ux535 --option tarball-ttl 0";
 
+in
 {
   imports=[
     ../../default/full.nix
@@ -23,5 +26,7 @@
   };
 
   config.networking.hostName = "UnknownDevice"; # Define your hostname.
+
+  config.environment.systemPackages=[updater];
 
 }
