@@ -1,6 +1,6 @@
 {config, pkgs, lib, ...}:
 let 
-  updater = pkgs.writeScriptBin "update" "sudo nixos-rebuild switch --flake github:Lordraven19/NixOS_Config#UnknownDevice_ux535 --option tarball-ttl 0";
+  updater = pkgs.writeScriptBin "update" "sudo nixos-rebuild switch --flake github:Lordraven19/NixOS_Config#UnknownDevice_ux535 --option tarball-ttl 0 --no-write-lock-file";
 
 in
 {
