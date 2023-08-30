@@ -1,6 +1,8 @@
 {config, pkgs, lib, ...}:
 let 
-  updater = pkgs.writeScriptBin "update" "sudo nixos-rebuild switch --flake github:Lordraven19/NixOS_Config#UnknownDevice_ux535 --option tarball-ttl 0 --no-write-lock-file";
+  rebuilder = pkgs.writeScriptBin "rebuild" "sudo nixos-rebuild switch --flake github:Lordraven19/NixOS_Config#UnknownDevice_ux535 --option tarball-ttl 0 --no-write-lock-file";
+
+  upgrader = pkgs.writeScriptBin "upgrade" "sudo nixos-rebuild switch --flake github:Lordraven19/NixOS_Config#UnknownDevice_ux535 --option tarball-ttl 0 --no-write-lock-file --upgrade";
 
 in
 {
@@ -27,6 +29,9 @@ in
 
   config.networking.hostName = "UnknownDevice"; # Define your hostname.
 
-  config.environment.systemPackages=[updater];
+  config.environment.systemPackages=[
+    rebuilder
+    upgrader
+    ];
 
 }
