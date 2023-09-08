@@ -6,7 +6,6 @@
     environment.systemPackages= with pkgs; [
       firefox
       thunderbird
-      bluemail
       spotify
       libreoffice
       zoom-us

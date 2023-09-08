@@ -1,5 +1,12 @@
 {config, pkgs, ...}:
 
+let pyLibs = [
+  dill
+  pygame
+  guizero
+];
+in
+
 {
   config={
     # # needed for store VS Code auth token 
@@ -8,8 +15,9 @@
     environment.systemPackages = with pkgs; [
       vscode # Included in core.nix
       # Python
-      python3Full
+      python3Full.withPackages pyLibs
       python310Packages.pip
+      oraclejdk11
     ];
   };
 }

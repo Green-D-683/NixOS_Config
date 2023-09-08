@@ -7,6 +7,7 @@ let
     (path + "/sound.nix")
     (path + "/bluetooth.nix")
     (path + "/printing.nix")
+    (path + "/virtualisation.nix")
   ];
   programs = let path = ../../programs; in [
     (path + "/core.nix")
