@@ -1,6 +1,6 @@
 {config, pkgs, ...}:
 
-let pyLibs = [
+let pyLibs = ps: with ps;[
   dill
   pygame
   guizero
