@@ -34,6 +34,7 @@ in
       # Python
       (python3Full.withPackages pyLibs)
       jdk20
+      powershell
     ];
 
     programs.java = { enable = true; package = pkgs.jdk20; };
