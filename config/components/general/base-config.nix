@@ -35,6 +35,9 @@ in
       
       # Reading Windows Drives
       supportedFilesystems = [ "ntfs" ];
+
+      # Using latest kernel
+      kernelPackages = pkgs.linuxPackages_latest;
     };
 
     # Firmware
