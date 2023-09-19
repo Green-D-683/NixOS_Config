@@ -33,6 +33,6 @@ fi
     };
     environment.systemPackages=[
       toggle-screenpad
-    ]
+    ];
   };
 }
