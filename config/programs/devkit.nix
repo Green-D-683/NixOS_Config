@@ -35,6 +35,7 @@ in
       (python3Full.withPackages pyLibs)
       jdk20
       powershell
+      ocaml
     ];
 
     programs.java = { enable = true; package = pkgs.jdk20; };

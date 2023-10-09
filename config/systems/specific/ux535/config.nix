@@ -11,6 +11,7 @@ in
     ../../../components/general/laptop.nix
     ../../../components/specific/asus/battery.nix
     ../../../components/specific/asus/screenpad.nix
+    ../../../components/specific/asus/asusd.nix
     ../../../components/specific/nvidia/offload.nix
     ./hardware-configuration.nix
   ];

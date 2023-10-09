@@ -7,7 +7,7 @@
 let
   cleanup = pkgs.writeScriptBin "cleanup" ''
   nix-collect-garbage  --delete-old
-  sudo nix-collect-garbage -d
+  sudo nix store gc --debug
   sudo /run/current-system/bin/switch-to-configuration boot
   '';
 
@@ -71,6 +71,7 @@ in
       fwupd
       pciutils
       usbutils
+      lshw
       man
       tldr
       nix-prefetch
