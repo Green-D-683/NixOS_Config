@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ../../components/base-config.nix
+    ../../components/general/base-config.nix
     ../../users/daniel.nix
   ];
 }

@@ -1,29 +1,13 @@
 {config, pkgs, ...}:
 
-let pyLibs = ps: with ps;[
-  pip
-  dill
-  pygame
-  tkinter
-  jupyter
-  tinydb
-  (
-    buildPythonPackage rec {
-      pname = "guizero";
-      version = "1.4.0";
-      src = fetchPypi {
-        inherit pname version;
-        sha256 = "sha256-V2TjijsqCJcS7B51NAv4M16nch43342QIc3Qr7i1eic=";
-      };
-      doCheck = false;
-      propagatedBuildInputs = [
-        ## Specify dependencies
-        # pkgs.python3Packages.tkinter
-        # pkgs.python3Full
-      ];
-    }
-  )
-];
+let 
+commandA = "nix develop github:Lordraven19/NixOSConfig#";
+commandB  = " --no-write-lock-file";
+pyShell = pkgs.writeScriptBin "python_shell" "${commandA}python${commandB}";
+javaShell = pkgs.writeScriptBin "java_shell" "${commandA}java${commandB}";
+sqlShell = pkgs.writeScriptBin "sql_shell" "${commandA}sql${commandB}";
+ocamlShell = pkgs.writeScriptBin "ocaml_shell" "${commandA}ocaml${commandB}";
+scripts = [pyShell javaShell sqlShell ocaml_shell];
 in
 
 {
@@ -33,16 +17,7 @@ in
 
     environment.systemPackages = with pkgs; [
       vscode # Included in core.nix
-      # Python
-      (python3Full.withPackages pyLibs)
-      jdk20
       powershell
-      ocaml
-      opam
-      sqlite
-      neo4j
-    ];
-
-    programs.java = { enable = true; package = pkgs.jdk20; };
+    ] ++ scripts;
   };
 }
