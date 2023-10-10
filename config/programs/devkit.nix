@@ -7,7 +7,7 @@ pyShell = pkgs.writeScriptBin "python_shell" "${commandA}python${commandB}";
 javaShell = pkgs.writeScriptBin "java_shell" "${commandA}java${commandB}";
 sqlShell = pkgs.writeScriptBin "sql_shell" "${commandA}sql${commandB}";
 ocamlShell = pkgs.writeScriptBin "ocaml_shell" "${commandA}ocaml${commandB}";
-scripts = [pyShell javaShell sqlShell ocaml_shell];
+scripts = [pyShell javaShell sqlShell ocamlShell];
 in
 
 {
