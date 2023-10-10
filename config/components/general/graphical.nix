@@ -68,6 +68,8 @@
       glib-networking
     ];  
 
+    services.onedrive.enable = true;
+
     ## Dropbox service
     networking.firewall = {
       allowedTCPPorts = [ 17500 ];

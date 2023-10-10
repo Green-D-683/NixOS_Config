@@ -6,8 +6,8 @@
 }:
 let
   cleanup = pkgs.writeScriptBin "cleanup" ''
-  nix-collect-garbage  --delete-old
-  sudo nix store gc --debug
+  sudo nix profile wipe-history
+  sudo nix store gc 
   sudo /run/current-system/bin/switch-to-configuration boot
   '';
 

@@ -5,6 +5,8 @@ let pyLibs = ps: with ps;[
   dill
   pygame
   tkinter
+  jupyter
+  tinydb
   (
     buildPythonPackage rec {
       pname = "guizero";
@@ -36,6 +38,9 @@ in
       jdk20
       powershell
       ocaml
+      opam
+      sqlite
+      neo4j
     ];
 
     programs.java = { enable = true; package = pkgs.jdk20; };
