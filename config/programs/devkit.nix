@@ -1,7 +1,8 @@
 {config, pkgs, ...}:
 
-let 
-commandA = "nix develop github:Lordraven19/NixOSConfig#";
+let
+l = (x: pkgs.writeScriptBin "${x}_shell" "nix develop github:Lordraven19/NixOS_Config#${x} --no-write-lock-file");
+commandA = "nix develop github:Lordraven19/NixOS_Config#";
 commandB  = " --no-write-lock-file";
 pyShell = pkgs.writeScriptBin "python_shell" "${commandA}python${commandB}";
 javaShell = pkgs.writeScriptBin "java_shell" "${commandA}java${commandB}";
