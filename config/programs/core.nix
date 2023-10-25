@@ -14,6 +14,7 @@
       pdfarranger
       slack
       jre_minimal
+      pkgs.texlive.combined.scheme-basic
     ];
     # needed for store VS Code auth token 
     services.gnome.gnome-keyring.enable = true;
