@@ -13,6 +13,7 @@
       libsecret
       pdfarranger
       slack
+      jre_minimal
     ];
     # needed for store VS Code auth token 
     services.gnome.gnome-keyring.enable = true;
