@@ -5,7 +5,7 @@ let pyLibs = ps: with ps;[
   dill
   pygame
   tkinter
-  jupyter
+  # jupyter
   (
     buildPythonPackage rec {
       pname = "guizero";
