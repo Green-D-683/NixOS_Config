@@ -5,7 +5,7 @@
     # Core Applications
     environment.systemPackages= with pkgs; [
       firefox
-      betterbird
+      thunderbird
       spotify
       libreoffice
       zoom-us

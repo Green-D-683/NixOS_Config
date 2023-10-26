@@ -62,8 +62,7 @@
       vulkan-tools
       wayland-utils
       direnv
-      # Onedrive
-      #(pkgs.callPackage ../../derivations/Onedriver_temp.nix {})
+      onedrivegui
       dropbox
       glib-networking
       appimage-run

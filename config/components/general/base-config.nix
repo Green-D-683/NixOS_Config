@@ -7,6 +7,7 @@
 let
   cleanup = pkgs.writeScriptBin "cleanup" ''
   sudo nix profile wipe-history
+  nix store gc
   sudo nix store gc 
   sudo /run/current-system/bin/switch-to-configuration boot
   '';

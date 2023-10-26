@@ -11,7 +11,7 @@ let
   ];
   programs = let path = ../../programs; in [
     (path + "/core.nix")
-    (path + "/cad.nix")
+    # (path + "/cad.nix") FreeCAD broken atm
     (path + "/devkit.nix")
     (path + "/gaming.nix")
   ];
