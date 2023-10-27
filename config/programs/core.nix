@@ -15,6 +15,7 @@
       slack
       jre_minimal
       pkgs.texlive.combined.scheme-full
+      vlc
     ];
     # needed for store VS Code auth token 
     services.gnome.gnome-keyring.enable = true;
