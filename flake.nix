@@ -66,6 +66,7 @@
           buildInputs = with pkgs; [
             ocaml
             opam
+            ocamlPackages.utop
           ];
       };
       sql = pkgs.mkShell {
