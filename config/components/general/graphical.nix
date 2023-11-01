@@ -66,6 +66,7 @@
       dropbox
       glib-networking
       appimage-run
+      widevine-cdm
     ];  
 
     services.onedrive.enable = true;
