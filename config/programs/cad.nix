@@ -3,7 +3,8 @@
 {
   config={
     environment.systemPackages= with pkgs; [
-      freecad
+      #freecad
+      kicad
     ];
   };
 }
