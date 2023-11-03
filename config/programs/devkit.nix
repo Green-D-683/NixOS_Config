@@ -12,6 +12,10 @@ scripts = [pyShell javaShell sqlShell ocamlShell];
 in
 
 {
+  imports = [
+    ./development
+  ];
+  
   config={
     # # needed for store VS Code auth token 
     services.gnome.gnome-keyring.enable = true;
