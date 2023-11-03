@@ -13,7 +13,7 @@
       libsecret
       pdfarranger
       slack
-      jre_full
+      jre_minimal
       pkgs.texlive.combined.scheme-full
       vlc
     ];
