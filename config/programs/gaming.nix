@@ -9,6 +9,7 @@
         remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remoteplay
         dedicatedServer.openFirewall = true; # Open ports in the firewall for steam server
       };
+      heroic
     };
 
     ## Steam dependencies
