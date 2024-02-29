@@ -25,7 +25,7 @@ let p = nixpkgs-stable; in
     # ];
 
   
-
+    #self.openlp = super.hello;
     self.openlp = super.openlp.override{
       sqlalchemy = super.sqlalchemy_1_4;
       sqlalchemy-migrate = super.sqlalchemy-migrate.override{

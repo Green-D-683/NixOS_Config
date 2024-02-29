@@ -11,12 +11,17 @@
           enable=true;
           theme="Win10-Breeze-SDDM";
           enableHidpi=true;
+          #wayland.enable=true;
         };
-        defaultSession="plasmawayland";
+        defaultSession="plasma";#"plasmawayland";
       };
       desktopManager={
         # Enable KDE Plasma
-        plasma5.enable = true;
+        # plasma5.enable = true;
+        plasma6={
+          enable = true;
+          enableQt5Integration = true;
+        };
       };
       # Configure keymap in X11
       xkb = {
@@ -29,7 +34,6 @@
     # Configure console keymap
     console.keyMap = "uk";
 
-    # Allowing GTK theming
     programs={
       # Allowing GTK theming
       dconf.enable = true;

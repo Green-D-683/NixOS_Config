@@ -5,4 +5,5 @@ lib.lists.flatten(map (x : import ./${x}.nix {pkgs=pkgs; lib=lib;}) [
   "ocaml"
   "python"
   "sql"
+  "mlrd"
 ])

@@ -1,0 +1,1 @@
+home-manager switch --flake .#daniel --option tarball-ttl 0 --no-write-lock-file --show-trace

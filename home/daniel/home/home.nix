@@ -10,7 +10,11 @@ let
     #"ciccu"
     "development/default"
   ];
-  
+  nixpkgs = pkgs.appendOverlays [
+    (self: super: {
+      self.openlp = super.hello;
+    })
+  ];
 in 
 {
   # Home Manager needs a bit of information about you and the paths it should manage.
@@ -22,7 +26,7 @@ in
   # You can update Home Manager without changing this value. See the Home Manager release notes for a list of state version changes in each release.
   home.stateVersion = "23.11";
 
-  home.packages = (builtins.concatLists (map (x : import x {inherit lib; inherit pkgs;}) install_list)) ++ [pkgs.home-manager];
+  home.packages = (builtins.concatLists (map (x : import x {inherit lib; pkgs=nixpkgs;}) install_list)) ++ [pkgs.home-manager];
 
   ## Additional Configuration for indivudual programs
   programs = {
@@ -39,13 +43,46 @@ in
       enable = true;
       package = pkgs.jdk20;
     };
+    firefox = {
+      enable = true;
+      nativeMessagingHosts = [pkgs.plasma5Packages.plasma-browser-integration];
+    };
   };
 
-  nixpkgs.config={
-    overlays = import ./../../../pkgs/overlays.nix {inherit nixpkgs-stable; pkgs = pkgs;};
-    allowUnFree = true;
-    permittedInsecurePackages = [
-      "qtwebkit-5.212.0-alpha4"
-    ];
-  };
+  # nixpkgs={
+  #   config={
+  #     overlays = [
+  #       (self: super: {
+  #         self.openlp = super.hello;
+  #       })
+  #     ];#import ./../../../pkgs/overlays.nix {inherit nixpkgs-stable; pkgs = pkgs;};
+  #     allowUnfree = true;
+  #     allowBroken=true;
+  #     permittedInsecurePackages = [
+  #       "qtwebkit-5.212.0-alpha4"
+  #     ];
+  #     # packageOverrides = pkgs: with pkgs; rec {
+  #     #   sqlalchemy-migrate = pkgs.
+        
+  #     #   openlp = pkgs.openlp.override()
+  #     # }
+  #   };
+  #   overlays = [
+  #     (self: super: {
+  #       self.openlp = super.hello;#super.openlp.override{
+  #       #   sqlalchemy = super.sqlalchemy_1_4;
+  #       #   sqlalchemy-migrate = super.sqlalchemy-migrate.override{
+  #       #     sqlalchemy=super.sqlalchemy_1_4;
+  #       #   };
+  #       # };
+      
+  #       # self.openlpFull = self.openlp.override {
+  #       #   pdfSupport = true;
+  #       #   presentationSupport = true;
+  #       #   vlcSupport = true;
+  #       #   gstreamerSupport = true;
+  #       # };
+  #     })
+  #   ];
+  # };
 }

@@ -1,24 +1,22 @@
-#!/usr/bin/env bash
+#!/run/current-system/sw/bin/bash
 
-sPad=$(kscreen-doctor -o | grep "1080x2160@50")
-sPadSplit=$(echo $sPad | sed "s| |\o12|g")
-portPlus=$(echo "$sPadSplit" | grep --after-context=2 "Output:")
-port=$(echo "$portPlus" | sed -n 3p)
+sPad=$(kscreen-doctor -o | grep --before-context=5 "1080x2160@50")
+#echo "$sPad"
+portPlus=$(echo "$sPad" | grep "Output:")
+portPlusSplit=$(echo "$portPlus" | sed "s| |\o12|g")
+port=$(echo "$portPlusSplit" | sed -n 3p)
 #echo "$port"
 
-disabled=$(kscreen-doctor -o | grep "$port" | egrep -o "disabled")
+disabled=$(kscreen-doctor -o | grep --after-context=1 "$port" | sed -n 2p | egrep -o "disabled")
 #echo "$disabled"
 
 if [ "${disabled}" = "disabled" ]; then
-	disp=$(kscreen-doctor -o | grep "eDP-1")
+	disp=$(kscreen-doctor -o | grep --after-context=14 "eDP-1")
 	#echo $disp
-	dispSplit=$(echo $disp | sed "s| |\o12|g")
 
-	#echo "$dispSplit"
+	geoPlus=$(echo "$disp" | grep "Geometry:" | sed "s| |\o12|g")
 
-	geoPlus=$(echo "$dispSplit" | grep --after-context=1 "Geometry:")
-
-	#echo "${geo}"
+	#echo "${geoPlus}"
 
 	geo=$(echo "$geoPlus" | sed -n 2p)
 

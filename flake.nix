@@ -17,44 +17,56 @@
     };
   };
 
-  outputs = inputs@{nixpkgs, home-manager, nixpkgs-stable,...}: let 
-    overlays = import ./pkgs/overlays.nix {inherit nixpkgs-stable; pkgs = nixpkgs;};
-    nixpkgs = (inputs: {
-      nixpkgs = {
-        config = {
-          allowUnfree = true;
-          allowBroken = true;
-        };
+  outputs = inputs@{nixpkgs, home-manager, nixpkgs-stable,...}: 
+    let 
+      overlays = import ./pkgs/overlays.nix {inherit nixpkgs-stable; pkgs = nixpkgs;};
+      # nixpkgs = (inputs: {
+      #   nixpkgs = {
+      #     config = {
+      #       allowUnfree = true;
+      #       allowBroken = true;
+      #     };
+      #     overlays = overlays;
+      #   };
+      # });
+      systems = [
+        "aarch64-linux"
+        "x86_64-linux"
+        "aarch64-darwin"
+        "x86-64-darwin"
+      ];
+      linux = builtins.filter (x: nixpkgs.lib.strings.hasInfix "linux" x) systems;
+      darwin = builtins.filter (x: nixpkgs.lib.strings.hasInfix "darwin" x) systems;
+      forAllSystems = nixpkgs.lib.genAttrs systems;
+      forAllLinux = nixpkgs.lib.genAttrs linux;
+      forAllDarwin = nixpkgs.lib.genAttrs darwin;
+      pkgsForSys = (system: import inputs.nixpkgs {
         overlays = overlays;
-      };
-    });
+        system = system;
+        config = {
+          allowBroken = true;
+          allowUnfree = true;
+          permittedInsecurePackages = [
+            "qtwebkit-5.212.0-alpha4"
+          ];
+        };
+      });
+
     in
     {
     nixosConfigurations = {
       UnknownDevice_ux535 = inputs.nixpkgs.lib.nixosSystem rec {
-        pkgs = import inputs.nixpkgs {
-          overlays = overlays;
-          system = system;
-          config = {
-            allowBroken = true;
-            allowUnfree = true;
-            permittedInsecurePackages = [
-              "qtwebkit-5.212.0-alpha4"
-            ];
-          };
-        };
+        pkgs = pkgsForSys system;
         system = "x86_64-linux";
         modules = [
           ./nixos/systems/specific/ux535/config.nix
           home-manager.nixosModules.home-manager
           {
-              home-manager = {
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                users.daniel = import ./home/daniel/home/home.nix;
-                # ## TODO: Fix this
-                # config.nixpkgs.overlays = overlays;
-              };
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              users.daniel = import ./home/daniel/home/home.nix {pkgs = pkgsForSys system; lib = pkgs.lib; nixpkgs-stable=nixpkgs-stable; };
+            };
           }
         ];
 
@@ -70,11 +82,11 @@
     };
     homeConfigurations = {
       daniel=home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux;
+        pkgs = pkgsForSys "x86_64-linux";
         modules = [
-          (
-            {nixpkgs.overlays = overlays;}
-          )
+          # (
+          #   {nixpkgs.overlays = overlays;}
+          # )
           ./home/daniel/home/home.nix
         ];
         extraSpecialArgs = {inherit inputs;};
