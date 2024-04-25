@@ -41,11 +41,15 @@ in
     ## Java
     java = {
       enable = true;
-      package = pkgs.jdk20;
+      package = lib.mkForce pkgs.jdk20;
     };
     firefox = {
       enable = true;
-      nativeMessagingHosts = [pkgs.plasma5Packages.plasma-browser-integration];
+      package = pkgs.firefox;
+      nativeMessagingHosts = [
+        pkgs.kdePackages.plasma-browser-integration
+        pkgs.firefoxpwa
+      ];
     };
   };
 

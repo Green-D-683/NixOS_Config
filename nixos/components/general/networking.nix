@@ -4,7 +4,10 @@
   config={
     # Enable networking
     networking={
-      networkmanager.enable = true;
+      networkmanager={
+        enable = true;
+        enableStrongSwan = true;
+      };
       hostName = lib.mkDefault "UnknownDevice-NixOS";
     };
 

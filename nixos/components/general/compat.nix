@@ -16,6 +16,8 @@
       curl
       expat
       libstdcxx5
+      stdenv.cc.cc.lib
+      libgcc
     ];
   };
 }

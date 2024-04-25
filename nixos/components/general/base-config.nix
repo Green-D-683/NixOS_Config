@@ -44,12 +44,26 @@ in
 
       # Using latest kernel
       kernelPackages = pkgs.linuxPackages_latest;
+      kernelModules = [
+        "v4l2loopback"
+      ];
+      extraModulePackages = [
+        pkgs.linuxPackages_latest.v4l2loopback
+      ];
     };
 
     # Firmware
     hardware={
       enableRedistributableFirmware=true;
       enableAllFirmware=true;
+    };
+
+    # PowerManagement
+    powerManagement = {
+      enable = true;
+      scsiLinkPolicy = "medium_power";
+      powertop.enable = true;
+      cpuFreqGovernor = "ondemand";
     };
 
     # Timezone and Locale
@@ -91,6 +105,8 @@ in
     #   libsecret
     # ] ++ [
       cleanup];
+
+    services.fwupd.enable = true;
 
     ## System Upgrades
     system={

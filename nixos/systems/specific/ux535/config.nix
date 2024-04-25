@@ -1,14 +1,14 @@
 {config, pkgs, lib, ...}:
 let 
   rebuilder = pkgs.writeScriptBin "rebuild" ''
-  sudo nixos-rebuild boot --flake github:Lordraven19/NixOS_Config#Shells_ux535 --option tarball-ttl 0 --no-write-lock-file --profile-name shell_preserve
-  sudo nixos-rebuild switch --flake github:Lordraven19/NixOS_Config#UnknownDevice_ux535 --option tarball-ttl 0 --no-write-lock-file
+  # sudo nixos-rebuild boot --flake github:Lordraven19/NixOS_Config#Shells_ux535 --option tarball-ttl 0 --no-write-lock-file --profile-name shell_preserve
+  sudo nixos-rebuild switch --flake github:Green-D-683/NixOS_Config#UnknownDevice_ux535 --option tarball-ttl 0 --no-write-lock-file
   
   '';
 
   upgrader = pkgs.writeScriptBin "upgrade" ''
-  sudo nixos-rebuild boot --flake github:Lordraven19/Nixos_Config#Shells_ux535 --option tarball-ttl 0 --no-write-lock-file --upgrade --profile-name shell_preserve
-  sudo nixos-rebuild switch --flake github:Lordraven19/NixOS_Config#UnknownDevice_ux535 --option tarball-ttl 0 --no-write-lock-file --upgrade
+  # sudo nixos-rebuild boot --flake github:Lordraven19/Nixos_Config#Shells_ux535 --option tarball-ttl 0 --no-write-lock-file --upgrade --profile-name shell_preserve
+  sudo nixos-rebuild switch --flake github:Green-D-683/NixOS_Config#UnknownDevice_ux535 --option tarball-ttl 0 --no-write-lock-file --upgrade
   '';
 in
 {

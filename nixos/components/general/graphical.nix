@@ -3,19 +3,28 @@
 {
   config={
     # Enable the X11 windowing system.
-    services.xserver={
-      enable = true;
+    services = {
       displayManager={
         # SDDM
         sddm={
           enable=true;
           theme="Win10-Breeze-SDDM";
           enableHidpi=true;
+          package=lib.mkForce pkgs.kdePackages.sddm;
           #wayland.enable=true;
         };
         defaultSession="plasma";#"plasmawayland";
       };
-      desktopManager={
+      xserver={
+        enable = true;
+        # Configure keymap in X11
+        xkb = {
+          variant = "";
+          layout = "gb";
+        };
+        libinput.enable = true;
+      };
+    desktopManager={
         # Enable KDE Plasma
         # plasma5.enable = true;
         plasma6={
@@ -23,12 +32,6 @@
           enableQt5Integration = true;
         };
       };
-      # Configure keymap in X11
-      xkb = {
-        variant = "";
-        layout = "gb";
-      };
-      libinput.enable = true;
     };
 
     # Configure console keymap
@@ -101,23 +104,23 @@
       allowedUDPPorts = [ 17500 ];
     };
 
-    systemd.user.services.dropbox = {
-      description = "Dropbox";
-      wantedBy = [ "graphical-session.target" ];
-      environment = {
-        QT_PLUGIN_PATH = "/run/current-system/sw/" + pkgs.qt5.qtbase.qtPluginPrefix;
-        QML2_IMPORT_PATH = "/run/current-system/sw/" + pkgs.qt5.qtbase.qtQmlPrefix;
-      };
-      serviceConfig = {
-        ExecStart = "${lib.getBin pkgs.dropbox}/bin/dropbox";
-        ExecReload = "${lib.getBin pkgs.coreutils}/bin/kill -HUP $MAINPID";
-        KillMode = "control-group"; # upstream recommends process
-        Restart = "on-failure";
-        PrivateTmp = true;
-        ProtectSystem = "full";
-        Nice = 10;
-      };
-    };
+    # systemd.user.services.dropbox = {
+    #   description = "Dropbox";
+    #   wantedBy = [ "graphical-session.target" ];
+    #   environment = {
+    #     QT_PLUGIN_PATH = "/run/current-system/sw/" + pkgs.qt5.qtbase.qtPluginPrefix;
+    #     QML2_IMPORT_PATH = "/run/current-system/sw/" + pkgs.qt5.qtbase.qtQmlPrefix;
+    #   };
+    #   serviceConfig = {
+    #     ExecStart = "${lib.getBin pkgs.dropbox}/bin/dropbox";
+    #     ExecReload = "${lib.getBin pkgs.coreutils}/bin/kill -HUP $MAINPID";
+    #     KillMode = "control-group"; # upstream recommends process
+    #     Restart = "on-failure";
+    #     PrivateTmp = true;
+    #     ProtectSystem = "full";
+    #     Nice = 10;
+    #   };
+    # };
     boot.binfmt.registrations.appimage = {
       wrapInterpreterInShell = false;
       interpreter = "${pkgs.appimage-run}/bin/appimage-run";

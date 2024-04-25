@@ -23,7 +23,10 @@ in
     # intelBusId = "PCI:0:2:0";
     # nvidiaBusId = "PCI:1:0:0";
     nvidiaSettings = true;
-    powerManagement.enable = true;
+    powerManagement = {
+      enable = true;
+      finegrained = true;
+    };
   };
   
   config.environment.systemPackages = lib.mkIf config.hardware.nvidia.prime.offload.enable [ nvidia-offload ];

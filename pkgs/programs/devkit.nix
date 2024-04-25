@@ -13,4 +13,6 @@ in
 with pkgs; [
   vscode # Included in core.nix
   powershell
+  github-desktop
+  android-tools
 ] ++ scripts

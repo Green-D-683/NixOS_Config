@@ -2,14 +2,17 @@
 
 let pyLibs = ps: with ps; [
   pip
-  (sqlalchemy-migrate.override{
-    sqlalchemy=sqlalchemy_1_4;
-  })
+  # (sqlalchemy-migrate.override{
+  #   sqlalchemy=sqlalchemy_1_4;
+  # })
   matplotlib
   numpy
   nltk
-  # dill
-  # pygame
+  dill
+  pygame
+  # (jupyter.overrideAttrs(final: prev: {
+  #   propagatedBuildInputs = prev.propagatedBuildInputs ++ [pkgs.stdenv.cc.cc.lib];
+  # }))
   # tkinter
   # requests
   # (
@@ -46,8 +49,6 @@ let pyLibs = ps: with ps; [
   #     ];
   #   }
   # )
-  # numpy
-  # matplotlib
   # pandas
 ];
 in

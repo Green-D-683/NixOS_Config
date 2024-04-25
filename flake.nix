@@ -17,7 +17,7 @@
     };
   };
 
-  outputs = inputs@{nixpkgs, home-manager, nixpkgs-stable,...}: 
+  outputs = inputs@{nixpkgs, home-manager, nixpkgs-stable, flake-utils, ...}: 
     let 
       overlays = import ./pkgs/overlays.nix {inherit nixpkgs-stable; pkgs = nixpkgs;};
       # nixpkgs = (inputs: {
@@ -52,6 +52,13 @@
         };
       });
 
+      home = user: import ./home/${user}/home/home.nix;
+
+    # in flake-utils.lib.eachSystem systems (system: rec {
+    #   legacyPackages = pkgsForSys system;
+    # }) // {
+    #   nixosModules.home = home "daniel";
+    # }
     in
     {
     nixosConfigurations = {
@@ -61,6 +68,7 @@
         modules = [
           ./nixos/systems/specific/ux535/config.nix
           home-manager.nixosModules.home-manager
+          #{home-manager.users.daniel = home "daniel";}
           {
             home-manager = {
               useGlobalPkgs = true;

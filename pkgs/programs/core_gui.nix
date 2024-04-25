@@ -3,14 +3,6 @@
 (with pkgs; [
   # SDDM theme
   (pkgs.callPackage ../derivations/Win10-Breeze-SDDM.nix {}).Win10-Breeze-SDDM
-  # Kaccounts
-  # plasma5Packages.kio-gdrive
-  # libsForQt5.kaccounts-integration
-  # libsForQt5.kaccounts-providers
-
-  # Viewing SDDM in settings
-  # libsForQt5.sddm
-  # libsForQt5.sddm-kcm
   # Camera
   libsForQt5.kamoso
   # Wine - runs Windows programs
@@ -27,14 +19,15 @@
   solaar
   # Cloud Storage
   onedrivegui
-  dropbox
+  #dropbox
   glib-networking
   # Runners
   appimage-run
   # jre_minimal
+  galaxy-buds-client
+  gnome-network-displays
   # More General Programs
   firefox
-  # libsForQt5.plasma-browser-integration
   widevine-cdm
   thunderbird
   spotify
@@ -46,6 +39,12 @@
   slack
   pkgs.texlive.combined.scheme-full
   vlc
+  firefoxpwa
+  scrcpy
+
+  # Cube
+  qt6.qtquick3dphysics
+  qt6.qtquick3d
 ]) ++ (with pkgs.kdePackages; [
   kio-gdrive
   kaccounts-integration

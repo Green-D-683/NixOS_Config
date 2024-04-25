@@ -5,7 +5,7 @@
     # ThermalD - prevents overheating
     services.thermald.enable = true;
 
-    # CPU-autofrequency
-    services.auto-cpufreq.enable=true;
+    # # TLP - Power Management
+    # services.tlp.enable=true;
   };
 }
