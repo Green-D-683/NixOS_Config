@@ -22,8 +22,8 @@
           variant = "";
           layout = "gb";
         };
-        libinput.enable = true;
       };
+      libinput.enable = true;
     desktopManager={
         # Enable KDE Plasma
         # plasma5.enable = true;

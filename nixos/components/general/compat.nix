@@ -18,6 +18,8 @@
       libstdcxx5
       stdenv.cc.cc.lib
       libgcc
+      xorg.libXtst
+      xorg.libXxf86vm
     ];
   };
 }

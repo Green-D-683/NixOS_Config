@@ -1,6 +1,11 @@
 {pkgs, ...}:
 
-with pkgs; [jdk20]
+with pkgs; [
+  jdk20
+  scenic-view
+  maven
+  scenebuilder
+]
 
 # {
 #   config={
