@@ -9,7 +9,7 @@ with pkgs; [
   tldr
   nix-prefetch
   # gitFull
-  neofetch
+  fastfetch
   libsecret
   vim
   bc
