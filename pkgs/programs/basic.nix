@@ -13,4 +13,6 @@ with pkgs; [
   libsecret
   vim
   bc
+  wget
+  distrobox
 ]

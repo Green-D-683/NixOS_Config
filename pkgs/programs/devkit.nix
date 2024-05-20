@@ -15,4 +15,5 @@ with pkgs; [
   powershell
   github-desktop
   android-tools
+  universal-android-debloater
 ] ++ scripts

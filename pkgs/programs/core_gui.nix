@@ -34,6 +34,7 @@
   libreoffice
   zoom-us
   vscode
+  
   libsecret
   pdfarranger
   slack
@@ -45,6 +46,10 @@
   # Cube
   qt6.qtquick3dphysics
   qt6.qtquick3d
+
+  # Distrobox GUI
+  boxbuddy
+
 ]) ++ (with pkgs.kdePackages; [
   kio-gdrive
   kaccounts-integration
