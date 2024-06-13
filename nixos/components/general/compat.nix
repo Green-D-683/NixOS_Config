@@ -22,6 +22,8 @@
       xorg.libXxf86vm
       libGL
       binutils
+      raylib
+      xorg.libX11
     ];
   };
 }
