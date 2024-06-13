@@ -1,14 +1,13 @@
-{pkgs, nixpkgs-stable} :
-let p = nixpkgs-stable; in
+{pkgs} :
 [
   (self: super: {
-    self.python3Full = p.python3Full;
+    # self.python3Full = p.python3Full;
 
-    self.python311Packages = super.python311Packages.overrideAttrs (oldAttrs: {
-      overrides = self: super: {
-        sqlalchemy = super.sqlalchemy_1_4;  
-      };
-    }); 
+    # self.python311Packages = super.python311Packages.overrideAttrs (oldAttrs: {
+    #   overrides = self: super: {
+    #     sqlalchemy = super.sqlalchemy_1_4;  
+    #   };
+    # }); 
     #++ [
     #   (p.python311Packages.eventlet.overrideAttrs (oldAttrs: {
     #     disabledTests = [
@@ -26,19 +25,19 @@ let p = nixpkgs-stable; in
 
   
     #self.openlp = super.hello;
-    self.openlp = super.openlp.override{
-      sqlalchemy = super.sqlalchemy_1_4;
-      sqlalchemy-migrate = super.sqlalchemy-migrate.override{
-        sqlalchemy=super.sqlalchemy_1_4;
-      };
-    };
+    # self.openlp = super.openlp.override{
+    #   sqlalchemy = super.sqlalchemy_1_4;
+    #   sqlalchemy-migrate = super.sqlalchemy-migrate.override{
+    #     sqlalchemy=super.sqlalchemy_1_4;
+    #   };
+    # };
   
-    self.openlpFull = self.openlp.override {
-      pdfSupport = true;
-      presentationSupport = true;
-      vlcSupport = true;
-      gstreamerSupport = true;
-    };
+    # self.openlpFull = self.openlp.override {
+    #   pdfSupport = true;
+    #   presentationSupport = true;
+    #   vlcSupport = true;
+    #   gstreamerSupport = true;
+    # };
       # sqlalchemy = super.sqlalchemy.overrideAttrs (oldAttrs: {
       #   version = "1.4.25";  # Replace with the specific compatible version
       # });

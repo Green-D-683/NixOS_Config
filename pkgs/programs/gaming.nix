@@ -5,4 +5,5 @@ with pkgs; [
   steam
   steam-run
   heroic
+  minecraft
 ]

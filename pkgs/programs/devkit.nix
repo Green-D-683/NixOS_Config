@@ -16,4 +16,14 @@ with pkgs; [
   github-desktop
   android-tools
   universal-android-debloater
+
+  # Distrobox GUI
+  boxbuddy
+  distrobox
+
+  docker
+
+  ventoy-full
+  uefitool
+  flashrom
 ] ++ scripts

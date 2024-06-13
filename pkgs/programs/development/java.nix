@@ -1,8 +1,8 @@
 {pkgs, ...}:
 
 with pkgs; [
-  jdk20
-  scenic-view
+  jdk22
+  ## scenic-view
   maven
   scenebuilder
 ]

@@ -21,6 +21,7 @@
       xorg.libXtst
       xorg.libXxf86vm
       libGL
+      binutils
     ];
   };
 }

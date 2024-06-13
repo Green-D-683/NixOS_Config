@@ -17,6 +17,7 @@
   direnv
   # Mouse
   solaar
+  logiops
   # Cloud Storage
   onedrivegui
   #dropbox
@@ -29,12 +30,18 @@
   # More General Programs
   firefox
   widevine-cdm
+
+  # Email
   thunderbird
+  protonmail-bridge
+  protonmail-bridge-gui
+
   spotify
   libreoffice
   zoom-us
   vscode
-  
+  logseq
+
   libsecret
   pdfarranger
   slack
@@ -47,13 +54,13 @@
   qt6.qtquick3dphysics
   qt6.qtquick3d
 
-  # Distrobox GUI
-  boxbuddy
-
+  rquickshare
+  audio-sharing
 ]) ++ (with pkgs.kdePackages; [
   kio-gdrive
   kaccounts-integration
   kaccounts-providers
+  signond
 
   sddm
   sddm-kcm

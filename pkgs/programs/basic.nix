@@ -15,4 +15,6 @@ with pkgs; [
   bc
   wget
   distrobox
+  docker
+  binutils
 ]
