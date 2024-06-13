@@ -5,8 +5,8 @@
     nixpkgs = {
       url = "github:NixOS/nixpkgs/nixos-unstable";
     };
-    nixpkgs-stable = {
-      url = "github:NixOS/nixpkgs/nixos-23.11";
+    nixpkgs-openlp = {
+      url = "github:jorsn/nixpkgs/openlp";
     };
     flake-utils={
       url = github:numtide/flake-utils;
@@ -17,9 +17,9 @@
     };
   };
 
-  outputs = inputs@{nixpkgs, home-manager, nixpkgs-stable, flake-utils, ...}: 
+  outputs = inputs@{nixpkgs, home-manager, nixpkgs-openlp, flake-utils, ...}: 
     let 
-      overlays = import ./pkgs/overlays.nix {inherit nixpkgs-stable; pkgs = nixpkgs;};
+      overlays = import ./pkgs/overlays.nix {pkgs = nixpkgs;};
       # nixpkgs = (inputs: {
       #   nixpkgs = {
       #     config = {
@@ -73,7 +73,7 @@
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
-              users.daniel = import ./home/daniel/home/home.nix {pkgs = pkgsForSys system; lib = pkgs.lib; nixpkgs-stable=nixpkgs-stable; };
+              users.daniel = import ./home/daniel/home/home.nix {pkgs = pkgsForSys system; lib = pkgs.lib; pkgs-openlp=(import nixpkgs-openlp {inherit system;});};
             };
           }
         ];

@@ -1,4 +1,4 @@
-{ pkgs, lib, nixpkgs-stable, ... }:
+{ pkgs, lib, pkgs-openlp, ... }:
 
 let 
   install_list = map (x : ../../../pkgs/programs/${x}.nix) [
@@ -7,13 +7,8 @@ let
     "cad"
     "devkit"
     "gaming"
-    #"ciccu"
+    "ciccu"
     "development/default"
-  ];
-  nixpkgs = pkgs.appendOverlays [
-    (self: super: {
-      self.openlp = super.hello;
-    })
   ];
 in 
 {
@@ -26,7 +21,7 @@ in
   # You can update Home Manager without changing this value. See the Home Manager release notes for a list of state version changes in each release.
   home.stateVersion = "23.11";
 
-  home.packages = (builtins.concatLists (map (x : import x {inherit lib; pkgs=nixpkgs;}) install_list)) ++ [pkgs.home-manager];
+  home.packages = (builtins.concatLists (map (x : import x {inherit lib; inherit pkgs; pkgs-openlp=pkgs-openlp;}) install_list)) ++ [pkgs.home-manager];
 
   ## Additional Configuration for indivudual programs
   programs = {
@@ -41,7 +36,7 @@ in
     ## Java
     java = {
       enable = true;
-      package = lib.mkForce pkgs.jdk20;
+      package = lib.mkForce pkgs.jdk22;
     };
     firefox = {
       enable = true;
@@ -53,40 +48,12 @@ in
     };
   };
 
-  # nixpkgs={
-  #   config={
-  #     overlays = [
-  #       (self: super: {
-  #         self.openlp = super.hello;
-  #       })
-  #     ];#import ./../../../pkgs/overlays.nix {inherit nixpkgs-stable; pkgs = pkgs;};
-  #     allowUnfree = true;
-  #     allowBroken=true;
-  #     permittedInsecurePackages = [
-  #       "qtwebkit-5.212.0-alpha4"
-  #     ];
-  #     # packageOverrides = pkgs: with pkgs; rec {
-  #     #   sqlalchemy-migrate = pkgs.
-        
-  #     #   openlp = pkgs.openlp.override()
-  #     # }
-  #   };
-  #   overlays = [
-  #     (self: super: {
-  #       self.openlp = super.hello;#super.openlp.override{
-  #       #   sqlalchemy = super.sqlalchemy_1_4;
-  #       #   sqlalchemy-migrate = super.sqlalchemy-migrate.override{
-  #       #     sqlalchemy=super.sqlalchemy_1_4;
-  #       #   };
-  #       # };
-      
-  #       # self.openlpFull = self.openlp.override {
-  #       #   pdfSupport = true;
-  #       #   presentationSupport = true;
-  #       #   vlcSupport = true;
-  #       #   gstreamerSupport = true;
-  #       # };
-  #     })
-  #   ];
-  # };
+  services = {
+    gnome-keyring={
+      enable = true;
+      components = [
+        "secrets"
+      ];
+    };
+  };
 }
