@@ -1,4 +1,4 @@
-{config, pkgs, lib, ...}:
+{config, pkgs, lib, screenpad-driver, ...}:
 let 
   rebuilder = pkgs.writeScriptBin "rebuild" ''
   # sudo nixos-rebuild boot --flake github:Lordraven19/NixOS_Config#Shells_ux535 --option tarball-ttl 0 --no-write-lock-file --profile-name shell_preserve

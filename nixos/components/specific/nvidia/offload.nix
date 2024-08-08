@@ -11,6 +11,7 @@ in
 {
   config.services.xserver.videoDrivers = ["nvidia"];
   config.hardware.nvidia={
+    open = true;
     modesetting.enable = true;
     prime = {
       offload = {
@@ -27,6 +28,7 @@ in
       enable = true;
       finegrained = true;
     };
+    package=config.boot.kernelPackages.nvidiaPackages.beta;
   };
   
   config.environment.systemPackages = lib.mkIf config.hardware.nvidia.prime.offload.enable [ nvidia-offload ];

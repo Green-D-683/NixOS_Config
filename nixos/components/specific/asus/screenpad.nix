@@ -1,7 +1,15 @@
-{config, pkgs, lib, ...}:
+{config, pkgs, lib, inputs, ...}:
 let
+system = "x86_64-linux";
 screenpadPort = "HDMI-A-2";
 toggle-screenpad = pkgs.writeScriptBin "toggle-screenpad" (builtins.readFile ./Toggle-Screenpad.sh);
+screenpad-driver-package = (kernelPackage: let asus-wmi-screenpad = inputs.screenpad-driver.defaultPackage.${system}.override{kernel=kernelPackage;};
+  in [
+    asus-wmi-screenpad
+  ]
+);
+
+
 in
 {
   # Screenpad SDDM
@@ -32,9 +40,15 @@ in
       #   }
       # ];
     };
-    environment.systemPackages=[
+    environment.systemPackages= [
       toggle-screenpad
       pkgs.wlr-randr
     ];
+
+    ## TODO: Fix this
+    # boot.extraModulePackages = screenpad-driver-package config.boot.kernelPackages.kernel;
+    # boot.kernelModules = [
+    #   "asus-wmi-screenpad"
+    # ];
   };
 }

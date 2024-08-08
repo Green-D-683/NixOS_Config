@@ -6,7 +6,7 @@ let pyLibs = ps: with ps;[
 ];
 in
 with pkgs; [
-  vscode # Included in core.nix
+  #vscode.fhs # Included in core.nix
   # Python
   # ((python3.withPackages pyLibs).override (args: { ignoreCollisions = true; }))
   sqlite

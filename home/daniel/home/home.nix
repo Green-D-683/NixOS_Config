@@ -46,6 +46,10 @@ in
         pkgs.firefoxpwa
       ];
     };
+    vscode = {
+      enable = true;
+      package = pkgs.vscode; # vscode.fhs # has no sudo
+    };
   };
 
   services = {

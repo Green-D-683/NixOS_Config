@@ -1,6 +1,10 @@
 {config, pkgs, lib, ...}:
 
 {
+  imports=[
+    ../specific/sddm/theming.nix
+  ];
+
   config={
     # Enable the X11 windowing system.
     services = {
@@ -8,7 +12,7 @@
         # SDDM
         sddm={
           enable=true;
-          theme="Win10-Breeze-SDDM";
+          #theme="Win10-Breeze-SDDM";
           enableHidpi=true;
           package=lib.mkForce pkgs.kdePackages.sddm;
           #wayland.enable=true;
@@ -46,16 +50,16 @@
       partition-manager.enable=true;
     };
 
-    hardware.logitech.wireless = {
-      enable=true;
-      enableGraphical=true;
-    };
+    #hardware.logitech.wireless = {
+      #enable=true;
+      # enableGraphical=true;
+    #};
 
-    hardware.opengl={
+    hardware.graphics={
       enable=true;
-      driSupport=true;
-      driSupport32Bit=true;
-      setLdLibraryPath = true;
+      #driSupport=true;
+      enable32Bit=true;
+      #setLdLibraryPath = true;
       extraPackages = with pkgs; [
         intel-media-driver
         (vaapiIntel.override {enableHybridCodec = true;})
@@ -64,37 +68,18 @@
       ];
     };
 
+    fonts = {
+      enableDefaultPackages = true;
+      packages = with pkgs; [
+        corefonts
+        whatsapp-emoji-font
+        open-fonts
+      ];
+      fontDir.enable=true;
+    };
+
     # Flatpak
     services.flatpak.enable = true;
-    
-    environment.systemPackages = with pkgs; [ # import ../../programs/core_gui.nix {pkgs}#
-    #   # SDDM theme
-      (pkgs.callPackage ../../../pkgs/derivations/Win10-Breeze-SDDM.nix {}).Win10-Breeze-SDDM
-    #   # Kaccounts
-    #   plasma5Packages.kio-gdrive
-    #   libsForQt5.kaccounts-integration
-    #   libsForQt5.kaccounts-providers
-    #   # Viewing SDDM in settings
-    #   libsForQt5.sddm
-    #   libsForQt5.sddm-kcm
-    #   # Camera
-    #   libsForQt5.kamoso
-    #   # Wine - runs Windows programs
-    #   wineWowPackages.stagingFull
-    #   winetricks
-    #   # K-system info
-    #   libsForQt5.kinfocenter
-    #   clinfo
-    #   glxinfo
-    #   vulkan-tools
-    #   wayland-utils
-    #   direnv
-    #   onedrivegui
-    #   dropbox
-    #   glib-networking
-    #   appimage-run
-    #   widevine-cdm
-    ];  
 
     services.onedrive.enable = true;
 
@@ -128,6 +113,11 @@
       offset = 0;
       mask = ''\xff\xff\xff\xff\x00\x00\x00\x00\xff\xff\xff'';
       magicOrExtension = ''\x7fELF....AI\x02'';
+    };
+
+    security.pam.services.sddm.kwallet={
+      enable = true;
+      package = pkgs.kdePackages.kwallet-pam;
     };
   };
 }

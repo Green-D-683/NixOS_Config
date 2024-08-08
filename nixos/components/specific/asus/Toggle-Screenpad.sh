@@ -1,4 +1,4 @@
-#!/run/current-system/sw/bin/bash
+#!/usr/bin/env bash
 
 sPad=$(kscreen-doctor -o | grep --before-context=5 "1080x2160@50")
 #echo "$sPad"

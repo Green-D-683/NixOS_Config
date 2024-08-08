@@ -16,7 +16,7 @@
   wayland-utils
   direnv
   # Mouse
-  solaar
+  # solaar
   logiops
   # Cloud Storage
   onedrivegui
@@ -37,9 +37,9 @@
   protonmail-bridge-gui
 
   spotify
-  libreoffice
+  libreoffice-qt6-fresh
   zoom-us
-  vscode
+  #vscode.fhs
   logseq
 
   libsecret
@@ -61,9 +61,6 @@
   kaccounts-integration
   kaccounts-providers
   signond
-
-  sddm
-  sddm-kcm
 
   # kamoso
 

@@ -13,11 +13,15 @@
     };
     home-manager={
       url = "github:nix-community/home-manager";
-      #inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    screenpad-driver={
+      url = "github:MatthewCash/asus-wmi-screenpad-module";
+      inputs.nixpkgs.follows="nixpkgs";
     };
   };
 
-  outputs = inputs@{nixpkgs, home-manager, nixpkgs-openlp, flake-utils, ...}: 
+  outputs = inputs@{nixpkgs, home-manager, nixpkgs-openlp, flake-utils, screenpad-driver, ...}: 
     let 
       overlays = import ./pkgs/overlays.nix {pkgs = nixpkgs;};
       # nixpkgs = (inputs: {
@@ -48,6 +52,8 @@
           allowUnfree = true;
           permittedInsecurePackages = [
             "qtwebkit-5.212.0-alpha4"
+            "electron-28.3.3"
+            "electron-27.3.11"
           ];
         };
       });
@@ -77,6 +83,7 @@
             };
           }
         ];
+        specialArgs = {inherit inputs;};
 
       };
       Shells_ux535 = inputs.nixpkgs.lib.nixosSystem {

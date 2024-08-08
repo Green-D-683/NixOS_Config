@@ -11,7 +11,7 @@ ocamlShell = pkgs.writeScriptBin "ocaml_shell" "${commandA}ocaml${commandB}";
 scripts = [pyShell javaShell sqlShell ocamlShell];
 in
 with pkgs; [
-  vscode # Included in core.nix
+  #vscode.fhs # Included in core.nix
   powershell
   github-desktop
   android-tools
