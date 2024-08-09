@@ -1,8 +1,6 @@
 {pkgs, ...}:
 
 (with pkgs; [
-  # SDDM theme
-  (pkgs.callPackage ../derivations/Win10-Breeze-SDDM.nix {}).Win10-Breeze-SDDM
   # Camera
   libsForQt5.kamoso
   # Wine - runs Windows programs

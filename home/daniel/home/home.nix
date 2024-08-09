@@ -51,13 +51,4 @@ in
       package = pkgs.vscode; # vscode.fhs # has no sudo
     };
   };
-
-  services = {
-    gnome-keyring={
-      enable = true;
-      components = [
-        "secrets"
-      ];
-    };
-  };
 }
