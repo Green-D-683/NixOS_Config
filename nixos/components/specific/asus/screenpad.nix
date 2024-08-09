@@ -46,9 +46,9 @@ in
     ];
 
     ## TODO: Fix this
-    # boot.extraModulePackages = screenpad-driver-package config.boot.kernelPackages.kernel;
-    # boot.kernelModules = [
-    #   "asus-wmi-screenpad"
-    # ];
+    boot.extraModulePackages = screenpad-driver-package config.boot.kernelPackages.kernel;
+    boot.kernelModules = [
+      "asus-wmi-screenpad"
+    ];
   };
 }
