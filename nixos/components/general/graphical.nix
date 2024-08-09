@@ -15,7 +15,10 @@
           #theme="Win10-Breeze-SDDM";
           enableHidpi=true;
           package=lib.mkForce pkgs.kdePackages.sddm;
-          #wayland.enable=true;
+          wayland={
+            enable=true;
+            compositor="kwin";
+          };
         };
         defaultSession="plasma";#"plasmawayland";
       };
