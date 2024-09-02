@@ -12,7 +12,6 @@
         # SDDM
         sddm={
           enable=true;
-          #theme="Win10-Breeze-SDDM";
           enableHidpi=true;
           package=lib.mkForce pkgs.kdePackages.sddm;
           wayland={
@@ -29,6 +28,9 @@
           variant = "";
           layout = "gb";
         };
+        excludePackages = with pkgs; [
+          xterm
+        ];
       };
       libinput.enable = true;
     desktopManager={
@@ -40,6 +42,12 @@
         };
       };
     };
+
+    # Remove Unnecessary Plasma Programs
+    environment.plasma6.excludePackages = with pkgs.kdePackages; [
+      kate
+      elisa
+    ];
 
     # Configure console keymap
     console.keyMap = "uk";
