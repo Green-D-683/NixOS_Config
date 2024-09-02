@@ -4,7 +4,7 @@ with pkgs; [
   jdk22
   ## scenic-view
   maven
-  scenebuilder
+  # scenebuilder
 ]
 
 # {
