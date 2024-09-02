@@ -23,7 +23,7 @@
 
   outputs = inputs@{nixpkgs, home-manager, nixpkgs-openlp, flake-utils, screenpad-driver, ...}: 
     let 
-      overlays = import ./pkgs/overlays.nix {pkgs = nixpkgs;};
+      overlays = (system: import ./pkgs/overlays {inherit inputs; inherit system;});
       # nixpkgs = (inputs: {
       #   nixpkgs = {
       #     config = {
@@ -45,8 +45,8 @@
       forAllLinux = nixpkgs.lib.genAttrs linux;
       forAllDarwin = nixpkgs.lib.genAttrs darwin;
       pkgsForSys = (system: import inputs.nixpkgs {
-        overlays = overlays;
         system = system;
+        overlays = overlays system;
         config = {
           allowBroken = true;
           allowUnfree = true;
@@ -79,7 +79,7 @@
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
-              users.daniel = import ./home/daniel/home/home.nix {pkgs = pkgsForSys system; lib = pkgs.lib; pkgs-openlp=(import nixpkgs-openlp {inherit system;});};
+              users.daniel = import ./home/daniel/home/home.nix {pkgs = pkgsForSys system; lib = pkgs.lib;};
             };
           }
         ];

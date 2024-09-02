@@ -1,5 +1,5 @@
-{pkgs, pkgs-openlp, ...}:
+{pkgs, ...}:
 
-[
-  pkgs-openlp.openlpFull
-]
+(with pkgs; [
+  openlpFull
+])

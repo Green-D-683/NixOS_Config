@@ -1,4 +1,4 @@
-{ pkgs, lib, pkgs-openlp, ... }:
+{ pkgs, lib, ... }:
 
 let 
   install_list = map (x : ../../../pkgs/programs/${x}.nix) [
@@ -21,7 +21,7 @@ in
   # You can update Home Manager without changing this value. See the Home Manager release notes for a list of state version changes in each release.
   home.stateVersion = "23.11";
 
-  home.packages = (builtins.concatLists (map (x : import x {inherit lib; inherit pkgs; pkgs-openlp=pkgs-openlp;}) install_list)) ++ [pkgs.home-manager];
+  home.packages = (builtins.concatLists (map (x : import x {inherit lib; inherit pkgs;}) install_list)) ++ [pkgs.home-manager];
 
   ## Additional Configuration for indivudual programs
   programs = {

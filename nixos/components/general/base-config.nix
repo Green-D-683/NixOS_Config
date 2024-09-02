@@ -90,6 +90,7 @@ in
       brightnessKeys = {
         enable = true;
         step = 5;
+      };
     };
 
     environment.systemPackages = with pkgs; [
