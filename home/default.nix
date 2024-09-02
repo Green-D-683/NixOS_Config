@@ -14,6 +14,15 @@ in
         type = with types; listOf emum (getUsers(./.));
         description = "The users to include for the device";
       };
-    }
-  }
+    };
+  };
+
+  config = {
+    home-manager = {
+        users = lib.mkMerge (
+          builtins.map (name: {name = import "./${name}/home/home.nix" {pkgs = pkgs; lib = lib; };}) config.userConfig.users ## TODO: This might work? Fix if not
+        );
+    };
+  };
+  
 }
