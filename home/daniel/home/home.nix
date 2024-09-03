@@ -29,7 +29,7 @@ in
 
   home.packages = (builtins.concatLists (map (x : import x {inherit lib; inherit pkgs;}) install_list)) ++ [pkgs.home-manager];
 
-  shellAliases = {
+  home.shellAliases = {
     "neofetch" = "fastfetch";
   };
 

@@ -87,6 +87,7 @@
               sharedModules = [
                 plasma-manager.homeManagerModules.plasma-manager
               ];
+              backupFileExtension="backup";
               users.daniel = import ./home/daniel/home/home.nix {pkgs = pkgsForSys system; lib = pkgs.lib;};
             };
           }
