@@ -23,6 +23,10 @@ in
 
   home.packages = (builtins.concatLists (map (x : import x {inherit lib; inherit pkgs;}) install_list)) ++ [pkgs.home-manager];
 
+  shellAliases = {
+    "neofetch" = "fastfetch";
+  };
+
   ## Additional Configuration for indivudual programs
   programs = {
     # Let Home Manager install and manage itself.
@@ -49,6 +53,19 @@ in
     vscode = {
       enable = true;
       package = pkgs.vscode; # vscode.fhs # has no sudo
+    };
+
+    direnv = {
+      enable = true;
+      enableBashIntegration = true;
+      nix-direnv.enable = true;
+    };
+
+    bash={
+      enable = true;
+      bashrcExtra = ''
+      export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH
+      '';
     };
   };
 }
