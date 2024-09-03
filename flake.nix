@@ -19,9 +19,14 @@
       url = "github:MatthewCash/asus-wmi-screenpad-module";
       inputs.nixpkgs.follows="nixpkgs";
     };
+    plasma-manager = {
+      url = "github:nix-community/plasma-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
   };
 
-  outputs = inputs@{nixpkgs, home-manager, nixpkgs-openlp, flake-utils, screenpad-driver, ...}: 
+  outputs = inputs@{nixpkgs, home-manager, nixpkgs-openlp, flake-utils, screenpad-driver, plasma-manager, ...}: 
     let 
       overlays = (system: import ./pkgs/overlays {inherit inputs; inherit system;});
       # nixpkgs = (inputs: {
@@ -79,6 +84,9 @@
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
+              sharedModules = [
+                plasma-manager.homeManagerModules.plasma-manager
+              ];
               users.daniel = import ./home/daniel/home/home.nix {pkgs = pkgsForSys system; lib = pkgs.lib;};
             };
           }
