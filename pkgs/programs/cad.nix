@@ -1,6 +1,6 @@
 {pkgs, ...}:
 
 with pkgs; [
-  # freecad
+  freecad
   # kicad
 ]
