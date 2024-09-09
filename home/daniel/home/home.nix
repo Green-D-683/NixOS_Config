@@ -20,17 +20,17 @@ in
   home={
     username = "daniel";
     homeDirectory = "/home/daniel";
-  };
 
-  # This value determines the Home Manager release that your configuration is compatible with. This helps avoid breakage when a new Home Manager release introduces backwards incompatible changes.
+    # This value determines the Home Manager release that your configuration is compatible with. This helps avoid breakage when a new Home Manager release introduces backwards incompatible changes.
 
-  # You can update Home Manager without changing this value. See the Home Manager release notes for a list of state version changes in each release.
-  home.stateVersion = "23.11";
+    # You can update Home Manager without changing this value. See the Home Manager release notes for a list of state version changes in each release.
+    stateVersion = "23.11";
 
-  home.packages = (builtins.concatLists (map (x : import x {inherit lib; inherit pkgs;}) install_list)) ++ [pkgs.home-manager];
+    packages = (builtins.concatLists (map (x : import x {inherit lib; inherit pkgs;}) install_list)) ++ [pkgs.home-manager];
 
-  home.shellAliases = {
-    "neofetch" = "fastfetch";
+    shellAliases = {
+      "neofetch" = "fastfetch";
+    };
   };
 
   ## Additional Configuration for indivudual programs
