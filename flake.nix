@@ -24,20 +24,19 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
+    nixos-hardware = {
+      url = "github:NixOS/nixos-hardware/master";
+    };
   };
 
-  outputs = inputs@{nixpkgs, home-manager, nixpkgs-openlp, flake-utils, screenpad-driver, plasma-manager, ...}: 
+  outputs = inputs@{nixpkgs, home-manager, nixpkgs-openlp, flake-utils, screenpad-driver, plasma-manager, nixos-hardware, ...}: 
     let 
-      overlays = (system: import ./pkgs/overlays {inherit inputs; inherit system;});
-      # nixpkgs = (inputs: {
-      #   nixpkgs = {
-      #     config = {
-      #       allowUnfree = true;
-      #       allowBroken = true;
-      #     };
-      #     overlays = overlays;
-      #   };
-      # });
+      lib = nixpkgs.lib.extend (
+        # self: super: {custom = (import ./lib {lib = self;});} // home-manager.lib
+        self: super: (import ./lib nixpkgs.lib) // home-manager.lib
+      );
+      overlays = (system: import ./pkgs/overlays {inherit inputs; inherit system; lib = lib;});
+
       systems = [
         "aarch64-linux"
         "x86_64-linux"
@@ -76,6 +75,7 @@
       UnknownDevice_ux535 = inputs.nixpkgs.lib.nixosSystem rec {
         pkgs = pkgsForSys system;
         system = "x86_64-linux";
+        inherit lib;
         modules = [
           ./nixos/systems/specific/ux535/config.nix
           home-manager.nixosModules.home-manager
@@ -88,7 +88,7 @@
                 plasma-manager.homeManagerModules.plasma-manager
               ];
               backupFileExtension="backup";
-              users.daniel = import ./home/daniel/home/home.nix {pkgs = pkgsForSys system; lib = pkgs.lib;};
+              users.daniel = import ./home/daniel/home/home.nix {pkgs = pkgsForSys system; lib = lib;};
             };
           }
         ];

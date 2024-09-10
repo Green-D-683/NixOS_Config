@@ -1,1 +1,3 @@
-sudo nixos-rebuild test --flake .#UnknownDevice_ux535 --option tarball-ttl 0 --no-write-lock-file --show-trace
+#! /usr/bin/env bash
+
+sudo nixos-rebuild test --flake .#UnknownDevice_ux535 --option tarball-ttl 0 --show-trace --impure
