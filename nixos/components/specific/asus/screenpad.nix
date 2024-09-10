@@ -15,37 +15,12 @@ in
   # Screenpad SDDM
   #config.services.xserver.displayManager.setupCommands="${pkgs.xorg.xrandr}/bin/xrandr --output eDP-1 --mode 3840x2160 --output ${screenpadPort} --off";
   #config.services.xserver.displayManager.setupCommands="kscreen-doctor output.${screenpadPort}.disable";
-  config={
-    services.xserver={
-      # xrandrHeads=[
-      #   {
-      #     output="eDP-1";
-      #     primary=true;
-      #   }
-      #   {
-      #     output="${screenpadPort}";
-      #     monitorConfig=''Option "Enable" "false"'';
-      #   }
-      # ];
-      exportConfiguration=true;
-      displayManager.setupCommands=(builtins.readFile ./noScreenPad-sddm.sh);
-      # xrandrHeads = [
-      #   {
-      #     output = "eDP-1";
-      #     primary = true;
-      #   }
-      #   {
-      #     output = "HDMI-A-2";
-      #     monitorConfig = ''Option "Enable" "false"'';
-      #   }
-      # ];
-    };
+  config= lib.mkIf (builtins.elem "screenpad" config.systemConfig.extraHardware ) {
+    services.displayManager.sddm.setupCommands=(builtins.readFile ./noScreenPad-sddm.sh);
     environment.systemPackages= [
       toggle-screenpad
-      pkgs.wlr-randr
     ];
-
-    ## TODO: Fix this
+    
     boot.extraModulePackages = screenpad-driver-package config.boot.kernelPackages.kernel;
     boot.kernelModules = [
       "asus-wmi-screenpad"

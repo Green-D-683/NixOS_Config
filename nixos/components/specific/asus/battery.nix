@@ -20,7 +20,7 @@ in
       type = lib.types.bool;
     };
   };
-  config = {
+  config = lib.mkIf (builtins.elem "asus-battery" config.systemConfig.extraHardware) {
     environment.systemPackages = lib.mkIf cfg.enableChargeUptoScript [ p ];
 
     systemd.services.battery-charge-threshold = {

@@ -5,7 +5,7 @@
     ../specific/sddm/theming.nix
   ];
 
-  config={
+  config= lib.mkIf (config.systemConfig.graphicalEnv) {
     # Enable the X11 windowing system.
     services = {
       displayManager={

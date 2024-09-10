@@ -1,6 +1,6 @@
 {config, pkgs, lib, ...}:
 let
-getUsers = dir : builtins.attrValues (builtins.mapAttrs (name: _: "${name}") (lib.attrsets.filterAttrs (name: type: (type=="directory")) (builtins.readDir dir)));
+getUsers = lib.getSubDirNames;
 
 getUserConfigs = users: builtins.map (name: ./. + "/${name}/${name}.nix") users;
 in
@@ -11,7 +11,7 @@ in
     userConfig = {
       users = lib.mkOption{
         default = ["daniel"];
-        type = with types; listOf emum (getUsers(./.));
+        type = with lib.types; listOf emum (getUsers(./.));
         description = "The users to include for the device";
       };
     };
@@ -23,6 +23,8 @@ in
           builtins.map (name: {name = import "./${name}/home/home.nix" {pkgs = pkgs; lib = lib; };}) config.userConfig.users ## TODO: This might work? Fix if not
         );
     };
+
+    users.mutableUsers = true;
   };
   
 }

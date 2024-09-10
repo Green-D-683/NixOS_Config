@@ -1,7 +1,7 @@
-{config, pkgs, ...}:
+{config, pkgs, lib, ...}:
 
 {
-  config = {
+  config = lib.mkIf (builtins.elem "thunderbolt" config.systemConfig.extraHardware) {
     environment.systemPackages = with pkgs; [
       thunderbolt
       kdePackages.plasma-thunderbolt

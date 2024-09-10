@@ -1,7 +1,7 @@
 {config, pkgs, lib, ...}:
 
 { ## TODO - This doesn't build
-  config = {
+  config = lib.mkIf (builtins.elem "displaylink" config.systemConfig.extraHardware) {
     services.xserver = {
       videoDrivers = [
         "displaylink"

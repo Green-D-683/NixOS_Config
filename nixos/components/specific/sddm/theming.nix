@@ -176,8 +176,10 @@ let
     };
   };
 in
-{
-  environment.systemPackages = packages;
+{ 
+  config = lib.mkIf (config.systemConfig.graphicalEnv) {
+    environment.systemPackages = packages;
 
-  services.displayManager.sddm.theme = themeName;
+    services.displayManager.sddm.theme = themeName;
+  };
 }

@@ -2,15 +2,19 @@
 
 {
   imports = [
-    ../../components/general
+    ../../components
     ../../../home
   ];
 
-  options = {
+  options = let 
+  mkOption = lib.mkOption;
+  mkEnableOption = lib.mkEnableOption;
+  types = lib.types; 
+  in {
     userConfig = {
-      users = lib.mkOption{
+      users = mkOption{
         default = ["daniel"];
-        type = with types; listOf emum [];
+        type = with types; listOf (emum []);
         description = "The users to include for the device";
       };
     };
@@ -18,23 +22,23 @@
     systemConfig={
 
       ## Power Optimisations - This also can enable graphics by default for Desktops and Laptops
-      laptop = lib.mkEnableOption "Laptop Optimisations";
-      desktop = lib.mkEnableOption "Desktop Optimisations";
-      optimiseFor = lib.mkOption{ # Handles Mutual Exclusivity - not for direct use
+      laptop = mkEnableOption "Laptop Optimisations";
+      desktop = mkEnableOption "Desktop Optimisations";
+      optimiseFor = mkOption{ # Handles Mutual Exclusivity - not for direct use
         default = "";
-        type = types.enum ["" "laptop" "desktop"];
+        type = types.enum ["" "laptop" "desktop" "server"];
         visible = false;
       };
 
       ## Graphical User Environment
-      graphicalEnv = lib.mkEnableOption "Graphical User Interface";
-      gpu = lib.mkOption{
+      graphicalEnv = mkEnableOption "Graphical User Interface";
+      gpu = mkOption{
         default = "";
-        type = types.enum ["" "intel" "nvidia" "amd"]
+        type = types.enum ["" "intel" "nvidia" "amd"];
       };
 
       ## Common Hardware
-      extraHardware = lib.mkOption{
+      extraHardware = mkOption{
         default = [];
         type = with types; listOf (enum [
           "thunderbolt"
@@ -46,16 +50,16 @@
       };
 
       ## Network Hostname
-      hostname = mkOption{
+      hostname = mkOption {
         default = "UnknownDevice";
         type = types.str;
         description = "Hostname for Network connections";
       };
 
-      ## Any Extra Config not Covered by Generic Modules
-      specialConfig = lib.mkOption {
-        type = types.anything;
-      };
+      # ## Any Extra Config not Covered by Generic Modules
+      # specialConfig = mkOption {
+      #   type = types.anything;
+      # };
     };
   };
 
@@ -63,14 +67,15 @@
     ({systemConfig = lib.mkMerge [
       (lib.mkIf (config.systemConfig.laptop) {
         optimiseFor = "laptop";
-        graphicalEnv = lib.mkDefault true;
+        #graphicalEnv = lib.mkDefault true;
       })
       (lib.mkIf (config.systemConfig.desktop) {
         optimiseFor = "desktop";
-        graphicalEnv = lib.mkDefault true;
+        #graphicalEnv = lib.mkDefault true;
       })
     ];})
 
-    (config.lib.specialConfig) ## TODO: Not sure if this will work, need another way if it doesn't
+    {}
+    #(config.systemConfig.specialConfig) ## TODO: Not sure if this will work, need another way if it doesn't
   ];
 }

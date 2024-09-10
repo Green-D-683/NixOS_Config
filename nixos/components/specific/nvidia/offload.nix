@@ -9,27 +9,29 @@ let
   '';
 in
 {
-  config.services.xserver.videoDrivers = ["nvidia"];
-  config.hardware.nvidia={
-    open = true;
-    modesetting.enable = true;
-    prime = {
-      offload = {
-        enable = true;
-        enableOffloadCmd = true;
+  config = lib.mkIf (config.systemConfig.gpu == "nvidia") { 
+    services.xserver.videoDrivers = ["nvidia"];
+    hardware.nvidia={
+      open = true;
+      modesetting.enable = true;
+      dynamicBoost = true;
+      prime = lib.mkIf (config.systemConfig.optimiseFor == "laptop") {
+        offload = {
+          enable = true;
+          enableOffloadCmd = true;
+        };
+        reverseSync.enable = true;
       };
-      reverseSync.enable = true;
+      ## Example Specification of PCI bus IDs
+      # intelBusId = "PCI:0:2:0";
+      # nvidiaBusId = "PCI:1:0:0";
+      nvidiaSettings = true;
+      powerManagement = {
+        enable = true;
+        finegrained = true;
+      };
+      package=config.boot.kernelPackages.nvidiaPackages.beta;
     };
-    ## Example Specification of PCI bus IDs
-    # intelBusId = "PCI:0:2:0";
-    # nvidiaBusId = "PCI:1:0:0";
-    nvidiaSettings = true;
-    powerManagement = {
-      enable = true;
-      finegrained = true;
-    };
-    package=config.boot.kernelPackages.nvidiaPackages.beta;
+    environment.systemPackages = lib.mkIf config.hardware.nvidia.prime.offload.enable [ nvidia-offload ];
   };
-  
-  config.environment.systemPackages = lib.mkIf config.hardware.nvidia.prime.offload.enable [ nvidia-offload ];
 }

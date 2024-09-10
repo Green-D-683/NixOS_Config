@@ -1,7 +1,7 @@
-{config, pkgs, ...}:
+{config, pkgs, lib, ...}:
 
 {
-  config = {
+  config = lib.mkIf (config.systemConfig.optimiseFor != "server") {
     # Enable sound with pipewire.
     security.rtkit.enable = true;
     services.pipewire = {

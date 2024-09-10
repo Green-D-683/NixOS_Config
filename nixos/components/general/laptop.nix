@@ -1,7 +1,7 @@
-{config, pkgs, ...}:
+{config, pkgs, lib, ...}:
 
 {
-  config={
+  config= lib.mkIf (config.systemConfig.optimiseFor == "laptop") {
     # ThermalD - prevents overheating
     services.thermald.enable = true;
 

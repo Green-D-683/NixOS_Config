@@ -1,7 +1,7 @@
-{config, pkgs, ...}:
+{config, pkgs, lib, ...}:
 
 {
-  config = {
+  config = lib.mkIf (builtins.elem "daniel" config.userConfig.users) {
     users.users.daniel = {
       isNormalUser = true;
       description = "Daniel";
