@@ -29,7 +29,7 @@
     };
   };
 
-  outputs = inputs@{nixpkgs, home-manager, nixpkgs-openlp, flake-utils, screenpad-driver, plasma-manager, nixos-hardware, ...}: 
+  outputs = inputs@{self, nixpkgs, home-manager, nixpkgs-openlp, flake-utils, screenpad-driver, plasma-manager, nixos-hardware, ...}: 
     let 
       lib = nixpkgs.lib.extend (
         # self: super: {custom = (import ./lib {lib = self;});} // home-manager.lib
@@ -121,10 +121,16 @@
       system = "x86_64-linux"; 
       pkgs = import inputs.nixpkgs {
         inherit system; 
-        overlays = import ./pkgs/overlays.nix;
+        overlays = self.overlays.default system;
       };
       in 
       {
+        default = pkgs.mkShell {
+          packages = with pkgs; [
+            nil
+          ];
+        };
+
         python = pkgs.mkShell {
             buildInputs = import ./pkgs/programs/development/python.nix;
         };
@@ -137,6 +143,9 @@
         sql = pkgs.mkShell {
             buildInputs = import ./pkgs/programs/development/sql.nix;
         };
+      };
+      overlays = {
+        default = overlays;
       };
     };
 }
