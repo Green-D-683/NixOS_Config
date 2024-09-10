@@ -88,7 +88,7 @@
                 plasma-manager.homeManagerModules.plasma-manager
               ];
               backupFileExtension="backup";
-              users.daniel = import ./home/daniel/home/home.nix {pkgs = pkgsForSys system; lib = lib;};
+              #users.daniel = import ./home/daniel/home/home.nix {pkgs = pkgsForSys system; lib = lib;};
             };
           }
         ];

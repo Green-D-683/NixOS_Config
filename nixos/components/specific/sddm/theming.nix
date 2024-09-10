@@ -39,7 +39,7 @@ let
   else theme;
 
   packages = if customTheme
-  then [ (buildTheme theme.pkg) ] ++ theme.deps
+  then [ (buildTheme theme.pkg) pkgs.resources ] ++ theme.deps
   else [];
 
   themes = rec {
@@ -169,7 +169,7 @@ let
           sha256 = "sha256-kXovz813BS+Mtbk6+nNNdnluwp/7V2e3KJLuIfiWRD0=";
         };
         themeIni = [
-          {section = "General"; key = "background"; value = ../../../../resources/lock.png;}
+          {section = "General"; key = "background"; value = "${pkgs.resources}/resources/lock.png";}
         ];
       };
       deps = with pkgs; [];

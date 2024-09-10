@@ -18,7 +18,7 @@ in
   config = {
     home-manager = {
         users = lib.mkMerge (
-          (builtins.map (name: {name = import "./${name}/home/home.nix" {inherit pkgs; inherit lib; };}) config.userConfig.users) ## TODO: This might work? Fix if not
+          (builtins.map (name: {${name} = import ./${name}/home/home.nix {inherit pkgs; inherit lib; };}) config.userConfig.users) ## TODO: This might work? Fix if not
         );
     };
 
