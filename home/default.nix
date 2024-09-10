@@ -1,18 +1,16 @@
 {config, pkgs, lib, ...}:
 let
-getUsers = lib.getSubDirNames;
+users = lib.getSubDirNames ./.;
 
-getUserConfigs = users: builtins.map (name: ./. + "/${name}/${name}.nix") users;
+getUserConfigs = builtins.map (name: ./. + "/${name}/${name}.nix") users;
 in
 {
-  imports = getUserConfigs(getUsers(./.));
+  imports = getUserConfigs;
 
   options = {
     userConfig = {
       users = lib.mkOption{
-        default = ["daniel"];
-        type = with lib.types; listOf emum (getUsers(./.));
-        description = "The users to include for the device";
+        type = lib.types.listOf (lib.types.enum users);
       };
     };
   };
@@ -20,7 +18,7 @@ in
   config = {
     home-manager = {
         users = lib.mkMerge (
-          builtins.map (name: {name = import "./${name}/home/home.nix" {pkgs = pkgs; lib = lib; };}) config.userConfig.users ## TODO: This might work? Fix if not
+          (builtins.map (name: {name = import "./${name}/home/home.nix" {inherit pkgs; inherit lib; };}) config.userConfig.users) ## TODO: This might work? Fix if not
         );
     };
 

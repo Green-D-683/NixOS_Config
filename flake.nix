@@ -9,7 +9,7 @@
       url = "github:jorsn/nixpkgs/openlp";
     };
     flake-utils={
-      url = github:numtide/flake-utils;
+      url = "github:numtide/flake-utils";
     };
     home-manager={
       url = "github:nix-community/home-manager";

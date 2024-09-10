@@ -1,4 +1,4 @@
-{config, pkgs, lib, ...}:
+{config, lib, ...}:
 
 {
   imports = [
@@ -14,7 +14,7 @@
     userConfig = {
       users = mkOption{
         default = ["daniel"];
-        type = with types; listOf (emum []);
+        type = with types; listOf (enum []);
         description = "The users to include for the device";
       };
     };

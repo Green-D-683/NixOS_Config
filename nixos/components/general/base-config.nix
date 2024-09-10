@@ -43,7 +43,7 @@ in
       supportedFilesystems = [ "ntfs" ];
 
       # Using latest kernel
-      kernelPackages = if (config.systemConfig.optimiseFor == "laptop") then pkgs.linuxPackages_latest else pkgs.linuxPackages_zen;
+      kernelPackages = (if (config.systemConfig.optimiseFor == "laptop") then pkgs.linuxPackages_latest else pkgs.linuxPackages_zen);
       kernelModules = [
         "v4l2loopback"
       ];

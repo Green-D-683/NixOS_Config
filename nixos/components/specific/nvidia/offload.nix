@@ -14,7 +14,6 @@ in
     hardware.nvidia={
       open = true;
       modesetting.enable = true;
-      dynamicBoost = true;
       prime = lib.mkIf (config.systemConfig.optimiseFor == "laptop") {
         offload = {
           enable = true;
