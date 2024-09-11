@@ -1,2 +1,2 @@
 {inputs, system, lib} :
-lib.importDirRec ./. {inherit inputs; inherit system;}
+lib.importDir ./. {inherit inputs; inherit system;}

@@ -1,4 +1,4 @@
 {...}:
 self: super: {
-  resources = self.callPackage ../derivations/resources.nix {};
+  resources = super.callPackage ./derivations/resources.nix {};
 }
