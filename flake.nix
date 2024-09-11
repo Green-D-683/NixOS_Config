@@ -30,27 +30,15 @@
   };
 
   outputs = inputs@{self, nixpkgs, home-manager, nixpkgs-openlp, flake-utils, screenpad-driver, plasma-manager, nixos-hardware, ...}: 
-    let 
+    let
+      mylib = import ./lib nixpkgs.lib;
       lib = nixpkgs.lib.extend (
-        # self: super: {custom = (import ./lib {lib = self;});} // home-manager.lib
-        self: super: (import ./lib nixpkgs.lib) // home-manager.lib
+        final: prev: self.lib // home-manager.lib
       );
-      overlays = (system: import ./pkgs/overlays {inherit inputs; inherit system; lib = lib;});
-
-      systems = [
-        "aarch64-linux"
-        "x86_64-linux"
-        "aarch64-darwin"
-        "x86-64-darwin"
-      ];
-      linux = builtins.filter (x: nixpkgs.lib.strings.hasInfix "linux" x) systems;
-      darwin = builtins.filter (x: nixpkgs.lib.strings.hasInfix "darwin" x) systems;
-      forAllSystems = nixpkgs.lib.genAttrs systems;
-      forAllLinux = nixpkgs.lib.genAttrs linux;
-      forAllDarwin = nixpkgs.lib.genAttrs darwin;
+      overlays = (system: import ./pkgs/overlays {inherit inputs; inherit system; lib = lib; inherit self;});
       pkgsForSys = (system: import inputs.nixpkgs {
         system = system;
-        overlays = overlays system;
+        overlays = (self.overlays.default system);
         config = {
           allowBroken = true;
           allowUnfree = true;
@@ -61,25 +49,16 @@
           ];
         };
       });
-
-      home = user: import ./home/${user}/home/home.nix;
-
-    # in flake-utils.lib.eachSystem systems (system: rec {
-    #   legacyPackages = pkgsForSys system;
-    # }) // {
-    #   nixosModules.home = home "daniel";
-    # }
     in
     {
     nixosConfigurations = {
       UnknownDevice_ux535 = inputs.nixpkgs.lib.nixosSystem rec {
-        pkgs = pkgsForSys system;
         system = "x86_64-linux";
         inherit lib;
+        pkgs = pkgsForSys system;
         modules = [
           ./nixos/systems/specific/ux535/config.nix
           home-manager.nixosModules.home-manager
-          #{home-manager.users.daniel = home "daniel";}
           {
             home-manager = {
               useGlobalPkgs = true;
@@ -88,43 +67,32 @@
                 plasma-manager.homeManagerModules.plasma-manager
               ];
               backupFileExtension="backup";
-              #users.daniel = import ./home/daniel/home/home.nix {pkgs = pkgsForSys system; lib = lib;};
             };
           }
         ];
-        specialArgs = {inherit inputs;};
-
-      };
-      Shells_ux535 = inputs.nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          ./nixos/systems/default/minimal.nix
-          ./pkgs/programs/development
-          ./nixos/systems/specific/ux535/hardware-configuration.nix
-        ];
+        specialArgs = {inherit inputs; inherit system;};
       };
     };
     homeConfigurations = {
-      daniel=home-manager.lib.homeManagerConfiguration {
-        pkgs = pkgsForSys "x86_64-linux";
+      daniel=home-manager.lib.homeManagerConfiguration rec {
+        pkgs = pkgsForSys system;
+        system = "x86_64-linux";
         modules = [
-          # (
-          #   {nixpkgs.overlays = overlays;}
-          # )
           ./home/daniel/home/home.nix
         ];
         extraSpecialArgs = {inherit inputs;};
       };
     };
-    devShells."x86_64-linux" = let
-      utils = inputs.flake-utils.lib;
-      system = "x86_64-linux"; 
-      pkgs = import inputs.nixpkgs {
-        inherit system; 
-        overlays = self.overlays.default system;
-      };
-      in 
-      {
+    overlays = {
+      default = overlays;
+    };
+    lib = mylib;
+    } // 
+    flake-utils.lib.eachDefaultSystem (system: 
+    let 
+      pkgs = pkgsForSys system;
+    in {
+    devShells = {
         default = pkgs.mkShell {
           packages = with pkgs; [
             nil
@@ -144,8 +112,9 @@
             buildInputs = import ./pkgs/programs/development/sql.nix;
         };
       };
-      overlays = {
-        default = overlays;
-      };
-    };
+      
+      packages = let
+        package = name: {${name} = import ./pkgs/derivations/${name} {inherit pkgs;};};
+        in lib.attrListMerge (builtins.map package (lib.getSubDirNames ./pkgs/derivations));
+    });
 }

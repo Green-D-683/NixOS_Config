@@ -23,11 +23,10 @@ in
           (builtins.map (name: {${name} = import ./${name}/home/home.nix {inherit pkgs; inherit lib; config=config.userConfig;};}) config.userConfig.users) ## TODO: This might work? Fix if not
         );
         sharedModules = [
-          (import ./screenpad-plasma.nix {inherit lib; config=config.userConfig;})
           {
             programs.plasma.immutableByDefault=true;
           }
-        ];
+        ] ++ lib.importDir ./. {inherit pkgs lib; config = config.userConfig;};
     };
 
     users.mutableUsers = true;
