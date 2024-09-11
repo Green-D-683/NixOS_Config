@@ -17,6 +17,12 @@
         type = with types; listOf (enum []);
         description = "The users to include for the device";
       };
+
+      hasScreenpad = mkOption{
+        visible = false;
+        type = types.bool;
+        default = false;
+      };
     };
 
     systemConfig={
@@ -75,7 +81,12 @@
       })
     ];})
 
-    {}
+    ({userConfig = lib.mkMerge [
+      (lib.mkIf (builtins.elem "screenpad" config.systemConfig.extraHardware){
+        hasScreenpad = true;
+      })
+    ];})
+    
     #(config.systemConfig.specialConfig) ## TODO: Not sure if this will work, need another way if it doesn't
   ];
 }

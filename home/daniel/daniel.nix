@@ -1,4 +1,4 @@
-{config, pkgs, lib, ...}:
+{config, lib, ...}:
 
 {
   config = lib.mkIf (builtins.elem "daniel" config.userConfig.users) {

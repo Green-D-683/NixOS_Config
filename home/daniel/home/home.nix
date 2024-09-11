@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{config, pkgs, lib, ... }:
 
 let 
   install_list = map (x : ../../../pkgs/programs/${x}.nix) [
@@ -12,9 +12,9 @@ let
   ];
 in 
 {
-  # imports = [
-  #   ./plasma.nix
-  # ];
+  imports = [
+    ./plasma.nix
+  ];
 
   # Home Manager needs a bit of information about you and the paths it should manage.
   home={
@@ -72,6 +72,13 @@ in
       bashrcExtra = ''
       export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH
       '';
+    };
+
+    okular = {
+      enable = true;
+      general = {
+        obeyDrm = false;
+      };
     };
   };
 

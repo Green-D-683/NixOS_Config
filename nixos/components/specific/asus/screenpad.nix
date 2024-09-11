@@ -19,6 +19,7 @@ in
     services.xserver.displayManager.setupCommands=(builtins.readFile ./noScreenPad-sddm.sh);
     environment.systemPackages= [
       toggle-screenpad
+      pkgs.python3
     ];
 
     boot.extraModulePackages = screenpad-driver-package config.boot.kernelPackages.kernel;
