@@ -20,13 +20,19 @@ in
         useGlobalPkgs = true;
         useUserPackages = true;
         users = lib.mkMerge (
-          (builtins.map (name: {${name} = import ./${name}/home/home.nix {inherit pkgs; inherit lib; config=config.userConfig;};}) config.userConfig.users) ## TODO: This might work? Fix if not
+          (builtins.map (name: {${name} = 
+            (import ./${name}/home/home.nix {inherit pkgs; inherit lib; cfg=config.userConfig;}) // {
+              imports = lib.getDir ./.;
+            };}) config.userConfig.users)
         );
         sharedModules = [
           {
-            programs.plasma.immutableByDefault=true;
+            programs.plasma={
+              enable = true;
+              immutableByDefault=true;
+            };
           }
-        ] ++ lib.importDir ./. {inherit pkgs lib; config = config.userConfig;};
+        ];
     };
 
     users.mutableUsers = true;

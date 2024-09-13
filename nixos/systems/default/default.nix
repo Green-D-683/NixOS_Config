@@ -23,7 +23,22 @@
         type = types.bool;
         default = false;
       };
+
+      isNixOS = mkOption{
+        visible = false;
+        type = types.bool;
+        default = true;
+      };
+
+      userModules = mkOption {
+        type = types.attrsOf lib.userModule;
+        default = {
+          "default"={};
+        };
+      };
     };
+
+    
 
     systemConfig={
 

@@ -13,6 +13,10 @@ in rec
   getDir = (
     dir: getNixFilesF(dir));
 
+  getDirNamesOnly = (
+    dir: builtins.map (str: lib.strings.removeSuffix ".nix" (lib.strings.removePrefix "${dir}/" str)) (getDir dir)
+  );
+
   getDirRec = (
     dir: getDir(dir) ++ (
       let 

@@ -1,7 +1,6 @@
-{config, lib, ...}:
+{cfg, lib, ...}:
 {
-  programs.plasma = lib.mkIf (config.hasScreenpad)  {
-    enable = true;
+  programs.plasma = lib.mkIf (lib.attrsets.attrByPath ["hasScreenpad"] false cfg)  {
     hotkeys = {
       commands = {
         "toggleScreenpad" = {
