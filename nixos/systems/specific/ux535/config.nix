@@ -1,9 +1,10 @@
-{config, pkgs, lib, ...}:
+{inputs, config, pkgs, lib, ...}:
 
 {
   imports = [
     ../../default
     ./hardware-configuration.nix
+    inputs.nixos-hardware.nixosModules.asus-zenbook-ux535
   ];
 
   config = {
@@ -14,7 +15,6 @@
       extraHardware = [
         "thunderbolt"
         "screenpad"
-        "asus-battery"
       ];
       hostname = "UnknownDevice";
     };
@@ -29,10 +29,6 @@
     asus.battery = {
       chargeUpto = 90;
       enableChargeUptoScript = true;
-    };
-    nvidia.prime={
-      intelBusId = "PCI:0:2:0";
-      nvidiaBusId = "PCI:1:0:0";
     };
   };
   };

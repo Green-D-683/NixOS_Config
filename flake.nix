@@ -25,7 +25,8 @@
       inputs.home-manager.follows = "home-manager";
     };
     nixos-hardware = {
-      url = "github:NixOS/nixos-hardware/master";
+      url = "github:Green-D-683/nixos-hardware/ux535"; # Temporary until PR merged
+      # url = "github:NixOS/nixos-hardware/master";
     };
   };
 
