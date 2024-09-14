@@ -23,6 +23,25 @@
         "daniel"
         "ciccu"
       ];
+
+      userModules = {
+        daniel = {
+          install-lists = [
+            "basic"
+            "cad"
+            "ciccu"
+            "core_gui"
+            "devkit"
+            "gaming"
+            "general"
+          ];
+        };
+        ciccu = {
+          install-lists = [
+            "ciccu"
+          ];
+        };
+      };
     };
 
   hardware = {

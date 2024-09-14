@@ -30,10 +30,18 @@ in rec
       )) );
 
   getSubDirNames = (
-    dir: getSubDirNamesF(dir));
+    dir: builtins.filter (x: !(lib.strings.hasPrefix "." x)) (getSubDirNamesF(dir)));
+
+  getSubDirNamesAll = ( dir:
+    getSubDirNamesF(dir)
+  );
 
   getSubDirs = (
-    dir: builtins.map (name: "./${name}") (getSubDirNames dir));
+    dir: builtins.map (name: "${dir}/${name}") (getSubDirNames dir));
+
+  getSubDirsAll = (
+    dir: builtins.map (name: "${dir}/${name}") (getSubDirNamesAll dir)
+  );
 
   importDir = ( dir: args:
     importAllF (getDir dir) args);

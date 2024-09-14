@@ -66,12 +66,13 @@
               useUserPackages = true;
               sharedModules = [
                 plasma-manager.homeManagerModules.plasma-manager
+                #self.homeManagerModules.shared
               ];
               backupFileExtension="backup";
             };
           }
         ];
-        specialArgs = {inherit inputs; inherit system;};
+        specialArgs = {inherit inputs; inherit system; inherit self;};
       };
     };
     homeConfigurations = {
@@ -84,6 +85,12 @@
         extraSpecialArgs = {inherit inputs;};
       };
     };
+    homeManagerModules = {
+      shared = {...}:{
+        imports = [./home/.shared];
+      };
+    };
+
     overlays = {
       default = overlays;
     };

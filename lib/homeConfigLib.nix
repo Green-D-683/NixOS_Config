@@ -1,7 +1,7 @@
 {lib}:
 {
   getUser = (
-    userConfig: user: lib.attrsets.attrByPath [ "userModules" "${user}" ] userConfig.userModules."default" userConfig
+    user: userConfig: if userConfig.userModules ? ${user} then userConfig.userModules.${user} else userConfig.userModules."default"
   );
 
   userModule = let

@@ -1,4 +1,4 @@
-{cfg, config, pkgs, lib, ... }:
+{cfg, pkgs, lib, ... }:
 
 let 
   install_list = map (x : ../../../pkgs/programs/${x}.nix) [

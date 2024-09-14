@@ -1,4 +1,4 @@
-{config, pkgs, lib, ...}:
+{self, config, pkgs, lib, ...}:
 let
 users = lib.getSubDirNames ./.;
 
@@ -20,18 +20,14 @@ in
         useGlobalPkgs = true;
         useUserPackages = true;
         users = lib.mkMerge (
-          (builtins.map (name: {${name} = 
-            (import ./${name}/home/home.nix {inherit pkgs; inherit lib; cfg=config.userConfig;}) // {
-              imports = lib.getDir ./.;
-            };}) config.userConfig.users)
+          (builtins.map (name: let cfg = config.userConfig; in {${name} = 
+            (import ./${name}/home/home.nix {inherit pkgs lib cfg;});}) config.userConfig.users)
         );
         sharedModules = [
           {
-            programs.plasma={
-              enable = true;
-              immutableByDefault=true;
-            };
+            config.args.cfg = config.userConfig;
           }
+          self.homeManagerModules.shared
         ];
     };
 
