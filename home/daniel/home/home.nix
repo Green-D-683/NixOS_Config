@@ -72,7 +72,7 @@
   services = {
     kdeconnect = {
       enable = true;
-      package = pkgs.kdePackages.kdeconnect-kde;
+      package = pkgs.kdeConnect;
     };
   };
 }

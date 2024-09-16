@@ -58,7 +58,7 @@
       # Kde connect
       kdeconnect = {
         enable=true;
-        package = lib.mkForce pkgs.kdePackages.kdeconnect-kde;
+        package = lib.mkForce pkgs.kdeConnect;
       };
       # Kde partition manager
       partition-manager.enable=true;
