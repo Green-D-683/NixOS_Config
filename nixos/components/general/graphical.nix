@@ -56,7 +56,10 @@
       # Allowing GTK theming
       dconf.enable = true;
       # Kde connect
-      kdeconnect.enable=true;
+      kdeconnect = {
+        enable=true;
+        package = lib.mkForce pkgs.kdePackages.kdeconnect-kde;
+      };
       # Kde partition manager
       partition-manager.enable=true;
     };
