@@ -1,16 +1,5 @@
 {cfg, pkgs, lib, ... }:
 
-let 
-  install_list = map (x : ../../../pkgs/programs/${x}.nix) [
-    "basic"
-    "core_gui"
-    "cad"
-    "devkit"
-    "gaming"
-    "ciccu"
-    "development/default"
-  ];
-in 
 {
   imports = [
     ./plasma.nix
@@ -25,8 +14,6 @@ in
 
     # You can update Home Manager without changing this value. See the Home Manager release notes for a list of state version changes in each release.
     stateVersion = "23.11";
-
-    packages = (builtins.concatLists (map (x : import x {inherit lib; inherit pkgs;}) install_list)) ++ [pkgs.home-manager];
 
     shellAliases = {
       "neofetch" = "fastfetch";

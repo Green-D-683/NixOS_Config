@@ -27,7 +27,7 @@
       userModules = {
         daniel = {
           install-lists = [
-            "basic"
+            "core_utils"
             "cad"
             "ciccu"
             "core_gui"

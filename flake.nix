@@ -6,7 +6,7 @@
       url = "github:NixOS/nixpkgs/nixos-unstable";
     };
     nixpkgs-openlp = {
-      url = "github:jorsn/nixpkgs/openlp";
+      url = "github:Green-D-683/nixpkgs/openlp";
     };
     flake-utils={
       url = "github:numtide/flake-utils";
@@ -20,7 +20,8 @@
       inputs.nixpkgs.follows="nixpkgs";
     };
     plasma-manager = {
-      url = "github:nix-community/plasma-manager";
+      # url = "github:nix-community/plasma-manager";
+      url = "github:Green-D-683/plasma-manager/patch-1";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
@@ -32,7 +33,7 @@
 
   outputs = inputs@{self, nixpkgs, home-manager, nixpkgs-openlp, flake-utils, screenpad-driver, plasma-manager, nixos-hardware, ...}: 
     let
-      mylib = import ./lib nixpkgs.lib;
+      mylib = import ./lib {inherit self; lib = nixpkgs.lib;};
       lib = nixpkgs.lib.extend (
         final: prev: self.lib // home-manager.lib
       );
@@ -72,7 +73,7 @@
             };
           }
         ];
-        specialArgs = {inherit inputs; inherit system; inherit self;};
+        specialArgs = {inherit inputs system self;};
       };
     };
     homeConfigurations = {
@@ -91,6 +92,8 @@
       };
     };
 
+    packageListNames = (lib.getDirNamesOnly ./pkgs/programs);
+
     overlays = {
       default = overlays;
     };
@@ -105,19 +108,6 @@
           packages = with pkgs; [
             nil
           ];
-        };
-
-        python = pkgs.mkShell {
-            buildInputs = import ./pkgs/programs/development/python.nix;
-        };
-        java = pkgs.mkShell {
-            buildInputs = import ./pkgs/programs/development/java.nix;
-        };
-        ocaml = pkgs.mkShell {
-            buildInputs = import ./pkgs/programs/development/ocaml.nix;
-        };
-        sql = pkgs.mkShell {
-            buildInputs = import ./pkgs/programs/development/sql.nix;
         };
       };
       

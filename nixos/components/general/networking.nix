@@ -8,7 +8,7 @@
         enable = true;
         enableStrongSwan = true;
       };
-      hostName = lib.mkDefault "UnknownDevice-NixOS";
+      hostName = config.systemConfig.hostname;
     };
 
   };

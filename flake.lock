@@ -104,15 +104,15 @@
     },
     "nixpkgs-openlp": {
       "locked": {
-        "lastModified": 1716743393,
-        "narHash": "sha256-rZHLCpIkHc4KbdZRZMbI8EW/A+oov8UbeJKoutpLIBI=",
-        "owner": "jorsn",
+        "lastModified": 1726509478,
+        "narHash": "sha256-xtyvwPunIijobBpE2/aC5tx+mID3YmJ8l/9MHzO553s=",
+        "owner": "Green-D-683",
         "repo": "nixpkgs",
-        "rev": "32ac1e6bb055e3a4f6a7bbf6abaacca023f36841",
+        "rev": "2ac5475ea01bfdd6412b7b7fd7b647defcc9fef1",
         "type": "github"
       },
       "original": {
-        "owner": "jorsn",
+        "owner": "Green-D-683",
         "ref": "openlp",
         "repo": "nixpkgs",
         "type": "github"
@@ -128,15 +128,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1725914634,
-        "narHash": "sha256-U74hu15xSb6JNySMOwyJrsh4uk1DVa182bdHLeHdYMc=",
-        "owner": "nix-community",
+        "lastModified": 1726413747,
+        "narHash": "sha256-PmCmO8NDKzwHrTp9Ox/rcLiCYivqIpZlnLk8wZRjv2I=",
+        "owner": "Green-D-683",
         "repo": "plasma-manager",
-        "rev": "60becd0e994e25b372c8d0500fc944396f6c1085",
+        "rev": "a890aac14887bec7bef4acc68e2285dccef63c72",
         "type": "github"
       },
       "original": {
-        "owner": "nix-community",
+        "owner": "Green-D-683",
+        "ref": "patch-1",
         "repo": "plasma-manager",
         "type": "github"
       }

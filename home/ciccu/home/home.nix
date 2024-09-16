@@ -17,7 +17,7 @@
 
     packages = (with pkgs; [
       home-manager
-      openlpFull
+      openlp
       firefox
       vlc
       libreoffice

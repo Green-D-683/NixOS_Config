@@ -1,4 +1,4 @@
-{self, config, pkgs, lib, ...}:
+{self, config, pkgs, lib, system, ...}:
 let
 users = lib.getSubDirNames ./.;
 
@@ -25,7 +25,11 @@ in
         );
         sharedModules = [
           {
-            config.args.cfg = config.userConfig;
+            config.args = {
+              cfg = config.userConfig;
+              system = system;
+              flake = self;
+            };
           }
           self.homeManagerModules.shared
         ];

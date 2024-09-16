@@ -1,4 +1,4 @@
-{lib}:
+{lib, ...}:
 let 
 getNixFilesF = dir : builtins.attrValues (builtins.mapAttrs (name: _: "${dir}/${name}") (lib.attrsets.filterAttrs (name: _: (lib.hasSuffix ".nix" name) && !(name == "default.nix")) (builtins.readDir dir)));
 
