@@ -23,6 +23,10 @@
             apply = "force";
             value = 1;
           };
+          "position" = {
+            apply = "force";
+            value = "1920,0";
+          };
           "fullscreen" = {
             apply = "force";
             value = true;
@@ -73,6 +77,10 @@
           "screen" = {
             apply = "force";
             value = 1;
+          };
+          "position" = {
+            apply = "force";
+            value = "1920,0";
           };
           "fullscreen" = {
             apply = "force";
