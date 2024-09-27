@@ -95,7 +95,7 @@
     # Flatpak
     services.flatpak.enable = true;
 
-    services.onedrive.enable = true;
+    #services.onedrive.enable = true;
 
     ## Dropbox service
     networking.firewall = {
