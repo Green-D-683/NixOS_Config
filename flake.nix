@@ -90,6 +90,9 @@
       shared = {...}:{
         imports = [./home/.shared];
       };
+      rclone = {...}:{
+        imports = [./home/.shared/rclone.nix];
+      };
     };
 
     packageListNames = (lib.getDirNamesOnly ./pkgs/programs);
