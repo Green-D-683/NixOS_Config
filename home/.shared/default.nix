@@ -33,20 +33,22 @@
   };
 
   config = {
-      programs = {
-        plasma={
-          enable = true;
-          immutableByDefault=true;
-        };
-        home-manager = {
-          enable = true;
-        };
+    programs = {
+      plasma={
+        enable = true;
+        immutableByDefault=true;
       };
-      
-      isNixOS = (if config.args.cfg ? isNixOS then config.args.cfg.isNixOS else false);
-      
-      userModule = (let cfg = config.args.cfg; in (if cfg.isNixOS then (lib.getUser config.home.username cfg) else cfg));
+      home-manager = {
+        enable = true;
+      };
+    };
+    
+    isNixOS = (if config.args.cfg ? isNixOS then config.args.cfg.isNixOS else false);
+    
+    userModule = (let cfg = config.args.cfg; in (if cfg.isNixOS then (lib.getUser config.home.username cfg) else cfg));
 
-      home.packages = (builtins.concatLists (builtins.map (x: import ../../pkgs/programs/${x}.nix {inherit pkgs;}) config.userModule.install-lists)) ++ (with pkgs; [ home-manager steam-run ]);
+    home.packages = (builtins.concatLists (builtins.map (x: import ../../pkgs/programs/${x}.nix {inherit pkgs;}) config.userModule.install-lists)) ++ (with pkgs; [ home-manager steam-run ]);
+
+    systemd.user.startServices = "sd-switch";
   };
 }

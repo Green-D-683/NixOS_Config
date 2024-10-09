@@ -58,9 +58,18 @@ in
       enableAllFirmware=true;
     };
 
+    # Swap 
     zramSwap = {
       enable = true;
+      priority = 5;
     };
+    swapDevices = [
+      {
+        device = "/.swapfile";
+        size = lib.mkDefault (32 * 1024); # 32GB
+        priority = 4;
+      }
+    ];
 
     # PowerManagement
     powerManagement = {
