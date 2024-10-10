@@ -20,8 +20,8 @@
       inputs.nixpkgs.follows="nixpkgs";
     };
     plasma-manager = {
-      url = "github:nix-community/plasma-manager";
-      # url = "github:Green-D-683/plasma-manager/patch-1";
+      # url = "github:nix-community/plasma-manager";
+      url = "github:Green-D-683/plasma-manager/PowerDevil-Additions";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };

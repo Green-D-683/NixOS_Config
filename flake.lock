@@ -128,15 +128,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1727917089,
-        "narHash": "sha256-XWNBGf8Z03sqA5/m99X6XTFbHGNuVx1gMaMQJbdDIrY=",
-        "owner": "nix-community",
+        "lastModified": 1728520222,
+        "narHash": "sha256-lk1bqb7HHYJdVLBUZYgnaHjpKwfH0JkmkLcjOv7AUPE=",
+        "owner": "Green-D-683",
         "repo": "plasma-manager",
-        "rev": "bc14b17bff1557de8f103172508f896a87bb9cdb",
+        "rev": "af733ec9473715f548d3ba36323f9a0264fb1556",
         "type": "github"
       },
       "original": {
-        "owner": "nix-community",
+        "owner": "Green-D-683",
+        "ref": "PowerDevil-Additions",
         "repo": "plasma-manager",
         "type": "github"
       }
