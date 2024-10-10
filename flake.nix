@@ -115,7 +115,7 @@
         };
       
       packages = let
-        package = name: {${name} = import ./pkgs/derivations/${name} {inherit pkgs;};};
+        package = name: {${name} = import ./pkgs/derivations/${name} {inherit pkgs; lib = self.lib;};};
         in lib.attrListMerge (builtins.map package (lib.getSubDirNames ./pkgs/derivations));
     });
 }

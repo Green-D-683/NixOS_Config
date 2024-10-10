@@ -4,15 +4,6 @@
   lib,
   ...
 }:
-let
-  cleanup = pkgs.writeScriptBin "cleanup" ''
-  sudo nix profile wipe-history
-  nix store gc
-  sudo nix store gc 
-  sudo /run/current-system/bin/switch-to-configuration boot
-  '';
-
-in
 {
   imports = [
     ./compat.nix
@@ -112,18 +103,8 @@ in
     };
 
     environment.systemPackages = with pkgs; [
-    #   fwupd
-    #   pciutils
-    #   usbutils
-    #   lshw
-    #   man
-    #   tldr
-    #   nix-prefetch
-    #   gitFull
-    #   neofetch
-    #   libsecret
-    # ] ++ [
-      cleanup];
+      cleanup
+    ];
 
     services.fwupd.enable = true;
 
