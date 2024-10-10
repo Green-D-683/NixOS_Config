@@ -35,6 +35,10 @@ in
         systemd-boot.enable = true;
         efi.canTouchEfiVariables = true;
       };
+
+      initrd = {
+        systemd.enable = true;
+      };
       
       # Swappiness - lower is less aggressive
       kernel.sysctl = { "vm.swappiness" = 10;};
@@ -70,6 +74,7 @@ in
         priority = 4;
       }
     ];
+    security.protectKernelImage = false;
 
     # PowerManagement
     powerManagement = {
