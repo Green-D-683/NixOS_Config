@@ -1,5 +1,5 @@
 {pkgs, ...}:
 
 (with pkgs; [
-  openlp
+  #openlp
 ])
