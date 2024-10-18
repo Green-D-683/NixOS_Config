@@ -17,6 +17,12 @@
         #   enable = true;
         # };
      # };
+     virtualbox = {
+      host = {
+        enable = true;
+        enableExtensionPack = true;
+      };
+     };
     };
     # programs = {
     #   darling.enable = true;
