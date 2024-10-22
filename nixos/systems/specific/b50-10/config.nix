@@ -25,11 +25,8 @@
         daniel = {
           install-lists = [
             "core_utils"
-            "cad"
-            "ciccu"
             "core_gui"
             "devkit"
-            "gaming"
             "general"
           ];
         };
