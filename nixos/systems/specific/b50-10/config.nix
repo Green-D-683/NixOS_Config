@@ -3,7 +3,7 @@
 {
   imports = [
     ../../default
-    #./hardware-configuration.nix
+    ./hardware-configuration.nix
   ];
 
   config = {
@@ -15,7 +15,7 @@
         # "screenpad"
         # "asus-battery"
       ];
-      hostname = "UnknownDevice";
+      hostname = "AnotherUnknownDevice";
     };
     userConfig = {
       users = [
