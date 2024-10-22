@@ -75,6 +75,27 @@
         ];
         specialArgs = {inherit inputs system self;};
       };
+      UnknownDevice_b50-10 = inputs.nixpkgs.lib.nixosSystem rec {
+        system = "x86_64-linux";
+        inherit lib;
+        pkgs = pkgsForSys system;
+        modules = [
+          ./nixos/systems/specific/b50-10/config.nix
+          home-manager.nixosModules.home-manager
+          {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              sharedModules = [
+                plasma-manager.homeManagerModules.plasma-manager
+                #self.homeManagerModules.shared
+              ];
+              backupFileExtension="backup";
+            };
+          }
+        ];
+        specialArgs = {inherit inputs system self;};
+      };
     };
     homeConfigurations = {
       daniel=home-manager.lib.homeManagerConfiguration rec {
