@@ -9,6 +9,7 @@
   config = {
     systemConfig = {
       laptop = true;
+	    graphicalEnv = true;
       gpu = "intel";
       extraHardware = [
         # "thunderbolt"
