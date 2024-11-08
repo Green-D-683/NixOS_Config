@@ -88,11 +88,11 @@
     ({systemConfig = lib.mkMerge [
       (lib.mkIf (config.systemConfig.laptop) {
         optimiseFor = "laptop";
-        #graphicalEnv = lib.mkDefault true;
+        graphicalEnv = lib.mkDefault true;
       })
       (lib.mkIf (config.systemConfig.desktop) {
         optimiseFor = "desktop";
-        #graphicalEnv = lib.mkDefault true;
+        graphicalEnv = lib.mkDefault true;
       })
     ];})
 
