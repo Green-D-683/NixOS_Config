@@ -35,8 +35,13 @@ if [ "${disabled}" = "disabled" ]; then
 	y2=$(python -c "print (""$y""+1080)")
 	x2=$(python -c "print (int(int(""$x"")+(1920/2)-(1080/2)))")
 
+	modeLine=$(kscreen-doctor -o | grep --after-context=5 "$port" | grep "$Modes")
+	modeLineCut=$(echo "$modeLine" | grep -oP ".*(?=1080)")
+	intSplit=$(echo "$modeLineCut" | grep -oE "[0-9]+")
+	mode=$(echo "$intSplit" | head -5 | tail -1)
+
 	#echo "$x2"
-	kscreen-doctor output.${port}.enable output.${port}.mode.0 output.${port}.rotation.right output.${port}.scale.2 output.${port}.position.${x2},${y2}
+	kscreen-doctor output.${port}.enable output.${port}.mode.${mode} output.${port}.rotation.right output.${port}.scale.2 output.${port}.position.${x2},${y2}
 else
 	kscreen-doctor output.${port}.disable
 fi

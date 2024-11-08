@@ -49,6 +49,12 @@
       elisa
     ];
 
+    environment.sessionVariables = {
+      NIXOS_OZONE_WL=1; # Wayland webapps
+      MOZ_ENABLE_WAYLAND=1; # Firefox Wayland
+      MOZ_WEBRENDER=1;
+    };
+
     # Configure console keymap
     console.keyMap = "uk";
 
@@ -95,31 +101,15 @@
     # Flatpak
     services.flatpak.enable = true;
 
+    ## Onedrive now configured using rClone
     #services.onedrive.enable = true;
 
-    ## Dropbox service
+    ## Ports for MiraCast
     networking.firewall = {
-      allowedTCPPorts = [ 17500 ];
-      allowedUDPPorts = [ 17500 ];
+      allowedTCPPorts = [ 17500 7236 7250 ];
+      allowedUDPPorts = [ 17500 7236 7250 ];
     };
 
-    # systemd.user.services.dropbox = {
-    #   description = "Dropbox";
-    #   wantedBy = [ "graphical-session.target" ];
-    #   environment = {
-    #     QT_PLUGIN_PATH = "/run/current-system/sw/" + pkgs.qt5.qtbase.qtPluginPrefix;
-    #     QML2_IMPORT_PATH = "/run/current-system/sw/" + pkgs.qt5.qtbase.qtQmlPrefix;
-    #   };
-    #   serviceConfig = {
-    #     ExecStart = "${lib.getBin pkgs.dropbox}/bin/dropbox";
-    #     ExecReload = "${lib.getBin pkgs.coreutils}/bin/kill -HUP $MAINPID";
-    #     KillMode = "control-group"; # upstream recommends process
-    #     Restart = "on-failure";
-    #     PrivateTmp = true;
-    #     ProtectSystem = "full";
-    #     Nice = 10;
-    #   };
-    # };
     boot.binfmt.registrations.appimage = {
       wrapInterpreterInShell = false;
       interpreter = "${pkgs.appimage-run}/bin/appimage-run";

@@ -29,6 +29,10 @@
 
       initrd = {
         systemd.enable = true;
+        kernelModules = [
+          "psmouse"
+          "hid_multitouch"
+        ];
       };
       
       # Swappiness - lower is less aggressive
@@ -45,6 +49,10 @@
       extraModulePackages = with config.boot.kernelPackages; [
         v4l2loopback
       ];
+
+      # blacklistedKernelModules = [
+      #   "elan_i2c"
+      # ];
     };
 
     # Firmware

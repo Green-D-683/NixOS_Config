@@ -72,27 +72,27 @@
     },
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1726093424,
-        "narHash": "sha256-UkIJBMCLPvGeJIEq/xed+fRvxa/57+Bey+eCPpFXr9c=",
-        "owner": "Green-D-683",
+        "lastModified": 1730919458,
+        "narHash": "sha256-yMO0T0QJlmT/x4HEyvrCyigGrdYfIXX3e5gWqB64wLg=",
+        "owner": "NixOS",
         "repo": "nixos-hardware",
-        "rev": "f16150f0646b3010abf83e1f1161d115c77c1887",
+        "rev": "e1cc1f6483393634aee94514186d21a4871e78d7",
         "type": "github"
       },
       "original": {
-        "owner": "Green-D-683",
-        "ref": "ux535",
+        "owner": "NixOS",
+        "ref": "master",
         "repo": "nixos-hardware",
         "type": "github"
       }
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1728492678,
-        "narHash": "sha256-9UTxR8eukdg+XZeHgxW5hQA9fIKHsKCdOIUycTryeVw=",
+        "lastModified": 1729256560,
+        "narHash": "sha256-/uilDXvCIEs3C9l73JTACm4quuHUsIHcns1c+cHUJwA=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "5633bcff0c6162b9e4b5f1264264611e950c8ec7",
+        "rev": "4c2fcb090b1f3e5b47eaa7bd33913b574a11e0a0",
         "type": "github"
       },
       "original": {
@@ -128,16 +128,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1728520222,
-        "narHash": "sha256-lk1bqb7HHYJdVLBUZYgnaHjpKwfH0JkmkLcjOv7AUPE=",
-        "owner": "Green-D-683",
+        "lastModified": 1730635861,
+        "narHash": "sha256-Npp3pl9aeAiq+wZPDbw2ZxybNuZWyuN7AY6fik56DCo=",
+        "owner": "nix-community",
         "repo": "plasma-manager",
-        "rev": "af733ec9473715f548d3ba36323f9a0264fb1556",
+        "rev": "293668587937daae1df085ee36d2b2d0792b7a0f",
         "type": "github"
       },
       "original": {
-        "owner": "Green-D-683",
-        "ref": "PowerDevil-Additions",
+        "owner": "nix-community",
         "repo": "plasma-manager",
         "type": "github"
       }

@@ -23,14 +23,14 @@ in
     battery = lib.mkMerge [
       common
       {
-        powerProfile = "power-saver";
+        powerProfile = "powerSaving";
       }
     ];
     lowBattery = lib.mkMerge [
       common
       {
         displayBrightness = 5;
-        powerProfile = "power-saver";
+        powerProfile = "powerSaving";
       }
     ];
     general.pausePlayersOnSuspend = true;
