@@ -33,7 +33,7 @@
     ## Java
     java = {
       enable = true;
-      package = lib.mkForce pkgs.jdk22;
+      package = lib.mkForce pkgs.jdk;
     };
     firefox = {
       enable = true;
