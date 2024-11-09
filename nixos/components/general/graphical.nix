@@ -53,6 +53,7 @@
       NIXOS_OZONE_WL=1; # Wayland webapps
       MOZ_ENABLE_WAYLAND=1; # Firefox Wayland
       MOZ_WEBRENDER=1;
+      KWIN_DRM_ALLOW_INTEL_COLORSPACE=1;
     };
 
     # Configure console keymap

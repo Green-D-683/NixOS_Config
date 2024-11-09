@@ -29,5 +29,9 @@
         requiredBy = [ "systemd-suspend-then-hibernate.service" ];
       };
     };
+
+    environment.sessionVariables = {
+      KWIN_DRM_ALLOW_NVIDIA_COLORSPACE = 1;
+    };
   };
 }
