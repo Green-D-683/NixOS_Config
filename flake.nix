@@ -40,7 +40,7 @@
       overlays = (system: import ./pkgs/overlays {inherit inputs; inherit system; lib = lib; inherit self;});
       pkgsForSys = (system: import inputs.nixpkgs {
         system = system;
-        overlays = (self.overlays.default system);
+        overlays = (self.overlays.${system}.default);
         config = {
           allowBroken = true;
           allowUnfree = true;
@@ -118,9 +118,6 @@
 
     packageListNames = (lib.getDirNamesOnly ./pkgs/programs);
 
-    overlays = {
-      default = overlays;
-    };
     lib = mylib;
     } // 
     flake-utils.lib.eachDefaultSystem (system: 
@@ -134,6 +131,8 @@
             ];
           };
         };
+      
+      overlays.default = overlays system;
       
       packages = let
         package = name: {${name} = import ./pkgs/derivations/${name} {inherit pkgs; lib = self.lib;};};
