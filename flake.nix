@@ -29,9 +29,14 @@
       # url = "github:Green-D-683/nixos-hardware/ux535"; # Temporary until PR merged
       url = "github:NixOS/nixos-hardware/master";
     };
+    nix-on-droid = {
+      url = "github:nix-community/nix-on-droid/release-24.05";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
   };
 
-  outputs = inputs@{self, nixpkgs, home-manager, nixpkgs-openlp, flake-utils, screenpad-driver, plasma-manager, nixos-hardware, ...}: 
+  outputs = inputs@{self, nixpkgs, home-manager, nixpkgs-openlp, flake-utils, screenpad-driver, plasma-manager, nixos-hardware, nix-on-droid, ...}: 
     let
       mylib = import ./lib {inherit self; lib = nixpkgs.lib;};
       lib = nixpkgs.lib.extend (
@@ -119,6 +124,11 @@
     packageListNames = (lib.getDirNamesOnly ./pkgs/programs);
 
     lib = mylib;
+
+    nixOnDroidConfigurations.default = nix-on-droid.lib.nixOnDroidConfiguration {
+      pkgs = pkgsForSys "aarch64-linux";
+      modules = [ ./nix-on-droid ];
+    };
     } // 
     flake-utils.lib.eachDefaultSystem (system: 
       let 
