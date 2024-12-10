@@ -34,6 +34,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
+    vscode-server={
+      url = "github:nix-community/nixos-vscode-server";
+    };
   };
 
   outputs = inputs@{self, nixpkgs, home-manager, nixpkgs-openlp, flake-utils, screenpad-driver, plasma-manager, nixos-hardware, nix-on-droid, ...}: 
@@ -102,15 +105,18 @@
         specialArgs = {inherit inputs system self;};
       };
     };
-    homeConfigurations = {
-      daniel=home-manager.lib.homeManagerConfiguration rec {
+    homeConfigurations = let
+      _daniel= system: home-manager.lib.homeManagerConfiguration rec {
         pkgs = pkgsForSys system;
-        system = "x86_64-linux";
+        #system = "x86_64-linux";
         modules = [
           ./home/daniel/home/home.nix
+          #self.homeManagerModules.shared
         ];
         extraSpecialArgs = {inherit inputs;};
-      };
+      }; in {
+      daniel-x86_64-linux = _daniel "x86_64-linux";
+      daniel-aarch64-linux = _daniel "aarch64-linux";
     };
     homeManagerModules = {
       shared = {...}:{
@@ -118,6 +124,9 @@
       };
       rclone = {...}:{
         imports = [./home/.shared/rclone.nix];
+      };
+      daniel = {...}:{
+        imports = [./home/daniel/home/home.nix];
       };
     };
 
@@ -128,6 +137,11 @@
     nixOnDroidConfigurations.default = nix-on-droid.lib.nixOnDroidConfiguration {
       pkgs = pkgsForSys "aarch64-linux";
       modules = [ ./nix-on-droid ];
+      extraSpecialArgs = {
+        inherit self;
+        inherit lib;
+        inherit inputs;
+      };
     };
     } // 
     flake-utils.lib.eachDefaultSystem (system: 

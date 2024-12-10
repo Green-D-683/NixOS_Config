@@ -17,6 +17,10 @@
             flake = mkOption {
               type = types.attrs;
             };
+            isNixOS = lib.mkOption {
+              type = types.bool;
+              default = false;
+            };
           };
         };
         default = {};
@@ -45,7 +49,7 @@
     
     isNixOS = (if config.args.cfg ? isNixOS then config.args.cfg.isNixOS else false);
     
-    userModule = (let cfg = config.args.cfg; in (if cfg.isNixOS then (lib.getUser config.home.username cfg) else cfg));
+    userModule = (let cfg = config.args.cfg; in (if config.isNixOS then (lib.getUser config.home.username cfg) else cfg));
 
     home.packages = (builtins.concatLists (builtins.map (x: import ../../pkgs/programs/${x}.nix {inherit pkgs;}) config.userModule.install-lists)) ++ (with pkgs; [ home-manager steam-run nil ]);
 

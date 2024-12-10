@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ self, inputs, config, lib, pkgs, ... }:
 
 {
   # Simply install just the packages
@@ -15,7 +15,7 @@
     killall
     diffutils
     findutils
-    utillinux
+    util-linux
     tzdata
     hostname
     man
@@ -30,6 +30,8 @@
     unzip
     tldr
     openssh
+    screen
+    code-server
   ];
 
   # Backup etc files instead of failing to activate generation if a file already exists in /etc
@@ -45,4 +47,29 @@
 
   # Set your time zone
   time.timeZone = "Europe/London";
+
+  home-manager={
+    config = self.homeManagerModules.daniel;
+    backupFileExtension = "bak";
+    sharedModules = [
+      self.homeManagerModules.shared
+      inputs.plasma-manager.homeManagerModules.plasma-manager
+      {
+        config = {
+          args = {
+            cfg = {
+              install-lists = [
+                #"core_utils"
+              ];
+            };
+            isNixOS = false;
+            system = pkgs.system;
+            flake = self;
+          };
+        };
+      }
+    ];
+    useGlobalPkgs = true;
+    useUserPackages = true;
+  };
 }
