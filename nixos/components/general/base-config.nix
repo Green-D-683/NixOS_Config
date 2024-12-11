@@ -119,6 +119,7 @@
 
     environment.systemPackages = with pkgs; [
       cleanup
+      wget
     ];
 
     services.fwupd.enable = true;
