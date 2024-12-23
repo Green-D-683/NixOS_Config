@@ -1,6 +1,9 @@
 { self, inputs, config, lib, pkgs, ... }:
 
 {
+  imports = [
+    ./android-integration.nix
+  ];
   # Simply install just the packages
   environment.packages = with pkgs; [
     # User-facing stuff that you really really want to have
@@ -8,7 +11,7 @@
     nano
     openvscode-server
     # Some common stuff that people expect to have
-    gitFull
+    #gitFull
     coreutils
     which
     procps
