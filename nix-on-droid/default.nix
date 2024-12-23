@@ -12,20 +12,17 @@
     openvscode-server
     # Some common stuff that people expect to have
     #gitFull
-    coreutils
+    #coreutils
+    toybox
     which
-    procps
-    killall
     diffutils
     findutils
     util-linux
     tzdata
-    hostname
     man
     gnugrep
     gnupg
     gnused
-    gnutar
     bzip2
     gzip
     xz
@@ -48,6 +45,9 @@
     experimental-features = nix-command flakes
   '';
 
+  terminal = {
+    font = "${pkgs.google-fonts.override {fonts = ["SourceCodePro"];}}/share/fonts/truetype/SourceCodePro[wght].ttf";
+  };
   # Set your time zone
   time.timeZone = "Europe/London";
 
