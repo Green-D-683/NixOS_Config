@@ -61,52 +61,33 @@
       });
     in
     {
-    nixosConfigurations = {
-      UnknownDevice_ux535 = inputs.nixpkgs.lib.nixosSystem rec {
-        system = "x86_64-linux";
-        inherit lib;
-        pkgs = pkgsForSys system;
-        modules = [
-          ./nixos/systems/specific/ux535/config.nix
-          home-manager.nixosModules.home-manager
-          {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              sharedModules = [
-                plasma-manager.homeManagerModules.plasma-manager
-                #self.homeManagerModules.shared
-              ];
-              backupFileExtension="backup";
-            };
+    nixosConfigurations = let nixosSystem = {system, configPath}: (
+        inputs.nixpkgs.lib.nixosSystem rec {
+          inherit system;
+          pkgs = pkgsForSys system;
+          inherit lib;
+          modules = [
+            ./nixos/systems/default
+            "./nixos/systems/specific/${configPath}"
+          ];
+          specialArgs = {inherit inputs self;};
           }
-        ];
-        specialArgs = {inherit inputs system self;};
+        ); in {
+      UnknownDevice_ux535 = nixosSystem {
+        system = "x86_64-linux";
+        configPath = "ux535/config.nix";
       };
-      UnknownDevice_b50-10 = inputs.nixpkgs.lib.nixosSystem rec {
+      UnknownDevice_b50-10 = nixosSystem {
         system = "x86_64-linux";
-        inherit lib;
-        pkgs = pkgsForSys system;
-        modules = [
-          ./nixos/systems/specific/b50-10/config.nix
-          home-manager.nixosModules.home-manager
-          {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              sharedModules = [
-                plasma-manager.homeManagerModules.plasma-manager
-                #self.homeManagerModules.shared
-              ];
-              backupFileExtension="backup";
-            };
-          }
-        ];
-        specialArgs = {inherit inputs system self;};
+        configPath = "b50-10/config.nix";
+      };
+      UnknownPi4 = nixosSystem {
+        system = "aarch64-linux";
+        configPath = "Pi4/config.nix";
       };
     };
     homeConfigurations = let
-      _daniel= system: home-manager.lib.homeManagerConfiguration rec {
+      _daniel= system: home-manager.lib.homeManagerConfiguration {
         pkgs = pkgsForSys system;
         #system = "x86_64-linux";
         modules = [
@@ -138,9 +119,7 @@
       pkgs = pkgsForSys "aarch64-linux";
       modules = [ ./nix-on-droid ];
       extraSpecialArgs = {
-        inherit self;
-        inherit lib;
-        inherit inputs;
+        inherit self lib inputs;
       };
     };
     } // 

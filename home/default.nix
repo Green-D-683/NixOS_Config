@@ -1,11 +1,11 @@
-{self, config, pkgs, lib, system, ...}:
+{self, config, pkgs, lib, inputs, ...}:
 let
 users = lib.getSubDirNames ./.;
 
 getUserConfigs = builtins.map (name: ./. + "/${name}/${name}.nix") users;
 in
 {
-  imports = getUserConfigs;
+  imports = getUserConfigs ++ [inputs.home-manager.nixosModules.home-manager];
 
   options = {
     userConfig = {
@@ -27,12 +27,14 @@ in
           {
             config.args = {
               cfg = config.userConfig;
-              system = system;
+              system = pkgs.system;
               flake = self;
             };
           }
           self.homeManagerModules.shared
+          inputs.plasma-manager.homeManagerModules.plasma-manager
         ];
+        backupFileExtension = "backup";
     };
 
     users.mutableUsers = true;

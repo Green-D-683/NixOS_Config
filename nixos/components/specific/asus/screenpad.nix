@@ -1,6 +1,6 @@
-{config, pkgs, lib, inputs, system, ...}:
+{config, pkgs, lib, inputs, ...}:
 let
-screenpad-driver-package = (kernelPackage: let asus-wmi-screenpad = inputs.screenpad-driver.defaultPackage.${system}.override{kernel=kernelPackage;};
+screenpad-driver-package = (kernelPackage: let asus-wmi-screenpad = inputs.screenpad-driver.defaultPackage.${pkgs.system}.override{kernel=kernelPackage;};
   in [
     asus-wmi-screenpad
   ]
