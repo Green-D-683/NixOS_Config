@@ -84,11 +84,6 @@
         type = types.int;
         description = "Size of the `.swapfile`";
       };
-
-      # ## Any Extra Config not Covered by Generic Modules
-      # specialConfig = mkOption {
-      #   type = types.anything;
-      # };
     };
   };
 
@@ -113,7 +108,5 @@
         hasScreenpad = true;
       })
     ];})
-    
-    #(config.systemConfig.specialConfig) ## TODO: Not sure if this will work, need another way if it doesn't
   ];
 }

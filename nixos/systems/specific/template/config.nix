@@ -8,26 +8,18 @@
 
   config = {
     systemConfig = {
-      laptop = true;
-      gpu = "nvidia";
+      laptop = false;
+      desktop = false;
+      server = false;
+      gpu = "";
       extraHardware = [
         # "thunderbolt"
         # "screenpad"
         # "asus-battery"
+        # "rpi4"
       ];
       hostname = "UnknownDevice";
-      specialConfig = {
-        # hardware = {
-        #   asus.battery = {
-        #     chargeUpto = 90;
-        #     enableChargeUptoScript = true;
-        #   };
-        #   nvidia.prime={
-        #     intelBusId = "PCI:0:2:0";
-        #     nvidiaBusId = "PCI:1:0:0";
-        #   };
-        # };
-      };
+      swapSize = 0;
     };
     userConfig = {
       users = [
