@@ -42,7 +42,14 @@
       supportedFilesystems = [ "ntfs" ];
 
       # Using latest kernel
-      kernelPackages = (if (config.systemConfig.optimiseFor == "laptop") then pkgs.linuxPackages_latest else pkgs.linuxPackages_zen);
+      kernelPackages = (
+        if (builtins.elem "rpi4" config.systemConfig.extraHardware) then # Raspberry Pi 4 Specific Kernel
+          pkgs.linuxKernel.packages.linux_rpi4 
+        else if (config.systemConfig.optimiseFor == "laptop") then 
+          pkgs.linuxPackages_latest 
+        else 
+          pkgs.linuxPackages_zen
+        );
       kernelModules = [
         "v4l2loopback"
       ];

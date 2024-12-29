@@ -67,6 +67,7 @@
           "screenpad"
           "asus-battery"
           "displaylink"
+          "rpi4"
         ]);
         description = "Extra Hardware Devices specific to this system, to be added to the configuration";
       };
