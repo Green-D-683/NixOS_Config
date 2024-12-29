@@ -45,6 +45,7 @@
       ## Power Optimisations - This also can enable graphics by default for Desktops and Laptops
       laptop = mkEnableOption "Laptop Optimisations";
       desktop = mkEnableOption "Desktop Optimisations";
+      server = mkEnableOption "Server Optimisation";
       optimiseFor = mkOption{ # Handles Mutual Exclusivity - not for direct use
         default = "";
         type = types.enum ["" "laptop" "desktop" "server"];
@@ -77,6 +78,12 @@
         description = "Hostname for Network connections";
       };
 
+      swapSize = mkOption {
+        default = 0;
+        type = types.int;
+        description = "Size of the `.swapfile`";
+      };
+
       # ## Any Extra Config not Covered by Generic Modules
       # specialConfig = mkOption {
       #   type = types.anything;
@@ -93,6 +100,10 @@
       (lib.mkIf (config.systemConfig.desktop) {
         optimiseFor = "desktop";
         graphicalEnv = lib.mkDefault true;
+      })
+      (lib.mkIf (config.systemConfig.server) {
+        optimiseFor = "server";
+        graphicalEnv = lib.mkDefault false;
       })
     ];})
 

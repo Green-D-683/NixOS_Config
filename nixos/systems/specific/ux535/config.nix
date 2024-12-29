@@ -17,6 +17,7 @@
         "screenpad"
       ];
       hostname = "UnknownDevice";
+      swapSize = 32;
     };
     userConfig = {
       users = [

@@ -17,6 +17,7 @@
         # "asus-battery"
       ];
       hostname = "AnotherUnknownDevice";
+      swapSize = 16;
     };
     userConfig = {
       users = [

@@ -66,10 +66,10 @@
       enable = true;
       priority = 5;
     };
-    swapDevices = [
+    swapDevices = lib.optionals (config.systemConfig.swapSize > 0) [
       {
         device = "/.swapfile";
-        size = lib.mkDefault (32 * 1024); # 32GB
+        size = lib.mkDefault (config.systemConfig.swapSize * 1024); # Size given in GiB
         priority = 4;
       }
     ];
