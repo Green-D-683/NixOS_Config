@@ -59,6 +59,15 @@
         type = types.enum ["" "intel" "nvidia" "amd"];
       };
 
+      ## Server Functionality
+      servers = mkOption {
+        default = [];
+        type = with types; listOf (enum [
+          "pihole"
+          "ap"
+        ]);
+      };
+
       ## Common Hardware
       extraHardware = mkOption{
         default = [];
