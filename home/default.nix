@@ -37,7 +37,15 @@ in
         backupFileExtension = "backup";
     };
 
-    users.mutableUsers = true;
+    users = {
+      mutableUsers = true;
+      groups = {
+        users = {
+          name = "users";
+          members = config.userConfig.users;
+        };
+      };
+    };
   };
   
 }
