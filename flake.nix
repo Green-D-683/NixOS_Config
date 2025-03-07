@@ -68,7 +68,7 @@
           inherit lib;
           modules = [
             ./nixos/systems/default
-            "./nixos/systems/specific/${configPath}"
+            ./nixos/systems/specific/${configPath}
           ];
           specialArgs = {inherit inputs self;};
           }
