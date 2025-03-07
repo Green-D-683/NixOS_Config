@@ -51,7 +51,7 @@
     
     userModule = (let cfg = config.args.cfg; in (if config.isNixOS then (lib.getUser config.home.username cfg) else cfg));
 
-    home.packages = (builtins.concatLists (builtins.map (x: import ../../pkgs/programs/${x}.nix {inherit pkgs;}) config.userModule.install-lists)) ++ (with pkgs; [ home-manager nil ]) ++ (lib.optional (pkgs.system == "x86_64-linux") [pkgs.steam-run]);
+    home.packages = (builtins.concatLists (builtins.map (x: import ../../pkgs/programs/${x}.nix {inherit pkgs;}) config.userModule.install-lists)) ++ (with pkgs; [ home-manager nil ]) ++ (lib.optionals (pkgs.system == "x86_64-linux") [pkgs.steam-run]);
 
     systemd.user.startServices = "sd-switch";
   };
