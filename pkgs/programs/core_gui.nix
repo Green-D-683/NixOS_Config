@@ -31,8 +31,8 @@
 
   # Email
   thunderbird
-  protonmail-bridge
-  protonmail-bridge-gui
+  #protonmail-bridge
+  #protonmail-bridge-gui
 
   spotify
   libreoffice-qt6-fresh
