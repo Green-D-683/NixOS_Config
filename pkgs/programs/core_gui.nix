@@ -17,7 +17,7 @@
   # solaar
   logiops
   # Cloud Storage
-  onedrivegui
+  # onedrivegui
   #dropbox
   glib-networking
   # Runners
