@@ -17,6 +17,11 @@
       ];
       hostname = "UnknownPi";
       swapSize = 8;
+      virtualisationTools = [
+        # "docker"
+        # "waydroid"
+        # "virtualbox"
+      ];
     };
     userConfig = {
       users = [

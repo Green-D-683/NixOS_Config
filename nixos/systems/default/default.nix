@@ -93,6 +93,16 @@
         type = types.int;
         description = "Size of the `.swapfile`";
       };
+
+      virtualisationTools = mkOption {
+        default = [];
+        type = with types; listOf (enum [
+          "waydroid"
+          "virtualbox"
+          "docker"
+        ]);
+        description = "Virtualisation Interfaces to include";
+      };
     };
   };
 

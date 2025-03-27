@@ -20,6 +20,11 @@
       ];
       hostname = "UnknownDevice";
       swapSize = 0;
+      virtualisationTools = [
+        # "docker"
+        # "waydroid"
+        # "virtualbox"
+      ];
     };
     userConfig = {
       users = [

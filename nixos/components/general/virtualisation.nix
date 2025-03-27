@@ -2,10 +2,10 @@
 
 {
   config = {
-    virtualisation = {
-      waydroid.enable = true;
+    virtualisation = let virtOpts = config.systemConfig.virtualisationTools; in {
+      waydroid.enable = builtins.elem "waydroid" virtOpts;
 
-      docker.enable=true;
+      docker.enable = builtins.elem "docker" virtOpts;
       #vmware = {
       #  host = {
       #    enable = true;
@@ -17,12 +17,14 @@
         #   enable = true;
         # };
      # };
-     virtualbox = {
-      host = {
-        enable = true;
-        enableExtensionPack = true;
-      };
-     };
+      virtualbox = (
+        if (builtins.elem "virtualbox" virtOpts) then {
+          host = {
+            enable = true;
+            enableExtensionPack = true;
+          };
+        } else {}
+      );
     };
     # programs = {
     #   darling.enable = true;
