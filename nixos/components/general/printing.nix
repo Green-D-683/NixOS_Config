@@ -1,4 +1,4 @@
-{config, pkgs, ...}:
+{config, pkgs, system, lib, ...}:
 
 {
   config = {
@@ -6,7 +6,7 @@
     services= {
       printing = {
         enable = true;
-        drivers = [
+        drivers = lib.optionals (system == "x86_64-linux") [
           pkgs.cups-brother-hll3230cdw
         ];
       };
