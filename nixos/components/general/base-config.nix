@@ -2,6 +2,7 @@
   config, 
   pkgs,
   lib,
+  system,
   ...
 }:
 {
@@ -11,24 +12,30 @@
 
   config={
     # Flake
-    nix = {
-      package = pkgs.nixVersions.stable;
-      settings.auto-optimise-store = true;
-      extraOptions = ''
-        experimental-features = nix-command flakes
-        warn-dirty = false
-      '';
-    };
 
     boot = {
       # Bootloader.
-      loader = {
-        systemd-boot.enable = true;
-        efi.canTouchEfiVariables = true;
-      };
+      loader = (
+        {
+          efi.canTouchEfiVariables = true;
+        } // (
+          if (builtins.elem "rpi4" config.systemConfig.extraHardware) then # Raspberry Pi 4 Specific Kernel
+            {
+              systemd-boot.enable = false;
+              generic-extlinux-compatible.enable = true;
+            }
+          else 
+            {
+              systemd-boot.enable = true;
+            }
+        )
+      );
 
       initrd = {
-        systemd.enable = true;
+        systemd = {enable = true;} // (if (builtins.elem "rpi4" config.systemConfig.extraHardware) then {
+          # Raspi Boards don't have TPM
+          tpm2.enable = false;
+        } else {});
         kernelModules = [
           "psmouse"
           "hid_multitouch"
@@ -60,6 +67,11 @@
       extraModprobeConfig = ''
         options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1
       '';
+
+      binfmt.emulatedSystems = (lib.lists.remove system [ 
+        "aarch64-linux"
+        "x86_64-linux" 
+      ]);
 
       # blacklistedKernelModules = [
       #   "elan_i2c"
