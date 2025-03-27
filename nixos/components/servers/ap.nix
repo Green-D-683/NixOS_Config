@@ -1,50 +1,51 @@
 {config, lib, ...}:
 {
   config = lib.mkIf ((config.systemConfig.optimiseFor == "server") && (builtins.elem "ap" config.systemConfig.servers)) {
-    # networking.networkmanager.ensureProfiles.profiles = {
-    #   Unknown = {
-    #     connection = {
-    #       id = "Unknown";
-    #       type = "wifi";
-    #       autoconnect = "true";
-    #       autoconnect-priority = "1";
-    #       metered = "false";
-    #       uuid = "new";
-    #     };
-    #     wifi = {
-    #       mode = "ap";
-    #       ssid = "Unknown";
-    #       hidden = "false";
-    #       band = "a";
-    #       channel = "40";
-    #       channel-width = "80";
-    #       ap-isolation = "false";
-    #     };
-    #     wifi-security = {
-    #       key-mgmt = "wpa-psk";
-    #       psk = "EduroamSlow";
-    #       group = "ccmp";
-    #       pairwise = "ccmp";
-    #       proto = "rsn";
-    #     };
-    #     ipv4 = {
-    #       method = "shared";
-    #     };
-    #   };
-    # };
-    services.create_ap = {
-      enable = true;
-      settings = {
-        INTERNET_IFACE = "eth0";
-        WIFI_IFACE = "wlo0";
-        SSID = "Unknown";
-        PASSPHRASE = "EduroamSlow";
-        FREQ_BAND="5";
-        CHANNEL="40";
-        
-
+    networking.networkmanager.ensureProfiles.profiles = {
+      Unknown = {
+        connection = {
+          id = "Unknown";
+          type = "wifi";
+          autoconnect = "true";
+          autoconnect-priority = "1";
+          metered = "false";
+          uuid = "new";
+        };
+        wifi = {
+          mode = "ap";
+          ssid = "Unknown";
+          hidden = "false";
+          band = "a";
+          channel = "40";
+          channel-width = "80";
+          ap-isolation = "false";
+        };
+        wifi-security = {
+          key-mgmt = "wpa-psk";
+          psk = "EduroamSlow";
+          group = "ccmp";
+          pairwise = "ccmp";
+          proto = "rsn";
+        };
+        ipv4 = {
+          method = "shared";
+          address = "192.168.255.1/24";
+        };
       };
     };
+    # services.create_ap = {
+    #   enable = true;
+    #   settings = {
+    #     INTERNET_IFACE = "eth0";
+    #     WIFI_IFACE = "wlo0";
+    #     SSID = "Unknown";
+    #     PASSPHRASE = "EduroamSlow";
+    #     FREQ_BAND="5";
+    #     CHANNEL="40";
+        
+
+    #   };
+    # };
   };
 }
 

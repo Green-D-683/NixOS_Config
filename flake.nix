@@ -61,7 +61,8 @@
       });
     in
     {
-    nixosConfigurations = let nixosSystem = {system, configPath}: (
+    nixosConfigurations = let 
+      nixosSystem = {system, configPath, extraModules ? []}: (
         inputs.nixpkgs.lib.nixosSystem rec {
           inherit system;
           pkgs = pkgsForSys system;
@@ -69,10 +70,17 @@
           modules = [
             ./nixos/systems/default
             ./nixos/systems/specific/${configPath}
-          ];
-          specialArgs = {inherit inputs self;};
-          }
-        ); in {
+          ] ++ extraModules;
+          specialArgs = {inherit inputs self system;};
+        }
+      );
+      nixosImg = {system, configPath}: (
+        let arch = builtins.elemAt (lib.strings.splitString "-" system) 0; in 
+        nixosSystem {inherit system configPath; extraModules = [
+          "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-${arch}.nix"
+          ({...}:{sdImage.compressImage = false;})
+        ];}
+      ); in {
       UnknownDevice_ux535 = nixosSystem {
         system = "x86_64-linux";
         configPath = "ux535/config.nix";
@@ -82,6 +90,10 @@
         configPath = "b50-10/config.nix";
       };
       UnknownPi4 = nixosSystem {
+        system = "aarch64-linux";
+        configPath = "Pi4/config.nix";
+      };
+      UnknownPi4Img = nixosImg {
         system = "aarch64-linux";
         configPath = "Pi4/config.nix";
       };

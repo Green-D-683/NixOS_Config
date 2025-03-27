@@ -22,6 +22,10 @@
         # "waydroid"
         # "virtualbox"
       ];
+      servers = [
+        # "pihole"
+        "ap"
+      ];
     };
     userConfig = {
       users = [
