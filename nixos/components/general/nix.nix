@@ -1,4 +1,4 @@
-{config, pkgs, lib, self, ...}:
+{pkgs, inputs, ...}:
 {
   config = {
     nix = {
@@ -19,7 +19,7 @@
             id = "nixpkgs";
             type = "indirect";
           };
-          flake = self.inputs.nixpkgs;
+          flake = inputs.nixpkgs;
         };
       };
     };

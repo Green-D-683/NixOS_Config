@@ -33,7 +33,22 @@
       ];
     };
     ## Custom Extra Config:
+    hardware = {
+      raspberry-pi."4" = {
+        apply-overlays-dtmerge.enable = true;
+        bluetooth.enable=true;
+        fkms-3d = {
+          enable = true;
+          cma = 512;
+        };
+      };
+    };
+    console.enable = false;
+    environment.systemPackages = with pkgs; [
+      libraspberrypi
+      raspberrypi-eeprom
+    ];
 
+    networking.networkmanager.wifi.powersave = false;
   };
-
 }

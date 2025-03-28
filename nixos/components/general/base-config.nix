@@ -140,10 +140,15 @@
       };
     };
 
-    environment.systemPackages = with pkgs; [
-      cleanup
-      wget
-    ];
+    environment = {
+      systemPackages = with pkgs; [
+        cleanup
+        wget
+      ];
+      sessionVariables = {
+        TMPDIR="/tmp";
+      };
+    };
 
     services.fwupd.enable = true;
 
