@@ -9,7 +9,6 @@
           autoconnect = "true";
           autoconnect-priority = "1";
           metered = "false";
-          uuid = "new";
         };
         wifi = {
           mode = "ap";
