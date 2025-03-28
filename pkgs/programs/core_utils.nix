@@ -17,4 +17,5 @@ with pkgs; [
   distrobox
   docker
   binutils
+  parted
 ]
