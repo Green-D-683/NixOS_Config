@@ -16,7 +16,7 @@
         "rpi4"
       ];
       hostname = "UnknownPi";
-      swapSize = 8;
+      swapSize = 0;
       virtualisationTools = [
         # "docker"
         # "waydroid"
