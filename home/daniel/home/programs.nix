@@ -19,6 +19,7 @@
     direnv = {
       enable = true;
       enableBashIntegration = true;
+      enableFishIntegration = false;
       nix-direnv.enable = true;
     };
 
@@ -28,6 +29,8 @@
       export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH
       '';
     };
+
+    fish.enable = false;
     }
 
     (lib.mkIf (builtins.elem "core_gui" config.userModule.install-lists) {
