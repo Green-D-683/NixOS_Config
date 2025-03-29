@@ -7,7 +7,7 @@ if [ "$#" = 1 ]; then
     dir=$(dirname "$0")
     path=$(realpath -e "$dir")
     file=$(ls "$path/result/sd-image")
-    dd if="$path/result/sd-image/$file" of="$device" bs=4096 conv=fsync status=progress
+    sudo dd if="$path/result/sd-image/$file" of="$device" bs=4096 conv=fsync status=progress
     sudo parted "$device" resizepart 2 100%
     if [[ $device == /dev/sd* ]]; then # partitions of /dev/sdx devices are denoted differently to other devices (sd cards, nvme, etc...)
         sudo resize2fs "$device"2
