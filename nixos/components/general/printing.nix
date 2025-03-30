@@ -10,11 +10,6 @@
           pkgs.cups-brother-hll3230cdw
         ];
       };
-      avahi = {
-        enable=true;
-        nssmdns4=true;
-        openFirewall=true;
-      };
     };
   }; 
 }

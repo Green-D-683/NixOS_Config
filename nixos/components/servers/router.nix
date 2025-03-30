@@ -107,7 +107,7 @@
       useDHCP = false;
 
       networkmanager = {
-        dns = "none";
+        #dns = "none";
         ensureProfiles.profiles = lib.mkMerge [
           {
             # Bridge to connect wired Downstream and WiFi
@@ -194,32 +194,16 @@
             };
           })
         ];
-        connectionConfig = "connection.mdns=2";
       };
     };
-    
+
     services = {
-      # Avahi provides mDNS for local hostname->IP correspondance
+      # Set avahi interfaces
       avahi = {
-        enable = true;
-        reflector = true;
         allowInterfaces = [
           "br0"
         ];
         denyInterfaces = lib.optional cfg.uplink.enable cfg.uplink.interface;
-        nssmdns4 = true;
-        nssmdns6 = true;
-        openFirewall = true;
-        ipv4 = true;
-        wideArea = true;
-        publish = {
-          enable = true;
-          addresses = true;
-          domain = true;
-          hinfo = true;
-          userServices = true;
-          workstation = true;
-        };
       };
     };
   };
