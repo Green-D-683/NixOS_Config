@@ -22,10 +22,26 @@
         # "waydroid"
         # "virtualbox"
       ];
-      servers = [
-        # "pihole"
-        "ap"
-      ];
+      servers = {
+        enable = true;
+        router = {
+          enable = true;
+          uplink = {
+            enable = true;
+            interface = "enp1s0u2";
+          };
+          downstreamWiFi = {
+            enable = true;
+            interface = "wlan0";
+            ssid = "Unknown";
+            password = "EduroamSlow";
+          };
+          downstreamWired = {
+            enable = true;
+            interface = "end0";
+          };
+        };
+      };
     };
     userConfig = {
       users = [

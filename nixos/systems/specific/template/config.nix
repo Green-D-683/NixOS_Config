@@ -25,10 +25,14 @@
         # "waydroid"
         # "virtualbox"
       ];
-      servers = [
-        # "pihole"
-        # "ap"
-      ];
+      servers = {
+        # enable = true;
+        # ap = {};
+        # router = {};
+        # basic = [
+        #   "pihole"
+        # ]
+      };
     };
     userConfig = {
       users = [
