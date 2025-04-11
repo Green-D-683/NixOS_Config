@@ -1,5 +1,5 @@
 {
-  description = "flake for UnknownDevice-ux535";
+  description = "flake for Green-D-683's NixOS and NixOS-related devices";
 
   inputs = {
     nixpkgs = {
@@ -45,10 +45,9 @@
       lib = nixpkgs.lib.extend (
         _: _: self.lib // home-manager.lib
       );
-      overlays = (system: import ./pkgs/overlays {inherit inputs; inherit system; lib = lib; inherit self;});
       pkgsForSys = (system: import inputs.nixpkgs {
         system = system;
-        overlays = (self.overlays.${system}.default);
+        overlays = [self.overlays.${system}];
         config = {
           allowBroken = true;
           allowUnfree = true;
@@ -64,30 +63,30 @@
         {
           name = "UnknownDevice_ux535";
           platform = "x86_64-linux";
-          configPath = "ux535/config.nix";
+          configModule = "ux535";
           extraModules = [];
         }
         {
           name = "UnknownDevice_b50-10";
           platform = "x86_64-linux";
-          configPath = "b50-10/config.nix";
+          configModule = "b50-10";
           extraModules = [];
         }
         {
           name = "UnknownPi4";
           platform = "aarch64-linux";
-          configPath = "Pi4/config.nix";
+          configModule = "Pi4";
           extraModules = [];
         }
       ];
-      nixosSystem = {system, configPath, extraModules ? []}: (
+      nixosSystem = {system, configModule, extraModules ? []}: (
         inputs.nixpkgs.lib.nixosSystem rec {
           inherit system;
           pkgs = pkgsForSys system;
           inherit lib;
           modules = [
             self.nixosModules.default
-            ./nixos/systems/${configPath}
+            self.nixosModules.${configModule}
           ] ++ extraModules;
           specialArgs = {inherit inputs self system;};
         }
@@ -99,7 +98,7 @@
           "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-${arch}.nix"
           ({...}:{sdImage.compressImage = false;})
           ];
-      } systems);
+      }) systems;
       installers = lib.lists.map (platform: {
         name = platform;
         system = platform;
@@ -110,14 +109,14 @@
       nixosSystemAttr = (spec: {
         ${spec.name} = nixosSystem {
           system = spec.platform;
-          configPath = spec.configPath;
+          configModule = spec.configModule;
           extraModules = spec.extraModules ++ [{
             environment.sessionVariables.NIXOS_SYSTEM_NAME = spec.name;
           }];
         };
       });
       nixosSystemAttrs = (systems: self.lib.attrListMerge (lib.lists.map nixosSystemAttr systems));
-      nixosImageAttrs = (systems: lib.attrsets.concatMapAttrs (name: system: {${name} = system.config.system.build.sdImage;}) (nixosSystemAttrs systems));
+      nixosImageAttrs = (images: lib.attrsets.concatMapAttrs (name: system: {${name} = system.config.system.build.sdImage;}) (nixosSystemAttrs images));
       nixosInstallerAttrs = (systems: lib.attrsets.concatMapAttrs (name: system: {${name} = system.config.system.build.isoImage;}) (nixosSystemAttrs systems));
     in
     {
@@ -192,7 +191,7 @@
           };
         };
       
-      overlays.default = overlays system;
+      overlays = final: prev: lib.attrListMerge (lib.lists.map (overlay: overlay final prev) (import ./pkgs/overlays {inherit inputs; inherit system; lib = lib; inherit self;}));
       
       packages = let
         package = name: {${name} = import ./pkgs/derivations/${name} {inherit pkgs; lib = self.lib;};};
