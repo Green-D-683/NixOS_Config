@@ -1,30 +1,25 @@
 {config, lib, ...}:
 
 {
-  imports = [
-    ../../components
-    ../../../home
-  ];
-
   options = let 
   mkOption = lib.mkOption;
   mkEnableOption = lib.mkEnableOption;
   types = lib.types; 
   in {
     userConfig = {
-      users = mkOption{
+      users = mkOption {
         default = ["daniel"];
         type = with types; listOf (enum []);
         description = "The users to include for the device";
       };
 
-      hasScreenpad = mkOption{
+      hasScreenpad = mkOption {
         visible = false;
         type = types.bool;
         default = false;
       };
 
-      isNixOS = mkOption{
+      isNixOS = mkOption {
         visible = false;
         type = types.bool;
         default = true;

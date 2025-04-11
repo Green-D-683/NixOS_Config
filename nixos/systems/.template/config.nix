@@ -2,42 +2,41 @@
 
 {
   imports = [
-    ../../default
     ./hardware-configuration.nix
   ];
 
   config = {
     systemConfig = {
-      laptop = true;
-	    graphicalEnv = true;
-      gpu = "intel";
+      laptop = false;
+      desktop = false;
+      server = false;
+      gpu = "";
       extraHardware = [
         # "thunderbolt"
         # "screenpad"
         # "asus-battery"
+        # "rpi4"
       ];
-      hostname = "AnotherUnknownDevice";
-      swapSize = 16;
+      hostname = "UnknownDevice";
+      swapSize = 0;
       virtualisationTools = [
-        "docker"
+        # "docker"
         # "waydroid"
         # "virtualbox"
       ];
+      servers = {
+        # enable = true;
+        # ap = {};
+        # router = {};
+        # basic = [
+        #   "pihole"
+        # ]
+      };
     };
     userConfig = {
       users = [
         "daniel"
       ];
-      userModules = {
-        daniel = {
-          install-lists = [
-            "core_utils"
-            "core_gui"
-            "devkit"
-            "general"
-          ];
-        };
-      };
     };
   };
 

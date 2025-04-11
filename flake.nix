@@ -43,7 +43,7 @@
     let
       mylib = import ./lib {inherit self; lib = nixpkgs.lib;};
       lib = nixpkgs.lib.extend (
-        final: prev: self.lib // home-manager.lib
+        _: _: self.lib // home-manager.lib
       );
       overlays = (system: import ./pkgs/overlays {inherit inputs; inherit system; lib = lib; inherit self;});
       pkgsForSys = (system: import inputs.nixpkgs {
@@ -59,45 +59,90 @@
           ];
         };
       });
-    in
-    {
-    nixosConfigurations = let 
+
+      systems = [
+        {
+          name = "UnknownDevice_ux535";
+          platform = "x86_64-linux";
+          configPath = "ux535/config.nix";
+          extraModules = [];
+        }
+        {
+          name = "UnknownDevice_b50-10";
+          platform = "x86_64-linux";
+          configPath = "b50-10/config.nix";
+          extraModules = [];
+        }
+        {
+          name = "UnknownPi4";
+          platform = "aarch64-linux";
+          configPath = "Pi4/config.nix";
+          extraModules = [];
+        }
+      ];
       nixosSystem = {system, configPath, extraModules ? []}: (
         inputs.nixpkgs.lib.nixosSystem rec {
           inherit system;
           pkgs = pkgsForSys system;
           inherit lib;
           modules = [
-            ./nixos/systems/default
-            ./nixos/systems/specific/${configPath}
+            self.nixosModules.default
+            ./nixos/systems/${configPath}
           ] ++ extraModules;
           specialArgs = {inherit inputs self system;};
         }
       );
-      nixosImg = {system, configPath}: (
-        let arch = builtins.elemAt (lib.strings.splitString "-" system) 0; in 
-        nixosSystem {inherit system configPath; extraModules = [
+      images = lib.lists.map (spec: spec // {
+        extraModules = let 
+          arch = builtins.elemAt (lib.strings.splitString "-" spec.platform) 0; 
+        in [
           "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-${arch}.nix"
           ({...}:{sdImage.compressImage = false;})
-        ];}
-      ); in {
-      UnknownDevice_ux535 = nixosSystem {
-        system = "x86_64-linux";
-        configPath = "ux535/config.nix";
-      };
-      UnknownDevice_b50-10 = nixosSystem {
-        system = "x86_64-linux";
-        configPath = "b50-10/config.nix";
-      };
-      UnknownPi4 = nixosSystem {
-        system = "aarch64-linux";
-        configPath = "Pi4/config.nix";
-      };
-      UnknownPi4Img = nixosImg {
-        system = "aarch64-linux";
-        configPath = "Pi4/config.nix";
-      };
-    };
+          ];
+      } systems);
+      installers = lib.lists.map (platform: {
+        name = platform;
+        system = platform;
+        extraModules =[
+          "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-base.nix"
+        ];
+      }) [ "aarch64-linux" "x86_64-linux" "i686-linux" ];
+      nixosSystemAttr = (spec: {
+        ${spec.name} = nixosSystem {
+          system = spec.platform;
+          configPath = spec.configPath;
+          extraModules = spec.extraModules ++ [{
+            environment.sessionVariables.NIXOS_SYSTEM_NAME = spec.name;
+          }];
+        };
+      });
+      nixosSystemAttrs = (systems: self.lib.attrListMerge (lib.lists.map nixosSystemAttr systems));
+      nixosImageAttrs = (systems: lib.attrsets.concatMapAttrs (name: system: {${name} = system.config.system.build.sdImage;}) (nixosSystemAttrs systems));
+      nixosInstallerAttrs = (systems: lib.attrsets.concatMapAttrs (name: system: {${name} = system.config.system.build.isoImage;}) (nixosSystemAttrs systems));
+    in
+    {
+    nixosConfigurations = nixosSystemAttrs systems;
+    nixosImages = nixosImageAttrs images;
+    nixosInstallers = nixosInstallerAttrs installers;
+    nixosModules = (
+      {
+        # Default Module containing all configuration found in ./nixos/components
+        default = ({...}:{imports = [
+          ./nixos/components/default.nix
+          ./home/default.nix
+        ];});
+      } // 
+      # Create a module for each specific system to be defined - each dir in ./nixos/systems/ is a computer I want a configuration for, exclusing hidden directories (starting with `.`)
+      lib.attrListMerge (
+        lib.lists.map (dir: {
+          ${dir}=({...}:
+            {
+              imports = [
+                ./nixos/systems/${dir}
+              ];
+            }
+          );
+        }) (lib.getSubDirNames ./nixos/systems)));
     homeConfigurations = let
       _daniel= system: home-manager.lib.homeManagerConfiguration {
         pkgs = pkgsForSys system;
