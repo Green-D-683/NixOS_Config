@@ -107,7 +107,7 @@
           ./home/default.nix
         ];});
       } // 
-      # Create a module for each specific system to be defined - each dir in ./nixos/systems/ is a computer I want a configuration for, exclusing hidden directories (starting with `.`)
+      # Create a module for each specific system to be defined - each dir in ./nixos/systems/${dir} is a computer I want a configuration for, exclusing hidden directories (starting with `.`)
       lib.attrListMerge (
         lib.lists.map (dir: {
           ${dir}=({...}:
@@ -118,6 +118,7 @@
             }
           );
         }) (lib.getSubDirNames ./nixos/systems)));
+    
     homeConfigurations = let
       # Define common home-manager import and then specify arch below
       _daniel= system: home-manager.lib.homeManagerConfiguration {
@@ -133,12 +134,15 @@
       daniel-aarch64-linux = _daniel "aarch64-linux";
     };
     homeManagerModules = {
+      # Common configuration shared by all users
       shared = {...}:{
         imports = [./home/.shared];
       };
+      # Sets up a systemd service to automatically mount configured rclone remotes when network online
       rclone = {...}:{
         imports = [./home/.shared/rclone.nix];
       };
+      # User configuration for daniel
       daniel = {...}:{
         imports = [./home/daniel/home/home.nix];
       };

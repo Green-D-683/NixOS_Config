@@ -1,5 +1,9 @@
 {config, pkgs, ...}:
 {
+  imports = [
+    ./nm-wait-online.nix
+  ];
+
   home={
     packages = [pkgs.rclone];
     shellAliases = {
@@ -50,22 +54,6 @@
         '' }";
       };
       Install.WantedBy = [ "default.target" ];
-    };
-    # Copy of NetworkManager-wait-online system-level service
-    NetworkManager-wait-online = {
-      Unit = {
-        Description = "Network Manager Wait Online";
-        Documentation = "man:NetworkManager-wait-online.service(8)";
-      };
-      Service={
-        Type="oneshot";
-        ExecStart="${pkgs.networkmanager}/bin/nm-online -s -q";
-        RemainAfterExit="yes";
-        Environment="NM_ONLINE_TIMEOUT=60";
-      };
-      Install={
-        WantedBy=["default.target"];
-      };
     };
   };
 }

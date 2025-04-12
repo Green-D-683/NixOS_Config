@@ -42,6 +42,10 @@
         pkgs.firefoxpwa
       ];
     };
+    thunderbird = {
+      enable = true;
+      profiles = {};
+    };
     })
 
     (lib.mkIf (builtins.elem "devkit" config.userModule.install-lists) {
