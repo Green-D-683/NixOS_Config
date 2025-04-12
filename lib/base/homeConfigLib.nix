@@ -1,7 +1,4 @@
 {lib, self, ...}:
-let 
-getDirNamesOnly = (import ./dirOps.nix {inherit lib;}).getDirNamesOnly;
-in
 {
   getUser = (
     user: userConfig: if userConfig.userModules ? ${user} then userConfig.userModules.${user} else userConfig.userModules."default"

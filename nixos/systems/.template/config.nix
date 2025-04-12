@@ -1,9 +1,6 @@
 {config, pkgs, lib, ...}:
 
 {
-  imports = [
-  ];
-
   config = {
     systemConfig = {
       laptop = false;
@@ -38,5 +35,4 @@
       ];
     };
   };
-
 }

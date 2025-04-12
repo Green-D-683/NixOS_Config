@@ -41,25 +41,19 @@
 
   outputs = inputs@{self, nixpkgs, home-manager, nixpkgs-openlp, flake-utils, screenpad-driver, plasma-manager, nixos-hardware, nix-on-droid, ...}: 
     let
-      mylib = import ./lib {inherit self; lib = nixpkgs.lib;};
+      # Build lib of all nix functions - nixpkgs, home-manager and my custom functions, found in ./lib
       lib = nixpkgs.lib.extend (
         _: _: self.lib // home-manager.lib
       );
-      pkgsForSys = (system: import inputs.nixpkgs {
-        system = system;
-        overlays = [self.overlays.${system}];
-        config = {
-          allowBroken = true;
-          allowUnfree = true;
-          permittedInsecurePackages = [
-            "qtwebkit-5.212.0-alpha4"
-            "electron-28.3.3"
-            "electron-27.3.11"
-          ];
-        };
-      });
-
+      
+      # Define each system to be declared in nixosConfigurations here:
       systems = [
+        # {
+        #   name = "< name of attrset value >";
+        #   platform = "< platform of system - some kind of linux >";
+        #   configModule = "< nixosModule to import with system-specific configuration >";
+        #   extraModules = []; # Any extra modules to import - probably should be imported in the specified nixosModule instead
+        # }
         {
           name = "UnknownDevice_ux535";
           platform = "x86_64-linux";
@@ -79,18 +73,8 @@
           extraModules = [];
         }
       ];
-      nixosSystem = {system, configModule, extraModules ? []}: (
-        inputs.nixpkgs.lib.nixosSystem rec {
-          inherit system;
-          pkgs = pkgsForSys system;
-          inherit lib;
-          modules = [
-            self.nixosModules.default
-            self.nixosModules.${configModule}
-          ] ++ extraModules;
-          specialArgs = {inherit inputs self system;};
-        }
-      );
+      
+      # Build disk images for each of the systems specified above - for direct building and installation - these may be large and take a long time to build
       images = lib.lists.map (spec: spec // {
         extraModules = let 
           arch = builtins.elemAt (lib.strings.splitString "-" spec.platform) 0; 
@@ -99,30 +83,22 @@
           ({...}:{sdImage.compressImage = false;})
           ];
       }) systems;
+
+      # Build an install media for each linux arch
       installers = lib.lists.map (platform: {
         name = platform;
         system = platform;
         extraModules =[
           "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-base.nix"
         ];
+        configModule = "iso"; # ISO specific basic config - single user, minimal packages
       }) [ "aarch64-linux" "x86_64-linux" "i686-linux" ];
-      nixosSystemAttr = (spec: {
-        ${spec.name} = nixosSystem {
-          system = spec.platform;
-          configModule = spec.configModule;
-          extraModules = spec.extraModules ++ [{
-            environment.sessionVariables.NIXOS_SYSTEM_NAME = spec.name;
-          }];
-        };
-      });
-      nixosSystemAttrs = (systems: self.lib.attrListMerge (lib.lists.map nixosSystemAttr systems));
-      nixosImageAttrs = (images: lib.attrsets.concatMapAttrs (name: system: {${name} = system.config.system.build.sdImage;}) (nixosSystemAttrs images));
-      nixosInstallerAttrs = (systems: lib.attrsets.concatMapAttrs (name: system: {${name} = system.config.system.build.isoImage;}) (nixosSystemAttrs systems));
+      
     in
     {
-    nixosConfigurations = nixosSystemAttrs systems;
-    nixosImages = nixosImageAttrs images;
-    nixosInstallers = nixosInstallerAttrs installers;
+    nixosConfigurations = lib.nixosSystemAttrs systems;
+    nixosImages = lib.nixosImageAttrs images;
+    nixosInstallers = lib.nixosInstallerAttrs installers;
     nixosModules = (
       {
         # Default Module containing all configuration found in ./nixos/components
@@ -143,8 +119,9 @@
           );
         }) (lib.getSubDirNames ./nixos/systems)));
     homeConfigurations = let
+      # Define common home-manager import and then specify arch below
       _daniel= system: home-manager.lib.homeManagerConfiguration {
-        pkgs = pkgsForSys system;
+        pkgs = lib.pkgsForSys system;
         #system = "x86_64-linux";
         modules = [
           ./home/daniel/home/home.nix
@@ -169,10 +146,10 @@
 
     packageListNames = (lib.getDirNamesOnly ./pkgs/programs);
 
-    lib = mylib;
+    lib = import ./lib {inherit self; lib = nixpkgs.lib;};
 
     nixOnDroidConfigurations.default = nix-on-droid.lib.nixOnDroidConfiguration {
-      pkgs = pkgsForSys "aarch64-linux";
+      pkgs = lib.pkgsForSys "aarch64-linux";
       modules = [ ./nix-on-droid ];
       extraSpecialArgs = {
         inherit self lib inputs;
@@ -181,7 +158,7 @@
     } // 
     flake-utils.lib.eachDefaultSystem (system: 
       let 
-        pkgs = pkgsForSys system;
+        pkgs = lib.pkgsForSys system;
       in {
       devShells = {
           default = pkgs.mkShell {
