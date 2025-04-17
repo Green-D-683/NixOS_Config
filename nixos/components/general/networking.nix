@@ -6,7 +6,10 @@
     networking={
       firewall = let ports = [
         5353
-        53791 
+        53791
+
+        # rQuickShare 
+        49999
       ]; in {
         allowedTCPPorts = ports;
         allowedUDPPorts = ports;

@@ -46,6 +46,7 @@
       enable = true;
       profiles = {};
     };
+    rquickshare.enable = true;
     })
 
     (lib.mkIf (builtins.elem "devkit" config.userModule.install-lists) {
