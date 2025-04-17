@@ -55,6 +55,8 @@
   rquickshare
   audio-sharing
 
+  signal-desktop
+
   # OBS
   (wrapOBS {
     plugins = with pkgs.obs-studio-plugins; [
@@ -110,4 +112,6 @@
   kinfocenter
 
   plasma-browser-integration
+
+  keysmith
 ])
