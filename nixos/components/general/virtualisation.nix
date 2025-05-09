@@ -1,8 +1,8 @@
-{config, pkgs, ...}:
+{config, pkgs, lib, ...}:
 
 {
-  config = {
-    virtualisation = let virtOpts = config.systemConfig.virtualisationTools; in {
+  config = let virtOpts = config.systemConfig.virtualisationTools; in {
+    virtualisation = {
       waydroid.enable = builtins.elem "waydroid" virtOpts;
 
       docker.enable = builtins.elem "docker" virtOpts;
@@ -17,17 +17,18 @@
         #   enable = true;
         # };
      # };
-      virtualbox = (
-        if (builtins.elem "virtualbox" virtOpts) then {
-          host = {
-            enable = true;
-            enableExtensionPack = true;
-          };
-        } else {}
-      );
+      virtualbox = lib.mkIf (builtins.elem "virtualbox" virtOpts) {
+        host = {
+          enable = true;
+          enableExtensionPack = true;
+          # enableKvm = true;
+          # addNetworkInterface = false;
+        };
+      };
     };
     # programs = {
     #   darling.enable = true;
     # };
+    boot.kernelParams = lib.mkIf (builtins.elem "virtualbox" virtOpts) [ "kvm.enable_virt_at_load=0" ];
   };
 }
