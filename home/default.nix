@@ -39,12 +39,15 @@ in
 
     users = {
       mutableUsers = true;
-      groups = {
-        users = {
-          name = "users";
-          members = config.userConfig.users;
-        };
-      };
+      groups = lib.mkMerge ([
+        {
+          users = {
+            name = "users";
+            members = config.userConfig.users;
+          };
+        }
+      ] ++ (lib.lists.map (u: {${u}={};}) config.userConfig.users)); # these two lines temporary until https://github.com/NixOS/nixpkgs/pull/199705 merged
+      users = lib.mkMerge (lib.lists.map (u: {${u} = {group=u;homeMode="750";};}) config.userConfig.users);
     };
   };
   

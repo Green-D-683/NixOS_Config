@@ -14,6 +14,7 @@
   libxkbcommon,
   libxshmfence,
   libGL,
+  libgbm,
   vulkan-loader,
   alsa-lib,
   cairo,
@@ -115,6 +116,7 @@ let
     stdenv.cc.cc
     systemd
     libnotify
+    libgbm
     pipewire
     libsecret
     libpulseaudio
