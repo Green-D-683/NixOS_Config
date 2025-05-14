@@ -9,7 +9,7 @@
     # User-facing stuff that you really really want to have
     vim # or some other editor, e.g. nano or neovim
     nano
-    openvscode-server
+    # openvscode-server
     # Some common stuff that people expect to have
     #gitFull
     #coreutils
@@ -41,9 +41,20 @@
   system.stateVersion = "24.05";
 
   # Set up nix for flakes
-  nix.extraOptions = ''
-    experimental-features = nix-command flakes
-  '';
+  nix = {
+    extraOptions = ''
+       experimental-features = nix-command flakes
+    '';
+    registry = {
+        nixpkgs = {
+            from = {
+                id = "nixpkgs";
+                type = "indirect";
+            };
+            flake = inputs.nixpkgs;
+        };
+    };
+  };
 
   terminal = {
     font = "${pkgs.google-fonts.override {fonts = ["SourceCodePro"];}}/share/fonts/truetype/SourceCodePro[wght].ttf";
@@ -66,6 +77,7 @@
               ];
             };
             isNixOS = false;
+            isNixOnDroid = true;
             system = pkgs.system;
             flake = self;
           };

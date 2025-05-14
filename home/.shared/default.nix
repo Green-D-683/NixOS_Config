@@ -21,6 +21,10 @@
               type = types.bool;
               default = false;
             };
+            isNixOnDroid = lib.mkOption {
+              type = types.bool;
+              default = false;
+            };
           };
         };
         default = {};
@@ -30,6 +34,11 @@
         description = "User-Specific Configuration passed from NixOS";
       };
       isNixOS = lib.mkOption {
+        type = types.bool;
+        visible = false;
+        default = false;
+      };
+      isNixOnDroid = lib.mkOption {
         type = types.bool;
         visible = false;
         default = false;
@@ -47,12 +56,26 @@
       };
     };
     
-    isNixOS = (if config.args.cfg ? isNixOS then config.args.cfg.isNixOS else false);
+    isNixOS = (if config.args ? isNixOS then config.args.isNixOS else false);
+
+    isNixOnDroid = (if config.args ? isNixOnDroid then config.args.isNixOnDroid else false);
     
     userModule = (let cfg = config.args.cfg; in (if config.isNixOS then (lib.getUser config.home.username cfg) else cfg));
 
-    home.packages = (builtins.concatLists (builtins.map (x: import ../../pkgs/programs/${x}.nix {inherit pkgs;}) config.userModule.install-lists)) ++ (with pkgs; [ home-manager nil ]) ++ (lib.optionals (pkgs.system == "x86_64-linux") [pkgs.steam-run]);
+    home = {
+        packages = (builtins.concatLists (builtins.map (x: import ../../pkgs/programs/${x}.nix {inherit pkgs;}) config.userModule.install-lists)) ++ (with pkgs; [ home-manager nil ]) ++ (lib.optionals (pkgs.system == "x86_64-linux") [pkgs.steam-run]);
+        sessionVariables = {
+            "EDITOR" = lib.mkDefault "${pkgs.nano}/bin/nano";
+        };
+    };
 
     systemd.user.startServices = "sd-switch";
+
+    programs.bash.bashrcExtra = lib.mkMerge [
+        (lib.mkIf (config.isNixOnDroid) ''
+          export DNSHACK_RESOLVER_CMD="${pkgs.dnshack}/bin/dnshackresolver
+          export LD_PRELOAD="${pkgs.dnshack}/lib/libdnshackbridge.so
+        '')
+    ];
   };
 }

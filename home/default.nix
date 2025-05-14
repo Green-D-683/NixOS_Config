@@ -29,6 +29,7 @@ in
               cfg = config.userConfig;
               system = pkgs.system;
               flake = self;
+              isNixOS = true;
             };
           }
           self.homeManagerModules.shared
