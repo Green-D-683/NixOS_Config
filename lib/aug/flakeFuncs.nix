@@ -10,6 +10,7 @@
         "qtwebkit-5.212.0-alpha4"
         "electron-28.3.3"
         "electron-27.3.11"
+        "ventoy-1.1.05"
       ];
     };
   });
