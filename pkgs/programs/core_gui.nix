@@ -37,6 +37,7 @@
   spotify
   libreoffice-qt6-fresh
   zoom-us
+  zed-editor
   #vscode.fhs
   logseq
 
