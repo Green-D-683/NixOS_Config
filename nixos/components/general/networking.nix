@@ -8,7 +8,7 @@
         5353
         53791
 
-        # rQuickShare 
+        # rQuickShare
         49999
       ]; in {
         allowedTCPPorts = ports;
@@ -18,6 +18,10 @@
         enable = true;
         enableStrongSwan = true;
         connectionConfig.mdns=2;
+        wifi = {
+            powersave = false;
+            backend = "iwd";
+        };
       };
       hostName = config.systemConfig.hostname;
     };

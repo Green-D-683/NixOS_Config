@@ -1,7 +1,7 @@
 {config, lib, ...}:
 {
-  options.systemConfig.servers.router = let 
-    mkEnableOption = lib.mkEnableOption; 
+  options.systemConfig.servers.router = let
+    mkEnableOption = lib.mkEnableOption;
     mkOption = lib.mkOption;
     types = lib.types;
     in{
@@ -67,11 +67,11 @@
     ];
 
     ## Full Router - modified from the following:
-      # - https://www.jjpdev.com/posts/home-router-nixos/ 
-      # - https://francis.begyn.be/blog/nixos-home-router 
+      # - https://www.jjpdev.com/posts/home-router-nixos/
+      # - https://francis.begyn.be/blog/nixos-home-router
       # - https://skogsbrus.xyz/building-a-router-with-nixos/
       # - https://hackmd.io/@scopatz/rJJGqLQYU
-    
+
     # Enables Routing over IPv4 and IPv6
     boot.kernel.sysctl = {
       "net.ipv4.conf.all.forwarding" = true;
@@ -80,13 +80,13 @@
 
     networking = let ports = [
       # DNS
-      53 
+      53
       # DHCP
       67
 
       # Avahi mDNS
       5353
-      53791 
+      53791
     ]; in {
       # Use Cloudflare DNS by default
       nameservers = [ "1.1.1.1" "2606:4700:4700::1111" ];
@@ -107,74 +107,92 @@
       useDHCP = false;
 
       networkmanager = {
-        #dns = "none";
+        dns = "systemd-resolved";
+        wifi = {
+            "powersave" = false;
+        };
+        settings = {
+            main = {
+                no-auto-default = lib.lists.foldr (a: b: "${a},${b}") (
+                    (lib.optional cfg.downstreamWired.enable cfg.downstreamWired.interface) ++
+                    (lib.optional cfg.downstreamWiFi.enable cfg.downstreamWiFi.interface) ++
+                    (lib.optional cfg.uplink.enable cfg.uplink.interface));
+            };
+        };
         ensureProfiles.profiles = lib.mkMerge [
           {
             # Bridge to connect wired Downstream and WiFi
             br0 = {
-              connection = {
-                id = "bridge-br0";
-                type = "bridge";
-                autoconnect = "true";
-                autoconnect-priority = "2";
-                # metered = "false";
-                autoconnect-slaves = "1";
-                mdns = "yes";
-                interface-name = "br0";
-              };
-              ipv4 = {
-                method = "shared";
-                address = "192.168.255.1/24";
-              };
-              bridge = {};
+                connection = {
+                    id = "bridge-br0";
+                    type = "bridge";
+                    autoconnect = "true";
+                    autoconnect-priority = "2";
+                    # metered = "false";
+                    autoconnect-slaves = "1";
+                    mdns = "yes";
+                    interface-name = "br0";
+                };
+                ipv4 = {
+                    method = "shared";
+                    address = "192.168.255.1/24";
+                };
+                bridge = {
+                    multicast-snooping = "yes";
+                    multicast-router = "enabled";
+                };
             };
           }
           (lib.mkIf cfg.downstreamWiFi.enable {# WiFi Access Point
             Unknown = {
-              connection = {
-                id = "Unknown";
-                type = "wifi";
-                autoconnect = "true";
-                autoconnect-priority = "1";
-                metered = "false";
-                controller = "br0";
-                interface-name = cfg.downstreamWiFi.interface;
-                mdns = "yes";
-                port-type = "bridge";
-              };
-              wifi = {
-                mode = "ap";
-                ssid = cfg.downstreamWiFi.ssid;
-                hidden = "false";
-                band = "a";
-                channel = "40";
-                channel-width = "80";
-                ap-isolation = "false";
-              };
-              wifi-security = {
-                key-mgmt = "wpa-psk";
-                psk = cfg.downstreamWiFi.password;
-                group = "ccmp";
-                pairwise = "ccmp";
-                proto = "rsn";
-              };
-              bridge-port = {};
+                connection = {
+                    id = "Unknown";
+                    type = "wifi";
+                    autoconnect = "true";
+                    autoconnect-priority = "1";
+                    metered = "false";
+                    controller = "br0";
+                    interface-name = cfg.downstreamWiFi.interface;
+                    mdns = "yes";
+                    port-type = "bridge";
+                };
+                wifi = {
+                    mode = "ap";
+                    ssid = cfg.downstreamWiFi.ssid;
+                    hidden = "false";
+                    band = "a";
+                    channel = "40";
+                    channel-width = "80";
+                    ap-isolation = "false";
+                };
+                wifi-security = {
+                    key-mgmt = "wpa-psk";
+                    psk = cfg.downstreamWiFi.password;
+                    group = "ccmp";
+                    pairwise = "ccmp";
+                    proto = "rsn";
+                };
+                bridge-port = {
+                    hairpin-mode = "yes";
+                };
             };
           })
           (lib.mkIf cfg.downstreamWired.enable {
             # Inbuilt Ethernet Port
             end0 = {
-              connection = {
-                id = "Downstream";
-                type = "ethernet";
-                mdns = "yes";
-                autoconnect = "true";
-                autoconnect-priority = "2";
-                controller = "br0";
-                interface-name = cfg.downstreamWired.interface;
-                port-type = "bridge";
-              };
-              bridge-port = {};
+                connection = {
+                    id = "Downstream";
+                    type = "ethernet";
+                    mdns = "yes";
+                    autoconnect = "true";
+                    autoconnect-priority = "2";
+                    controller = "br0";
+                    interface-name = cfg.downstreamWired.interface;
+                    port-type = "bridge";
+                };
+                bridge-port = {
+                    hairpin-mode = "yes";
+                };
             };
           })
           (lib.mkIf cfg.uplink.enable {
@@ -185,7 +203,7 @@
                 type = "ethernet";
                 mdns = "no";
                 autoconnect = "true";
-                autoconnect-priority = "1";
+                autoconnect-priority = "2";
                 interface-name = cfg.uplink.interface;
               };
               ipv4 = {
