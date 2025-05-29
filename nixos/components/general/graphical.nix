@@ -50,7 +50,8 @@
     ];
 
     environment.sessionVariables = {
-      # NIXOS_OZONE_WL=1; # Wayland webapps
+      NIXOS_OZONE_WL=1; # Wayland webapps 
+      ELECTRON_DISABLE_GPU=1; # Disabled until https://github.com/NixOS/nixpkgs/issues/382612 fixed
       MOZ_ENABLE_WAYLAND=1; # Firefox Wayland
       MOZ_WEBRENDER=1;
       KWIN_DRM_ALLOW_INTEL_COLORSPACE=1;
