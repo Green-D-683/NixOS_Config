@@ -39,13 +39,13 @@
     };
   };
 
-  outputs = inputs@{self, nixpkgs, home-manager, nixpkgs-openlp, flake-utils, screenpad-driver, plasma-manager, nixos-hardware, nix-on-droid, ...}: 
+  outputs = inputs@{self, nixpkgs, home-manager, nixpkgs-openlp, flake-utils, screenpad-driver, plasma-manager, nixos-hardware, nix-on-droid, ...}:
     let
       # Build lib of all nix functions - nixpkgs, home-manager and my custom functions, found in ./lib
       lib = nixpkgs.lib.extend (
         _: _: self.lib // home-manager.lib
       );
-      
+
       # Define each system to be declared in nixosConfigurations here:
       systems = [
         # {
@@ -73,11 +73,11 @@
           extraModules = [];
         }
       ];
-      
+
       # Build disk images for each of the systems specified above - for direct building and installation - these may be large and take a long time to build
       images = lib.lists.map (spec: spec // {
-        extraModules = let 
-          arch = builtins.elemAt (lib.strings.splitString "-" spec.platform) 0; 
+        extraModules = let
+          arch = builtins.elemAt (lib.strings.splitString "-" spec.platform) 0;
         in [
           "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-${arch}.nix"
           ({...}:{sdImage.compressImage = false;})
@@ -93,7 +93,7 @@
         ];
         configModule = "iso"; # ISO specific basic config - single user, minimal packages
       }) [ "aarch64-linux" "x86_64-linux" "i686-linux" ];
-      
+
     in
     {
     nixosConfigurations = lib.nixosSystemAttrs systems;
@@ -106,7 +106,7 @@
           ./nixos/components/default.nix
           ./home/default.nix
         ];});
-      } // 
+      } //
       # Create a module for each specific system to be defined - each dir in ./nixos/systems/${dir} is a computer I want a configuration for, exclusing hidden directories (starting with `.`)
       lib.attrListMerge (
         lib.lists.map (dir: {
@@ -118,7 +118,7 @@
             }
           );
         }) (lib.getSubDirNames ./nixos/systems)));
-    
+
     homeConfigurations = let
       # Define common home-manager import and then specify arch below
       _daniel= system: home-manager.lib.homeManagerConfiguration {
@@ -159,21 +159,22 @@
         inherit self lib inputs;
       };
     };
-    } // 
-    flake-utils.lib.eachDefaultSystem (system: 
-      let 
+    } //
+    flake-utils.lib.eachDefaultSystem (system:
+      let
         pkgs = lib.pkgsForSys system;
       in {
       devShells = {
           default = pkgs.mkShell {
             packages = with pkgs; [
               nil
+              nixd
             ];
           };
         };
-      
+
       overlays = final: prev: lib.attrListMerge (lib.lists.map (overlay: overlay final prev) (import ./pkgs/overlays {inherit inputs; inherit system; lib = lib; inherit self;}));
-      
+
       packages = let
         package = name: {${name} = import ./pkgs/derivations/${name} {inherit pkgs; lib = self.lib;};};
         in lib.attrListMerge (builtins.map package (lib.getSubDirNames ./pkgs/derivations));
