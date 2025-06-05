@@ -2,6 +2,7 @@
 
 with pkgs; [
   fwupd
+  nano
   pciutils
   usbutils
   lshw

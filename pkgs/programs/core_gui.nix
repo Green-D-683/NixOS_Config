@@ -44,7 +44,7 @@
   libsecret
   pdfarranger
   slack
-  pkgs.texlive.combined.scheme-full
+  # pkgs.texlive.combined.scheme-full
   vlc
   firefoxpwa
   scrcpy
@@ -98,7 +98,7 @@
       obs-move-transition
       obs-gradient-source
       obs-transition-table
-      obs-rgb-levels-filter
+      # obs-rgb-levels-filter
       advanced-scene-switcher
     ];
   })
@@ -107,7 +107,7 @@
   kaccounts-integration
   kaccounts-providers
   signond
-
+  
   # kamoso
 
   kinfocenter
@@ -115,4 +115,6 @@
   plasma-browser-integration
 
   keysmith
+
+  kcharselect
 ])
