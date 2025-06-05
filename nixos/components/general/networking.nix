@@ -20,7 +20,7 @@
         connectionConfig.mdns=2;
         wifi = {
             powersave = false;
-            backend = "iwd";
+            backend = "wpa_supplicant";
         };
       };
       hostName = config.systemConfig.hostname;
@@ -52,5 +52,14 @@
       resolved.enable = true;
     };
     security.pki.certificateFiles = ["${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"];
+
+    systemd.services.NetworkManager-wait-online = {
+        description = "Network Manager Wait Online";
+        documentation = ["man:NetworkManager-wait-online.service(8)"];
+        script="${pkgs.networkmanager}/bin/nm-online -s -q";
+        serviceConfig.RemainAfterExit="yes";
+        environment.NM_ONLINE_TIMEOUT="60";
+        wantedBy=["multi-user.target"];
+    };
   };
 }
