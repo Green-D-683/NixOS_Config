@@ -19,8 +19,8 @@
      # };
       virtualbox = lib.mkIf (builtins.elem "virtualbox" virtOpts) {
         host = {
-          enable = true;
-          enableExtensionPack = true;
+          enable = false;#true; # Wait for 6.15 update: https://github.com/NixOS/nixpkgs/pull/414106
+          enableExtensionPack = true; 
           # enableKvm = true;
           # addNetworkInterface = false;
         };
