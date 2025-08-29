@@ -23,8 +23,7 @@ let
         chmod 644 $dir/theme.conf
 
         ${lib.concatMapStringsSep "\n" (e: ''
-          ${pkgs.crudini}/bin/crudini --set --inplace $dir/theme.conf \
-            "${e.section}" "${e.key}" "${e.value}"
+          ${pkgs.crudini}/bin/crudini --set --inplace $dir/theme.conf "${e.section}" "${e.key}" "${e.value}"
         '') themeIni}
       '';
     };
