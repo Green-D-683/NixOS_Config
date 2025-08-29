@@ -48,12 +48,23 @@
       };
     };
 
-  hardware = {
-    asus.battery = {
-      chargeUpto = 90;
-      enableChargeUptoScript = true;
+    hardware = {
+      asus.battery = {
+        chargeUpto = 90;
+        enableChargeUptoScript = true;
+      };
     };
-  };
+
+    # services.kmscon = {
+    #   extraConfig = lib.mkForce ''
+    #   "font-size=48"
+    #   '';
+    # };
+
+    # boot.kernelParams = [
+    #   # Disable Screenpad in TTY - but also DE
+    #   "video=HDMI-A-2:Dd"
+    # ];
   };
 
 }
