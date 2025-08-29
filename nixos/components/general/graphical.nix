@@ -58,9 +58,6 @@
       KWIN_FORCE_ASSUME_HDR_SUPPORT=1;
     };
 
-    # Configure console keymap
-    console.keyMap = "uk";
-
     programs={
       # Allowing GTK theming
       dconf.enable = true;
@@ -99,6 +96,7 @@
         open-fonts
       ];
       fontDir.enable=true;
+      fontconfig.useEmbeddedBitmaps = true;
     };
 
     # Flatpak
