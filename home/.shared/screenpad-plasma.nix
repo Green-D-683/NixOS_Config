@@ -1,10 +1,10 @@
-{lib, config, ...}:
+{lib, config, pkgs, ...}:
 {
   programs.plasma = lib.mkIf (lib.attrsets.attrByPath ["hasScreenpad"] false config.args.cfg)  {
     hotkeys = {
       commands = {
         "toggleScreenpad" = {
-          command = "toggle-screenpad";
+          command = "${pkgs.toggle-screenpad}/bin/toggle-screenpad";
           comment = "Turn the ScreenPad On or Off, and position it properly";
           keys = [
             "Launch (1)"

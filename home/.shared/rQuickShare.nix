@@ -11,7 +11,7 @@
         "realclose": false,
         "autostart": true,
         "startminimized": true,
-        "download_path": "/home/daniel/Downloads/QuickShare",
+        "download_path": "${config.home.homeDirectory}/Downloads/QuickShare",
         "visibility": 0,
         "port": 49999 
       }
