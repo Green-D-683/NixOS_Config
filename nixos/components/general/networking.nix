@@ -16,12 +16,14 @@
       };
       networkmanager={
         enable = true;
-        enableStrongSwan = true;
         connectionConfig.mdns=2;
         wifi = {
             powersave = false;
             backend = "wpa_supplicant";
         };
+        plugins = with pkgs; [
+          networkmanager-strongswan
+        ];
       };
       hostName = config.systemConfig.hostname;
     };

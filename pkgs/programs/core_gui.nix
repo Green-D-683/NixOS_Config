@@ -1,8 +1,6 @@
 {pkgs, ...}:
 
 (with pkgs; [
-  # Camera
-  libsForQt5.kamoso
   # Wine - runs Windows programs
   wineWowPackages.stagingFull
   winetricks
@@ -117,4 +115,7 @@
   keysmith
 
   kcharselect
+
+  # Camera
+  kamoso
 ])
