@@ -87,7 +87,7 @@
       # Build an install media for each linux arch
       installers = lib.lists.map (platform: {
         name = platform;
-        system = platform;
+        inherit platform;
         extraModules =[
           "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-base.nix"
         ];
