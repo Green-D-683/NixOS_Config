@@ -21,35 +21,29 @@
       Service = let home = config.home.homeDirectory; in {
         Type = "forking";
         ExecStartPre = "${pkgs.writeShellScript "rClonePre" ''
-        if ${pkgs.networkmanager}/bin/nm-online
-        then
-          remotes=$(${pkgs.rclone}/bin/rclone --config=${home}/.config/rclone/rclone.conf listremotes)
-          for remote in $remotes;
-          do
-            name=$(/usr/bin/env echo "$remote" | /usr/bin/env sed "s/://g")
-            /usr/bin/env mkdir -p ${home}/"$name"
-          done
-        fi
+        remotes=$(${pkgs.rclone}/bin/rclone --config=${home}/.config/rclone/rclone.conf listremotes)
+        for remote in $remotes;
+        do
+          name=$(${pkgs.coreutils}/bin/echo "$remote" | ${pkgs.gnused}/bin/sed "s/://g")
+          ${pkgs.coreutils}/bin/mkdir -p "${home}/$name"
+        done
         '' }";
         
         ExecStart = "${pkgs.writeShellScript "rCloneStart" ''
-        if ${pkgs.networkmanager}/bin/nm-online
-        then
-          remotes=$(${pkgs.rclone}/bin/rclone --config=${home}/.config/rclone/rclone.conf listremotes)
-          for remote in $remotes;
-          do
-            name=$(/usr/bin/env echo "$remote" | /usr/bin/env sed "s/://g")
-            ${pkgs.rclone}/bin/rclone --config=${home}/.config/rclone/rclone.conf --vfs-cache-mode writes --ignore-checksum mount --allow-non-empty "$remote" "$name" &
-          done
-        fi
+        remotes=$(${pkgs.rclone}/bin/rclone --config=${home}/.config/rclone/rclone.conf listremotes)
+        for remote in $remotes;
+        do
+          name=$(${pkgs.coreutils}/bin/echo "$remote" | ${pkgs.gnused}/bin/sed "s/://g")
+          ${pkgs.rclone}/bin/rclone --config=${home}/.config/rclone/rclone.conf --vfs-cache-mode writes --ignore-checksum mount --allow-non-empty "$remote" "$name" &
+        done
         '' }";
 
         ExecStop = "${pkgs.writeShellScript "rCloneStop" ''
         remotes=$(${pkgs.rclone}/bin/rclone --config=${home}/.config/rclone/rclone.conf listremotes)
         for remote in $remotes;
         do
-        name=$(/usr/bin/env echo "$remote" | /usr/bin/env sed "s/://g")
-        /usr/bin/env fusermount -u ${home}/"$name"
+        name=$(${pkgs.coreutils}/bin/echo "$remote" | ${pkgs.gnused}/bin/sed "s/://g")
+        ${pkgs.fuse}/bin/fusermount -uz ${home}/"$name"
         done
         '' }";
       };
