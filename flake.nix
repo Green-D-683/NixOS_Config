@@ -72,6 +72,12 @@
           configModule = "Pi4";
           extraModules = [];
         }
+	{
+	  name = "UnknownServer_optiplex-3020";
+	  platform = "x86_64-linux";
+	  configModule = "optiplex-3020";
+	  extraModules = [];
+	}
       ];
 
       # Build disk images for each of the systems specified above - for direct building and installation - these may be large and take a long time to build
