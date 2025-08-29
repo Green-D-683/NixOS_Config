@@ -33,6 +33,15 @@
       users = [
         "daniel"
       ];
+
+      userModules = {
+        daniel = {
+          install-lists = [
+            "core_utils"
+            "general"
+          ];
+        };
+      };
     };
   };
 }
