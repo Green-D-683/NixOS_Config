@@ -43,7 +43,7 @@
         for remote in $remotes;
         do
         name=$(${pkgs.coreutils}/bin/echo "$remote" | ${pkgs.gnused}/bin/sed "s/://g")
-        ${pkgs.fuse}/bin/fusermount -uz ${home}/"$name"
+        ${pkgs.fuse3}/bin/fusermount3 -uz "${home}/$name"
         done
         '' }";
       };
