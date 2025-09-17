@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 
-sPad=$(kscreen-doctor -o | grep --before-context=5 "1080x2160@50")
+sPad=$(kscreen-doctor -o | grep --before-context=6 "1080x2160@50")
 #echo "$sPad"
 portPlus=$(echo "$sPad" | grep "Output:")
 portPlusSplit=$(echo "$portPlus" | sed "s| |\o12|g")
+#echo "$portPlusSplit"
 port=$(echo "$portPlusSplit" | sed -n 3p)
 #echo "$port"
 
@@ -35,7 +36,8 @@ if [ "${disabled}" = "disabled" ]; then
 	y2=$(python -c "print (""$y""+1080)")
 	x2=$(python -c "print (int(int(""$x"")+(1920/2)-(1080/2)))")
 
-	modeLine=$(kscreen-doctor -o | grep --after-context=5 "$port" | grep "$Modes")
+	modeLine=$(kscreen-doctor -o | grep --after-context=6 "$port" | grep "$Modes")
+    #echo "$modeLine"
 	modeLineCut=$(echo "$modeLine" | grep -oP ".*(?=1080)")
 	intSplit=$(echo "$modeLineCut" | grep -oE "[0-9]+")
 	mode=$(echo "$intSplit" | head -5 | tail -1)
