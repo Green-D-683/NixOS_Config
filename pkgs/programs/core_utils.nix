@@ -19,4 +19,5 @@ with pkgs; [
   docker
   binutils
   parted
+  git-crypt
 ]
