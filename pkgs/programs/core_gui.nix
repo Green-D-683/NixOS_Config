@@ -73,7 +73,7 @@
       # https://github.com/NixOS/nixpkgs/pull/382559
       # droidcam-obs
       obs-websocket
-      obs-webkitgtk
+      #obs-webkitgtk
       obs-vkcapture
       obs-gstreamer
       input-overlay
@@ -105,7 +105,7 @@
   kaccounts-integration
   kaccounts-providers
   signond
-  
+
   # kamoso
 
   kinfocenter
