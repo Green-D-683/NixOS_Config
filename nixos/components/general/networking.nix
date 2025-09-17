@@ -5,6 +5,9 @@
     # Enable networking
     networking={
       firewall = let ports = [
+        # Required for Hotspot functionality
+        53 67
+        # MDNS
         5353
         53791
 
