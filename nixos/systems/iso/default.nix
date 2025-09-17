@@ -20,6 +20,7 @@
         };
       };
     };
+    boot.supportedFilesystems = [ "zfs" ];
   };
 
 }
