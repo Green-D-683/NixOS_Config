@@ -113,7 +113,7 @@
         };
         settings = {
             main = {
-                no-auto-default = lib.lists.foldr (a: b: "${a},${b}") (
+                no-auto-default = lib.lists.foldr (a: b: "${a},${b}") "" (
                     (lib.optional cfg.downstreamWired.enable cfg.downstreamWired.interface) ++
                     (lib.optional cfg.downstreamWiFi.enable cfg.downstreamWiFi.interface) ++
                     (lib.optional cfg.uplink.enable cfg.uplink.interface));
@@ -140,6 +140,7 @@
                 bridge = {
                     multicast-snooping = "yes";
                     multicast-router = "enabled";
+                    vlan-filterning = "disabled";
                 };
             };
           }

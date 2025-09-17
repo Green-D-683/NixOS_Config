@@ -10,7 +10,7 @@ Help()
     printf "\nExample:\n$0 -s UnknownPi4 -d /dev/sdb\n"
 }
 
-while getopts s:d:h OPTION 
+while getopts s:d:h OPTION
 do
   case $OPTION in
     s)
@@ -29,7 +29,7 @@ do
         echo "Option -{$OPTARG} requires an argument."
         exit 1
         ;;
-    \?) 
+    \?)
         # Invalid Options - wildcard catch
         echo "Error: Invalid option: $option"
         exit 1
@@ -42,14 +42,14 @@ done
 if [ $sflag ]; then
     printf "\nBuilding configuration for $system as a disk image\n\n"
 
-    nix build .#nixosConfigurations."$system"Img.config.system.build.sdImage
+    nix build .#nixosImages."$system"
 
     if [ $? = 0 ]; then
         printf "\nBuild Succeeded!\n"
-    else 
+    else
         printf "\nBuild failed\n"
         exit 2
-    fi 
+    fi
 
     if [ $dflag ]; then
         printf "\nAttempting to write build to $device\n\n"
@@ -59,15 +59,15 @@ if [ $sflag ]; then
         sudo dd if="$path/result/sd-image/$file" of="$device" bs=4096 conv=fsync status=progress
         if [ $? = 0 ]; then
             printf "\nBuild written to $device, I hope you specified the correct drive...\n\nAttempting to resize partitions to fill device\n\n"
-        else 
+        else
             printf "\nFailed to write build.img to drive"
             exit 3
         fi
-        
+
         sudo parted "$device" resizepart 2 100%
-        if [ $? = 0 ]; then 
+        if [ $? = 0 ]; then
             printf "Main Partition resized\nResizing Filesystem to match\n\n"
-        else 
+        else
             printf "\nFailed to resize Main Partition"
             exit 4
         fi
@@ -81,17 +81,17 @@ if [ $sflag ]; then
         if [ $? = 0 ]; then
             printf "Filesystem Resized\nDrive can be removed freely!\n"
             exit 0
-        else 
+        else
             printf "Failed to resize filesystem\n"
             exit 5
         fi
-        
-        
+
+
     else
         printf "\nNot writing to drive, drive location not provided: \n - for usage, see `$0 -h`\n"
         exit 0
     fi
-    
-else 
+
+else
     printf "\nSystem Configuration to build not provided, see `$0 -h` for usage\n"
 fi
