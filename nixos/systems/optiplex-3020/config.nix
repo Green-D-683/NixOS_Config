@@ -5,7 +5,7 @@
     systemConfig = {
       laptop = false;
       desktop = false;
-      server = false;
+      server = true;
       gpu = "";
       extraHardware = [
         # "thunderbolt"
