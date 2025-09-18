@@ -28,7 +28,6 @@
       bashrcExtra = ''
           force_color_prompt=yes
           eval "$(dircolors -b ~/.dir_colors)"
-          export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH
       '';
       enableCompletion = true;
     };
@@ -107,7 +106,7 @@
             "*.gif"="01;35";
             "*.bmp"="01;35";
             "*.pbm"="01;35";
-            "*.pgm"="01;35"; 
+            "*.pgm"="01;35";
             "*.ppm"="01;35";
             "*.tga"="01;35";
             "*.xbm"="01;35";
