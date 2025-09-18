@@ -8,6 +8,8 @@
         trusted-users = [
           "@wheel"
         ];
+        sandbox = true;
+        extra-sandbox-paths = [ "/dev" "/sys" "/proc" ];
       };
       extraOptions = ''
         experimental-features = nix-command flakes
