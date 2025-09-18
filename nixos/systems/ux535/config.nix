@@ -39,11 +39,13 @@
             "gaming"
             "general"
           ];
+          gui = true;
         };
         ciccu = {
           install-lists = [
             "ciccu"
           ];
+          gui = true;
         };
       };
     };

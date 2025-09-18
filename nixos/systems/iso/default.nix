@@ -17,6 +17,7 @@
             "general"
             "core_gui"
           ];
+          gui = true;
         };
       };
     };

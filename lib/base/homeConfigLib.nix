@@ -7,12 +7,16 @@
   userModule = let
     types = lib.types;
     mkOption = lib.mkOption;
+    mkEnableOption = lib.mkEnableOption;
     in
     (types.submodule {
-        options.install-lists = mkOption {
-          type = with types; listOf (enum (self.packageListNames));
-          default = [];
-          description = "This config includes several pre-defined lists of packages to be able to be installed. Select those desired for this user from here.";
+        options = {
+            install-lists = mkOption {
+                type = with types; listOf (enum (self.packageListNames));
+                default = [];
+                description = "This config includes several pre-defined lists of packages to be able to be installed. Select those desired for this user from here.";
+            };
+            gui = mkEnableOption "GUI Package Configuration";
         };
     });
 }

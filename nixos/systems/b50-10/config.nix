@@ -35,6 +35,7 @@
             "devkit"
             "general"
           ];
+          gui = true;
         };
       };
     };
