@@ -13,8 +13,12 @@ in
     config= lib.mkIf (builtins.elem "screenpad" config.systemConfig.extraHardware ) (let
         screenpadSetup = pkgs.writeScript "setup-screenpad" ''
             #!${pkgs.runtimeShell}
-            ${pkgs.coreutils}/bin/chmod a+w /sys/class/leds/$1/brightness
-            ${pkgs.coreutils}/bin/echo 0 > /sys/class/leds/$1/brightness
+            ${pkgs.coreutils}/bin/echo "Setting up Screenpad" >&2
+            ${pkgs.coreutils}/bin/chmod a+w "/sys/class/leds/$1/brightness"
+            ${pkgs.coreutils}/bin/echo "Set lcd brightness permissions finished $?" >&2
+            ${pkgs.coreutils}/bin/echo 0 > "/sys/class/leds/$1/brightness"
+            ${pkgs.coreutils}/bin/echo "Turn off screenpad on boot finished $?" >&2
+            exit 0
         '';
         screenpadSetupUdev = ''
             # rules for asus_nb_wmi devices
@@ -38,8 +42,7 @@ in
                 # systemd.services.setup-screenpad = {
                 #     description = "Setup Permissions on Screenpad - and turn off by default";
                 #     wantedBy = [
-                #     #"initrd.target"
-                #     "sysinit.target"
+                #         "initrd.target"
                 #     ];
                 #     after = [
                 #     "sys-fs.target"
@@ -58,12 +61,69 @@ in
                 #     '';
                 # };
                 kernelModules = [
-			"asus-wmi"
-			"asus-wmi-screenpad"
-		];
+         			"asus-wmi"
+         			"asus-wmi-screenpad"
+          		];
                 services.udev.rules = screenpadSetupUdev;
             };
         };
         services.udev.extraRules = screenpadSetupUdev;
+        systemd.services = let screenpad-sleep = pkgs.writeScript "screenpad-sleep" ''
+        #!${pkgs.bash}/bin/bash
+
+        BRIGHTNESS_FILE=/sys/class/leds/asus\:\:screenpad/brightness
+
+        if [ ! -f $BRIGHTNESS_FILE ]; then
+            exit 0
+        fi
+
+        RUN_DIR="/var/run/screenpad-sleep"
+        SAVE_FILE="$RUN_DIR"/brightness
+
+        PATH="$PATH"
+
+        RestoreBrightness() {
+            if [[ -f "$SAVE_FILE" ]]; then
+                BRIGHTNESS=$(cat "$SAVE_FILE")
+                rm "$SAVE_FILE"
+                echo "$BRIGHTNESS" > $BRIGHTNESS_FILE
+            fi
+        }
+
+        case "$1" in
+            hibernate)
+                mkdir -p "$RUN_DIR"
+                cat $BRIGHTNESS_FILE > $SAVE_FILE
+                exit $?
+                ;;
+            resume)
+                ${screenpadSetup} asus\:\:screenpad
+                RestoreBrightness
+                exit 0
+                ;;
+            *)
+                exit 1
+        esac
+        ''; in {
+            screenpad-resume = {
+                description = "Screenpad hibernate resume actions";
+                serviceConfig = {
+                    Type = "oneshot";
+                    ExecStart = "${screenpad-sleep} 'resume'";
+                };
+                after = ["systemd-suspend-then-hibernate.service" "systemd-hibernate.service"];
+                requiredBy = ["systemd-suspend-then-hibernate.service" "systemd-hibernate.service"];
+            };
+            screenpad-suspend-then-hibernate = {
+                description = "Screenpad hibernate actions";
+                #path = [ pkgs.kbd ];
+                serviceConfig = {
+                    Type = "oneshot";
+                    ExecStart = "${screenpad-sleep} 'hibernate'";
+                };
+                before = [ "systemd-suspend-then-hibernate.service" "systemd-hibernate.service" ];
+                requiredBy = [ "systemd-suspend-then-hibernate.service" "systemd-hibernate.service" ];
+            };
+        };
     });
 }
