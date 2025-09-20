@@ -12,9 +12,9 @@ in
   #config.services.xserver.displayManager.setupCommands="kscreen-doctor output.${screenpadPort}.disable";
     config= lib.mkIf (builtins.elem "screenpad" config.systemConfig.extraHardware ) (let
         screenpadSetup = pkgs.writeScript "setup-screenpad" ''
-            #! ${pkgs.runtimeShell}
+            #!${pkgs.runtimeShell}
             ${pkgs.coreutils}/bin/chmod a+w /sys/class/leds/$1/brightness
-            ${pkgs.coreutils}/bin/echo 0 >> /sys/class/leds/$1/brightness
+            ${pkgs.coreutils}/bin/echo 0 > /sys/class/leds/$1/brightness
         '';
         screenpadSetupUdev = ''
             # rules for asus_nb_wmi devices
@@ -57,8 +57,8 @@ in
                 #         echo 0 >> "/sys/class/leds/asus::screenpad/brightness"
                 #     '';
                 # };
-                kernelModules = [ 
-			# "asus-wmi"
+                kernelModules = [
+			"asus-wmi"
 			"asus-wmi-screenpad"
 		];
                 services.udev.rules = screenpadSetupUdev;
