@@ -14,12 +14,15 @@
           name = "Toggle Screenpad";
         };
         "enableMainScreen" = {
-          command = "kscreen-doctor output.eDP-1.enable output.eDP-1.priority.1";
-          comment = "Turn the Main Laptop Screen Back on if it decided to turn off when a new display was connected";
-          name = "Enable Main Screen";
-          keys = [
-            "Meta+P"
-          ];
+            command = "${pkgs.writeScript "set-main-screen" ''
+            kscreen-doctor output.eDP-1.disable
+            kscreen-doctor output.eDP-1.enable output.eDP-1.priority.1
+            ''}";
+            comment = "Turn the Main Laptop Screen Back on if it decided to turn off when a new display was connected";
+            name = "Enable Main Screen";
+            keys = [
+                "Meta+P"
+            ];
         };
       };
     };
