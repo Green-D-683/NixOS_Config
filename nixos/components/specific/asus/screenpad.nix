@@ -23,8 +23,22 @@ in
         screenpadSetupUdev = ''
             # rules for asus_nb_wmi devices
             # make screenpad backlight brightness write-able by everyone
-            ACTION=="add", SUBSYSTEM=="leds", KERNEL=="asus::screenpad", RUN+="${screenpadSetup} %k"
+            ACTION=="add", SUBSYSTEM=="leds", KERNEL=="asus::screenpad", TAG+="systemd", ENV{SYSTEMD_WANTS}+="screenpad-setup@%k.service"
         '';
+        screenpadSetupService = {
+            description = "Screenpad Setup";
+            unitConfig = {
+                DefaultDependencies = false;
+                IgnoreOnIsolate=true;
+                RefuseManualStop=true;
+                SurviveFinalKillSignal=true;
+            };
+            serviceConfig = {
+                Type = "oneshot";
+                RemainAfterExit="yes";
+                ExecStart = "${screenpadSetup} %i";
+            };
+        };
     in {
         services.xserver.displayManager.setupCommands=''
         screenPadOff
@@ -39,27 +53,10 @@ in
                 "asus-wmi-screenpad"
             ];
             initrd = {
-                # systemd.services.setup-screenpad = {
-                #     description = "Setup Permissions on Screenpad - and turn off by default";
-                #     wantedBy = [
-                #         "initrd.target"
-                #     ];
-                #     after = [
-                #     "sys-fs.target"
-                #     ];
-                #     before = [
-                #     "initrd-root-device.target"
-                #     ];
-                #     path = with pkgs; [
-                #     coreutils
-                #     ];
-                #     unitConfig.DefaultDependencies = "no";
-                #     serviceConfig.Type = "oneshot";
-                #     script = ''
-                #         chmod a+w "/sys/class/leds/asus::screenpad/brightness"
-                #         echo 0 >> "/sys/class/leds/asus::screenpad/brightness"
-                #     '';
-                # };
+                systemd = {
+                    storePaths = [ screenpadSetup ];
+                    services."screenpad-setup@" = screenpadSetupService;
+                };
                 kernelModules = [
          			"asus-wmi"
          			"asus-wmi-screenpad"
@@ -105,6 +102,7 @@ in
                 exit 1
         esac
         ''; in {
+            "screenpad-setup@" = screenpadSetupService;
             screenpad-resume = {
                 description = "Screenpad hibernate resume actions";
                 serviceConfig = {
