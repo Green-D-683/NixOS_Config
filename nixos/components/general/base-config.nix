@@ -41,6 +41,7 @@
       HibernateDelaySec=30m
       SuspendState=mem
     '';
+    systemd.services.systemd-suspend.environment.SYSTEMD_SLEEP_FREEZE_USER_SESSIONS = "false";
 
     # Timezone and Locale
     time.timeZone = "Europe/London";
@@ -57,7 +58,7 @@
       LC_TIME = "en_GB.UTF-8";
     };
 
-    # Configure console 
+    # Configure console
     console = {
       keyMap = "uk";
       earlySetup = true;
