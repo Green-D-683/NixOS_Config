@@ -2,16 +2,23 @@
 
 {
   # Enable Bluetooth
-  config.hardware.bluetooth= lib.mkIf (config.systemConfig.optimiseFor != "server") {
-    enable = true;
-    powerOnBoot = true;
-    settings = {
-      General = {
-        Enable = "Source,Sink,Media,Socket";
-        UserspaceHID = false;
-        #ControllerMode = "le";
-        #Experimental = true;
-      };
+    config = lib.mkIf (config.systemConfig.optimiseFor != "server") {
+        hardware.bluetooth=  {
+            enable = true;
+            powerOnBoot = true;
+            settings = {
+            General = {
+                Enable = "Source,Sink,Media,Socket";
+                UserspaceHID = false;
+                #ControllerMode = "le";
+                Experimental = true;
+            };
+            };
+            package = pkgs.bluez-experimental;
+        };
+        services.pipewire.wireplumber.extraConfig = {
+            "10-bluez" = {
+            };
+        };
     };
-  };
 }
