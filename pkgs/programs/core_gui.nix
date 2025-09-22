@@ -33,7 +33,7 @@
   #protonmail-bridge-gui
 
   spotify
-  libreoffice-qt6
+  libreoffice
   zoom-us
   zed-editor
   #vscode.fhs
