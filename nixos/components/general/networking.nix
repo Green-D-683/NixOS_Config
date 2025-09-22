@@ -86,9 +86,9 @@
             let
               path = id: "/run/NetworkManager/system-connections/${id}.nmconnection";
               iniText = v: ''
-              ${lib.generators.toIni v.connection}
+              ${lib.generators.toINI v.connection}
 
-              ${lib.generators.toIni (lib.filterAttrs (k: _: k != "connection") v)}
+              ${lib.generators.toINI (lib.filterAttrs (k: _: k != "connection") v)}
               '';
               iniFile = n: v: pkgs.writeText n (iniText v);
             in
