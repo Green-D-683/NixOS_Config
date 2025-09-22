@@ -86,7 +86,7 @@
             let
               path = id: "/run/NetworkManager/system-connections/${id}.nmconnection";
               iniText = v: ''
-              ${lib.generators.toINI {} v.connection}
+              ${lib.generators.toINI {} {connection = v.connection;}}
 
               ${lib.generators.toINI {} (lib.filterAttrs (k: _: k != "connection") v)}
               '';
