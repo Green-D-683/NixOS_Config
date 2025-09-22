@@ -189,7 +189,7 @@
                     proto = "rsn";
                   };
                   bridge-port = {
-                    hairpin-mode = "yes";
+                    hairpin-mode = "true";
                   };
                 };
               })
@@ -207,7 +207,7 @@
                     port-type = "bridge";
                   };
                   bridge-port = {
-                    hairpin-mode = "yes";
+                    hairpin-mode = "true";
                   };
                 };
               })
