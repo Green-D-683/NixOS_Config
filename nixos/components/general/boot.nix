@@ -44,7 +44,7 @@
       else if (config.systemConfig.optimiseFor == "laptop") then
         lib.mkDefault pkgs.linuxPackages_latest
       else
-        lib.mkDefaultpkgs.linuxPackages_zen
+        lib.mkDefault pkgs.linuxPackages_zen
       );
     kernelModules = [
       "v4l2loopback"
