@@ -1,9 +1,9 @@
 {config, lib, ...}:
 
 {
-  options.systemConfig.servers = let 
-    mkEnableOption = lib.mkEnableOption; 
-    mkOption = lib.mkOption; 
+  options.systemConfig.servers = let
+    mkEnableOption = lib.mkEnableOption;
+    mkOption = lib.mkOption;
     types = lib.types;
   in {
     enable = mkEnableOption "Servers";
@@ -11,10 +11,11 @@
       default = [];
       type = with types; listOf (enum [
         "pihole"
+        "zfs"
       ]);
     };
     # Specified in [router.nix](./router.nix)
-    #router = 
+    #router =
   };
 
   config = lib.mkIf (config.systemConfig.optimiseFor == "server") {

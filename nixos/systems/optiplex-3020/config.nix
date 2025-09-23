@@ -24,9 +24,10 @@
         # enable = true;
         # ap = {};
         # router = {};
-        # basic = [
+        basic = [
         #   "pihole"
-        # ]
+          "zfs"
+        ];
       };
     };
     userConfig = {
