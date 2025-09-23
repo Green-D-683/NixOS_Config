@@ -87,6 +87,7 @@
       systemPackages = with pkgs; [
         cleanup
         wget
+        cryptsetup
       ];
       sessionVariables = {
         TMPDIR="/tmp";

@@ -20,4 +20,7 @@ with pkgs; [
   binutils
   parted
   git-crypt
+  cryptsetup
+  htop
+  btop
 ]
