@@ -207,7 +207,7 @@
                     port-type = "bridge";
                   };
                   bridge-port = {
-                    hairpin-mode = "true";
+                    hairpin-mode = "false";
                   };
                 };
               })
