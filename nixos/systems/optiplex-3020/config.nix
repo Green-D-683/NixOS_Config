@@ -13,7 +13,7 @@
         # "asus-battery"
         # "rpi4"
       ];
-      hostname = "UnknownDevice";
+      hostname = "UnknownServer";
       swapSize = 0;
       virtualisationTools = [
         # "docker"
