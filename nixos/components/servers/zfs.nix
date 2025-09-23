@@ -19,7 +19,7 @@ let
   );
 in
 {
-  config = lib.mkIf (lib.lists.hasElement "zfs" config.systemConfig.servers.basic) {
+  config = lib.mkIf (builtins.elem "zfs" config.systemConfig.servers.basic) {
     # Note this might jump back and forth as kernels are added or removed.
     boot.kernelPackages = lib.mkForce latestZFSKernel;
   };
