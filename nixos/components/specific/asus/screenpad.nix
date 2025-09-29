@@ -109,8 +109,8 @@ in
                     Type = "oneshot";
                     ExecStart = "${screenpad-sleep} 'resume'";
                 };
-                after = ["systemd-suspend-then-hibernate.service" "systemd-hibernate.service"];
-                requiredBy = ["systemd-suspend-then-hibernate.service" "systemd-hibernate.service"];
+                after = ["systemd-suspend.service" "systemd-suspend-then-hibernate.service" "systemd-hibernate.service"];
+                requiredBy = ["systemd-suspend.service" "systemd-suspend-then-hibernate.service" "systemd-hibernate.service"];
             };
             screenpad-suspend-then-hibernate = {
                 description = "Screenpad hibernate actions";
@@ -119,8 +119,8 @@ in
                     Type = "oneshot";
                     ExecStart = "${screenpad-sleep} 'hibernate'";
                 };
-                before = [ "systemd-suspend-then-hibernate.service" "systemd-hibernate.service" ];
-                requiredBy = [ "systemd-suspend-then-hibernate.service" "systemd-hibernate.service" ];
+                before = [ "systemd-suspend.service" "systemd-suspend-then-hibernate.service" "systemd-hibernate.service" ];
+                requiredBy = [ "systemd-suspend.service" "systemd-suspend-then-hibernate.service" "systemd-hibernate.service" ];
             };
         };
     });
