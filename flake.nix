@@ -34,6 +34,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
+    nix-darwin = {
+      url = "github:LnL7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     vscode-server={
       url = "github:nix-community/nixos-vscode-server";
     };
@@ -72,12 +76,12 @@
           configModule = "Pi4";
           extraModules = [];
         }
-	{
-	  name = "UnknownServer_optiplex-3020";
-	  platform = "x86_64-linux";
-	  configModule = "optiplex-3020";
-	  extraModules = [];
-	}
+       	{
+       	  name = "UnknownServer_optiplex-3020";
+       	  platform = "x86_64-linux";
+       	  configModule = "optiplex-3020";
+       	  extraModules = [];
+       	}
       ];
 
       # Build disk images for each of the systems specified above - for direct building and installation - these may be large and take a long time to build
@@ -124,6 +128,18 @@
             }
           );
         }) (lib.getSubDirNames ./nixos/systems)));
+
+    darwinConfigurations."UnknowniMac" = inputs.nix-darwin.lib.darwinSystem {
+      system = "x86_64-darwin";
+      inputs = { inherit inputs; };
+      modules = [
+        ./nix-darwin/components/configuration.nix
+        ({...}:{
+          environment.variables."DARWIN_SYSTEM_NAME" = "UnknowniMac";
+        })
+      ];
+      specialArgs = { inherit inputs; };
+    };
 
     homeConfigurations = let
       # Define common home-manager import and then specify arch below
