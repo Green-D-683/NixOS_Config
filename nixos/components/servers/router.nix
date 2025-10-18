@@ -144,7 +144,7 @@
                     autoconnect-priority = "2";
                     # metered = "false";
                     autoconnect-slaves = "1";
-                    mdns = "yes";
+                    mdns = "2";
                     interface-name = "br0";
                   };
                   ipv4 = {
@@ -152,9 +152,12 @@
                     address = "192.168.255.1/24";
                   };
                   bridge = {
-                    multicast-snooping = "yes";
+                    multicast-snooping = "1";
                     multicast-router = "enabled";
                     vlan-filterning = "disabled";
+                  };
+                  ipv6 = {
+                    method = "shared";
                   };
                 };
               }
@@ -166,10 +169,10 @@
                     type = "wifi";
                     autoconnect = "true";
                     autoconnect-priority = "1";
-                    metered = "false";
+                    metered = "0";
                     controller = "br0";
                     interface-name = cfg.downstreamWiFi.interface;
-                    mdns = "yes";
+                    mdns = "2";
                     port-type = "bridge";
                   };
                   wifi = {
@@ -177,9 +180,9 @@
                     ssid = cfg.downstreamWiFi.ssid;
                     hidden = "false";
                     band = "a";
-                    channel = "40";
+                    channel = "52"; # see https://en.wikipedia.org/wiki/List_of_WLAN_channels#5_GHz_(802.11a/h/n/ac/ax/be)
                     channel-width = "80";
-                    ap-isolation = "false";
+                    ap-isolation = "0";
                   };
                   wifi-security = {
                     key-mgmt = "wpa-psk";
@@ -189,7 +192,7 @@
                     proto = "rsn";
                   };
                   bridge-port = {
-                    hairpin-mode = "true";
+                    hairpin-mode = "1";
                   };
                 };
               })
@@ -199,7 +202,7 @@
                   connection = {
                     id = "Downstream";
                     type = "ethernet";
-                    mdns = "yes";
+                    mdns = "2";
                     autoconnect = "true";
                     autoconnect-priority = "2";
                     controller = "br0";
@@ -217,7 +220,7 @@
                   connection = {
                     id = "UpLink";
                     type = "ethernet";
-                    mdns = "no";
+                    mdns = "0";
                     autoconnect = "true";
                     autoconnect-priority = "2";
                     interface-name = cfg.uplink.interface;
