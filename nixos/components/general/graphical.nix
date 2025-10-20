@@ -50,7 +50,7 @@
     ];
 
     environment.sessionVariables = {
-      NIXOS_OZONE_WL=1; # Wayland webapps 
+      NIXOS_OZONE_WL=1; # Wayland webapps
       ELECTRON_DISABLE_GPU=1; # Disabled until https://github.com/NixOS/nixpkgs/issues/382612 fixed
       MOZ_ENABLE_WAYLAND=1; # Firefox Wayland
       MOZ_WEBRENDER=1;
@@ -98,6 +98,50 @@
       fontDir.enable=true;
       fontconfig.useEmbeddedBitmaps = true;
     };
+
+    # Mount fonts in the correct place
+    system.fsPackages = [ pkgs.bindfs ];
+
+    fileSystems = let mkRoSymBind = path: {
+        device = path;
+        fsType = "fuse.bindfs";
+        options = [ "ro" "resolve-symlinks" "x-gvfs-hide" ];
+    };
+    aggregated = pkgs.callPackage (
+        {
+          runCommand,
+          gzip,
+          xorg,
+        }:
+        runCommand "system-fonts" {
+            preferLocalBuild = true;
+            nativeBuildInputs = [
+                gzip
+                xorg.mkfontscale
+                xorg.mkfontdir
+            ];
+        }
+          ''
+            mkdir -p "$out/share/fonts"
+            font_regexp='.*\.\(ttf\|ttc\|otb\|otf\|pcf\|pfa\|pfb\|bdf\)\(\.gz\)?'
+            find ${toString config.fonts.packages} -regex "$font_regexp" \
+              -exec ln -sf -t "$out/share/fonts" '{}' \;
+            cd "$out/share/fonts"
+            gunzip -f *.gz
+            mkfontscale
+            mkfontdir
+            cat $(find ${pkgs.xorg.fontalias}/ -name fonts.alias) >fonts.alias
+          ''
+      ) { };
+    in {
+        "/usr/share/fonts" = mkRoSymBind "${aggregated}/share/fonts";
+    };
+
+      # fonts.packages = with pkgs; [
+      #   noto-fonts
+      #   noto-fonts-emoji
+      #   noto-fonts-cjk
+      # ];
 
     # Flatpak
     services.flatpak.enable = true;
