@@ -29,7 +29,7 @@
     zip
     unzip
     tldr
-    openssh
+    opensshWithKerberos
     screen
     code-server
   ];

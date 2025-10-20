@@ -23,4 +23,6 @@ with pkgs; [
   cryptsetup
   htop
   btop
+  krb5 # Kerberos
+  opensshWithKerberos
 ]

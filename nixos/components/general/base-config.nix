@@ -175,7 +175,7 @@
                 git = "${gitpkg} -C ${dir}";
                 remote = "git@github.com:Green-D-683/NixOS_Config.git";
                 in '' # TODO This will still fail if root has not previously known GitHub
-                    export PATH="${pkgs.openssh}/bin:$PATH"
+                    export PATH="${pkgs.opensshWithKerberos}/bin:$PATH"
                     eval `ssh-agent -s`
                     ssh-add pull_key
                     if [ ! -d ${dir} ]; then

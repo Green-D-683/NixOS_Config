@@ -1,4 +1,4 @@
-{config, lib, ...}:
+{config, lib, pkgs, ...}:
 
 {
   options.systemConfig.servers = let
@@ -24,6 +24,7 @@
       settings = {
         X11Forwarding = true;
       };
+      package = pkgs.opensshWithKerberos;
     };
   };
 }
