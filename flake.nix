@@ -38,12 +38,40 @@
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Homebrew Packages for MacOS
+    nix-homebrew.url = "github:zhaofengli/nix-homebrew";
+    # Optional: Declarative tap management
+    homebrew-core = {
+      url = "github:homebrew/homebrew-core";
+      flake = false;
+    };
+    homebrew-cask = {
+      url = "github:homebrew/homebrew-cask";
+      flake = false;
+    };
+
+    # I should probably get this working at some point...
     vscode-server={
       url = "github:nix-community/nixos-vscode-server";
     };
   };
 
-  outputs = inputs@{self, nixpkgs, home-manager, nixpkgs-openlp, flake-utils, screenpad-driver, plasma-manager, nixos-hardware, nix-on-droid, ...}:
+  outputs = inputs@{
+    self,
+    nixpkgs,
+    home-manager,
+    nixpkgs-openlp,
+    flake-utils,
+    screenpad-driver,
+    plasma-manager,
+    nixos-hardware,
+    nix-on-droid,
+    nix-darwin,
+    nix-homebrew,
+    homebrew-core,
+    homebrew-cask,
+  ...}:
     let
       # Build lib of all nix functions - nixpkgs, home-manager and my custom functions, found in ./lib
       lib = nixpkgs.lib.extend (
@@ -129,11 +157,12 @@
           );
         }) (lib.getSubDirNames ./nixos/systems)));
 
-    darwinConfigurations."UnknowniMac" = inputs.nix-darwin.lib.darwinSystem {
+    darwinConfigurations."UnknowniMac" = nix-darwin.lib.darwinSystem {
       system = "x86_64-darwin";
       inputs = { inherit inputs; };
       modules = [
         ./nix-darwin/components/configuration.nix
+        nix-homebrew.darwinModules.nix-homebrew
         ({...}:{
           environment.variables."DARWIN_SYSTEM_NAME" = "UnknowniMac";
         })
