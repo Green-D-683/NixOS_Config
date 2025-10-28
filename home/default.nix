@@ -20,7 +20,7 @@ in
         useGlobalPkgs = true;
         useUserPackages = true;
         users = lib.mkMerge (
-          (builtins.map (name: let cfg = config.userConfig; in {${name} = 
+          (builtins.map (name: let cfg = config.userConfig; in {${name} =
             (import ./${name}/home/home.nix {inherit pkgs lib cfg;});}) config.userConfig.users)
         );
         sharedModules = [
@@ -33,7 +33,7 @@ in
             };
           }
           self.homeManagerModules.shared
-          inputs.plasma-manager.homeManagerModules.plasma-manager
+          inputs.plasma-manager.homeModules.plasma-manager
         ];
         backupFileExtension = "backup";
     };
@@ -51,5 +51,5 @@ in
       users = lib.mkMerge (lib.lists.map (u: {${u} = {group=u;homeMode="750";};}) config.userConfig.users);
     };
   };
-  
+
 }

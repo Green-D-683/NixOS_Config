@@ -7,8 +7,13 @@
     ## Git
     git = {
       enable = true;
-      userName = "Daniel";
-      userEmail = "danielgreenhome@gmail.com";
+      settings = {
+          user = {
+            name = "Daniel Green";
+            email = "danielgreenhome@gmail.com";
+          };
+      };
+
     };
     ## Java
     java = {

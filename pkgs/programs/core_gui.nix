@@ -64,7 +64,7 @@
       obs-pipewire-audio-capture
       obs-vaapi
       obs-3d-effect
-      obs-ndi
+      # obs-ndi
       waveform
       obs-tuna
       obs-teleport
@@ -91,7 +91,7 @@
       obs-scale-to-sound
       obs-composite-blur
       obs-command-source
-      obs-vertical-canvas
+      #obs-vertical-canvas
       obs-source-switcher
       obs-move-transition
       obs-gradient-source
