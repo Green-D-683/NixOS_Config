@@ -64,5 +64,7 @@
     ];
 
     networking.networkmanager.wifi.powersave = false;
+
+    # boot.blacklistedKernelModules = [ "brcmfmac" ]; # Use USB WiFi adapter only for now
   };
 }

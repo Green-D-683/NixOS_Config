@@ -180,8 +180,8 @@
                     ssid = cfg.downstreamWiFi.ssid;
                     hidden = "false";
                     band = "a";
-                    channel = "52"; # see https://en.wikipedia.org/wiki/List_of_WLAN_channels#5_GHz_(802.11a/h/n/ac/ax/be)
-                    channel-width = "80";
+                    channel = "44"; #"52"; # see https://en.wikipedia.org/wiki/List_of_WLAN_channels#5_GHz_(802.11a/h/n/ac/ax/be)
+                    channel-width = "20";#"80";
                     ap-isolation = "0";
                   };
                   wifi-security = {
