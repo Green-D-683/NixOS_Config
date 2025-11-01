@@ -21,6 +21,12 @@ in
 {
   config = lib.mkIf (builtins.elem "zfs" config.systemConfig.servers.basic) {
     # Note this might jump back and forth as kernels are added or removed.
-    boot.kernelPackages = lib.mkForce latestZFSKernel;
+    boot = {
+        kernelPackages = lib.mkForce latestZFSKernel;
+        supportedFilesystems = [ "zfs" ];
+        zfs.forceImportRoot = false;
+    };
+
+    environment.systemPackages = [ pkgs.zfs ];
   };
 }

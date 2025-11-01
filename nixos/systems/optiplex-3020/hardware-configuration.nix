@@ -23,6 +23,11 @@
       fsType = "vfat";
       options = [ "fmask=0077" "dmask=0077" ];
     };
+  
+  fileSystems."/raidZ1TB" =
+    { device = "raidZ1TB";
+      fsType = "zfs";
+    };
 
   swapDevices = [ ];
 

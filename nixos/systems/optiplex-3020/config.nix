@@ -44,5 +44,7 @@
         };
       };
     };
+    networking.hostId = "194d40ab";
+    boot.zfs.extraPools = ["raidZ1TB"];
   };
 }
