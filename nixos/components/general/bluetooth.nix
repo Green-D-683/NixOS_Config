@@ -7,12 +7,12 @@
             enable = true;
             powerOnBoot = true;
             settings = {
-            General = {
-                Enable = "Source,Sink,Media,Socket";
-                UserspaceHID = false;
-                #ControllerMode = "le";
-                Experimental = true;
-            };
+                General = {
+                    Enable = "Source,Sink,Media,Socket";
+                    UserspaceHID = false;
+                    #ControllerMode = "le";
+                    Experimental = true;
+                };
             };
             package = pkgs.bluez-experimental;
         };
