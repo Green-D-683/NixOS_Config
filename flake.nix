@@ -176,7 +176,7 @@
         pkgs = lib.pkgsForSys system;
         #system = "x86_64-linux";
         modules = [
-          ./home/daniel/home/home.nix
+          (import ./home/daniel/home/default.nix {withSecrets = true;})
           #self.homeManagerModules.shared
         ];
         extraSpecialArgs = {inherit inputs;};

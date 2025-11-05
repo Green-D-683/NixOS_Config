@@ -21,7 +21,7 @@ in
         useUserPackages = true;
         users = lib.mkMerge (
           (builtins.map (name: let cfg = config.userConfig; in {${name} =
-            (import ./${name}/home/home.nix {inherit pkgs lib cfg;});}) config.userConfig.users)
+            (import ./${name}/home/default.nix {withSecrets = true;} {inherit pkgs lib cfg;});}) config.userConfig.users)
         );
         sharedModules = [
           {

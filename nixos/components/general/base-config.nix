@@ -84,6 +84,15 @@
       };
     };
 
+    programs.ssh = {
+      startAgent = true;
+      enableAskPassword = true;
+    };
+
+    environment.variables = {
+      SSH_ASKPASS_REQUIRE = "prefer";
+    };
+
     environment = {
       systemPackages = with pkgs; [
         cleanup
