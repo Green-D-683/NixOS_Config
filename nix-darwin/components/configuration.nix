@@ -8,6 +8,7 @@
       zed-editor
       git
       git-crypt
+      thunderbird
     ];
     shells = [
       pkgs.bash

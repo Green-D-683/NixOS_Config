@@ -37,6 +37,12 @@ do
   esac
 done
 
+if [[ $OSTYPE == "darwin"* ]]; then
+    isLinux=1
+else
+    isLinux=0
+fi
+
 # system="UnknownPi4"
 
 if [ $sflag ]; then
@@ -64,7 +70,11 @@ if [ $sflag ]; then
             exit 3
         fi
 
-        sudo parted "$device" resizepart 2 100%
+        if [ $isLinux = 0 ]; then
+            sudo parted "$device" resizepart 2 100%
+        else # MacOS
+            sudo diskutil resizeVolume "$device"s2 R
+        fi
         if [ $? = 0 ]; then
             printf "Main Partition resized\nResizing Filesystem to match\n\n"
         else

@@ -220,7 +220,7 @@
             packages = with pkgs; [
               nil
               nixd
-            ] ++ (lib.lists.map (n: lib.pkgScript {inherit pkgs; name=n; scriptFile=./scripts/${n}.sh; runtimeDeps=with pkgs; [ bash coreutils parted e2fsprogs  ];}) (lib.attrsets.attrValues (lib.attrsets.mapAttrs (s: _: "${lib.strings.removeSuffix ".sh" s}") (builtins.readDir ./scripts))));
+            ] ++ (lib.lists.map (n: lib.pkgScript {inherit pkgs; name=n; scriptFile=./scripts/${n}.sh; runtimeDeps=with pkgs; ([ bash coreutils e2fsprogs] ++ lib.optionals pkgs.stdenv.isLinux [parted]);}) (lib.attrsets.attrValues (lib.attrsets.mapAttrs (s: _: "${lib.strings.removeSuffix ".sh" s}") (builtins.readDir ./scripts))));
           };
         };
 
