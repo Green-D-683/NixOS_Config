@@ -194,9 +194,9 @@
         imports = [./home/.shared/rclone.nix];
       };
       # User configuration for daniel
-      daniel = {...}:{
-        imports = [./home/daniel/home/home.nix];
-      };
+      daniel = import ./home/daniel/home {withSecrets=true;};
+
+      daniel_public = import ./home/daniel/home {withSecrets=false;};
     };
 
     packageListNames = (lib.getDirNamesOnly ./pkgs/programs);
