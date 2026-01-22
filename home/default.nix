@@ -27,7 +27,7 @@ in
           {
             config.args = {
               cfg = config.userConfig;
-              system = pkgs.system;
+              system = pkgs.stdenv.hostPlatform.system;
               flake = self;
               isNixOS = true;
             };

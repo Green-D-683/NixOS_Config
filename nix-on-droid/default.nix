@@ -80,7 +80,7 @@
             };
             isNixOS = false;
             isNixOnDroid = true;
-            system = pkgs.system;
+            system = pkgs.stdenv.hostPlatform.system;
             flake = self;
           };
         };

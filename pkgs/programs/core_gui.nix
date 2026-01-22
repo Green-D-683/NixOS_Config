@@ -2,12 +2,12 @@
 
 (with pkgs; [
   # Wine - runs Windows programs
-  wineWowPackages.stagingFull
+  wineWowPackages.waylandFull
   winetricks
   # K-system info
   # libsForQt5.kinfocenter
   clinfo
-  glxinfo
+  mesa-demos
   vulkan-tools
   wayland-utils
   direnv

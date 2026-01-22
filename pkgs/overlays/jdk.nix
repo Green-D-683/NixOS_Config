@@ -1,4 +1,4 @@
 {...}:
 self: super: {
-  jdk = self.jdk23;
+  jdk = self.jdk25;
 }

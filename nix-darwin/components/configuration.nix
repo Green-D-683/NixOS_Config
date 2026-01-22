@@ -52,7 +52,7 @@
     enable = true;
     user = "daniel";
 
-    enableRosetta = (pkgs.system == "aarch64-darwin");
+    enableRosetta = (pkgs.stdenv.hostPlatform.system == "aarch64-darwin");
 
     # Optional: Declarative tap management
     taps = {
