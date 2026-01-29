@@ -13,7 +13,7 @@
             email = "danielgreenhome@gmail.com";
           };
       };
-
+      lfs.enable=true;
     };
     ## Java
     java = {
