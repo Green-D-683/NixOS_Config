@@ -2,6 +2,10 @@
 
 {
   #services.nix-daemon.enable = true;
+  #
+  fonts.packages = with pkgs.nerd-fonts; [
+    code-new-roman
+  ];
 
   environment = {
     defaultPackages = with pkgs; [
@@ -13,6 +17,7 @@
     shells = [
       pkgs.bash
     ];
+
     variables = {
       BASH_SILENCE_DEPRECATION_WARNING="1";
     };
@@ -34,9 +39,14 @@
     '';
   };
 
-  programs.bash = {
-    enable = true;
-    #completion.enable = true; # Gives a load of errors, but seems to work without this set?
+  programs = {
+    bash = {
+      enable = true;
+      #completion.enable = true; # Gives a load of errors, but seems to work without this set?
+    };
+    nix-index = {
+      enable = true;
+    };
   };
   users.users.daniel.shell = pkgs.bash;
 
