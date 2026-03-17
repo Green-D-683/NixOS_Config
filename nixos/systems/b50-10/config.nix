@@ -21,6 +21,7 @@
         "docker"
         # "waydroid"
         # "virtualbox"
+        "distrobox"
       ];
     };
     userConfig = {

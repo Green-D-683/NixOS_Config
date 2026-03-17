@@ -1,10 +1,10 @@
 {config, lib, ...}:
 
 {
-  options = let 
+  options = let
   mkOption = lib.mkOption;
   mkEnableOption = lib.mkEnableOption;
-  types = lib.types; 
+  types = lib.types;
   in {
     userConfig = {
       users = mkOption {
@@ -33,7 +33,7 @@
       };
     };
 
-    
+
 
     systemConfig={
 
@@ -53,7 +53,7 @@
         default = "";
         type = types.enum ["" "intel" "nvidia" "amd"];
       };
-      
+
       ## Common Hardware
       extraHardware = mkOption{
         default = [];
@@ -83,9 +83,6 @@
       virtualisationTools = mkOption {
         default = [];
         type = with types; listOf (enum [
-          "waydroid"
-          "virtualbox"
-          "docker"
         ]);
         description = "Virtualisation Interfaces to include";
       };

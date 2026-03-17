@@ -19,7 +19,8 @@
       virtualisationTools = [
         "docker"
         # "waydroid"
-        "virtualbox"
+        # "virtualbox"
+        "distrobox"
       ];
     };
     userConfig = {

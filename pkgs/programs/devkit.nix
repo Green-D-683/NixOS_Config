@@ -8,8 +8,8 @@ with pkgs; [
   universal-android-debloater
 
   # Distrobox GUI
-  boxbuddy
-  distrobox
+  # boxbuddy
+  # distrobox
 
   docker
 

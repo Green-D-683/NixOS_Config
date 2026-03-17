@@ -23,18 +23,37 @@
 
     direnv = {
       enable = true;
-      enableBashIntegration = true;
+      enableBashIntegration = false;
       enableFishIntegration = false;
       nix-direnv.enable = true;
     };
 
     bash={
-      enable = true;
-      bashrcExtra = ''
-          force_color_prompt=yes
-          eval "$(dircolors -b ~/.dir_colors)"
-      '';
-      enableCompletion = true;
+        enable = true;
+            # More specific direnv shell hook to enable distrobox-direnv compatibility
+            initExtra = lib.mkAfter ''
+            #unset _direnv_hook
+            #export PROMPT_COMMAND=$(echo $PROMPT_COMMAND | sed -s 's/_direnv_hook//g')
+            if [ -f /etc/os-release ]; then
+                . /etc/os-release
+                case $NAME in
+                    "NixOS")
+                        eval "$(${lib.getExe config.programs.direnv.package} hook bash)"
+                        ;;
+                    *)
+                        eval "$(/usr/bin/env direnv hook bash)"
+                        ;;
+                esac
+            else
+                echo "Cannot find /etc/os-release - Probably Darwin?"
+                eval "$(${lib.getExe config.programs.direnv.package} hook bash)"
+            fi
+            '';
+        bashrcExtra = ''
+            force_color_prompt=yes
+            eval "$(dircolors -b ~/.dir_colors)"
+        '';
+        enableCompletion = true;
     };
 
     dircolors = {

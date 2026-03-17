@@ -2,7 +2,7 @@
 
 (with pkgs; [
   # Wine - runs Windows programs
-  wineWowPackages.waylandFull
+  wineWow64Packages.waylandFull
   winetricks
   # K-system info
   # libsForQt5.kinfocenter
