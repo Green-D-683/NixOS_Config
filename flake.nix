@@ -16,7 +16,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     screenpad-driver={
-      url = "github:MatthewCash/asus-wmi-screenpad-module";
+      url = "github:MatthewCash/asus-wmi-screenpad-module/pull/3/head";
+        #"github:MatthewCash/asus-wmi-screenpad-module";
       inputs.nixpkgs.follows="nixpkgs";
     };
     plasma-manager = {
@@ -227,7 +228,7 @@
       overlays = final: prev: lib.attrListMerge (lib.lists.map (overlay: overlay final prev) (import ./pkgs/overlays {inherit inputs; inherit system; lib = lib; inherit self;}));
 
       packages = let
-        package = name: {${name} = import ./pkgs/derivations/${name} {inherit pkgs; lib = self.lib;};};
-        in lib.attrListMerge (builtins.map package (lib.getSubDirNames ./pkgs/derivations));
+        package = name: {${name} = import ./pkgs/derivations/contained/${name} {inherit pkgs; lib = self.lib;};};
+        in lib.attrListMerge (builtins.map package (lib.getSubDirNames ./pkgs/derivations/contained));
     });
 }
