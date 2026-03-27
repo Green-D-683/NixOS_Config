@@ -5,20 +5,20 @@ self: super: rec {
             version = "149.0";
             sources = [
                 {
-                    url = "https://archive.mozilla.org/pub/thunderbird/releases/149.0/linux-x86_64/uk/thunderbird-149.0.tar.xz";
-                    locale = "uk";
+                    url = "https://archive.mozilla.org/pub/thunderbird/releases/149.0/linux-x86_64/en-GB/thunderbird-149.0.tar.xz";
+                    locale = "en-GB";
                     arch = "linux-x86_64";
-                    sha256 = "556ba9757d114596c0ce6b4861a2ac500252b00d14199d4289a3be3b1267b78d";
+                    sha256 = "a0f383c0f105c749cb774ec47d18efb9461351e53280658d3f9d0e80371bc3d7";
                 }
                 {
-                    url = "https://archive.mozilla.org/pub/thunderbird/releases/149.0/mac/uk/Thunderbird%20149.0.dmg";
-                    locale = "uk";
+                    url = "https://archive.mozilla.org/pub/thunderbird/releases/149.0/mac/en-GB/Thunderbird%20149.0.dmg";
+                    locale = "en-GB";
                     arch = "mac";
-                    sha256 = "8615d4723f7c31147291855ffc66109a2e4f74838321ef8400629dfb7e22b99e";
+                    sha256 = "2294da6b9756be51d337ed982ca4ce8b3f3567dbc695489a2cb98f132f2137d5";
                 }
             ];
         };
-        systemLocale = "uk";
+        systemLocale = "en-GB";
     };
     thunderbird = self.wrapThunderbird thunderbird-tmp-unwrapped {
         pname = "thunderbird";

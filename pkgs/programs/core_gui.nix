@@ -34,6 +34,12 @@
 
   spotify
   libreoffice
+  # Spellcheck for libreoffice
+  hunspell
+  hunspellDicts.en_GB-ise
+  hunspellDicts.en_GB-large
+  hyphenDicts.en_GB
+
   zoom-us
   zed-editor
   #vscode.fhs
