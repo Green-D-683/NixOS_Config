@@ -16,8 +16,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     screenpad-driver={
-      url = "github:MatthewCash/asus-wmi-screenpad-module/pull/3/head";
-        #"github:MatthewCash/asus-wmi-screenpad-module";
+      url = "github:MatthewCash/asus-wmi-screenpad-module";
       inputs.nixpkgs.follows="nixpkgs";
     };
     plasma-manager = {

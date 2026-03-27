@@ -37,11 +37,11 @@
     # suspend to RAM (deep) rather than `s2idle`
     boot.kernelParams = [ "mem_sleep_default=deep" ];
     # suspend-then-hibernate
-    systemd.sleep.extraConfig = ''
-      HibernateDelaySec=30m
-      HibernateOnACPower=yes
-      SuspendState=mem
-    '';
+    systemd.sleep.settings.Sleep = {
+      HibernateDelaySec = "30m";
+      HibernateOnACPower = "yes";
+      SuspendState = "mem";
+    };
     systemd.services.systemd-suspend.environment.SYSTEMD_SLEEP_FREEZE_USER_SESSIONS = "false";
 
     # Timezone and Locale
@@ -73,15 +73,6 @@
       extraConfig = lib.mkDefault ''
       "font-size=24"
       '';
-    };
-
-    # Brightness Control without KDE - maybe useful at some point
-    programs.light = {
-      enable = false;
-      brightnessKeys = {
-        enable = true;
-        step = 5;
-      };
     };
 
     programs.ssh = {
