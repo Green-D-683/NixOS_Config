@@ -171,14 +171,14 @@ let
           {section = "General"; key = "background"; value = "${pkgs.resources}/share/resources/lock.png";}
         ];
       };
-      deps = with pkgs; [ pkgs.resources ];
+      deps = with pkgs; [ resources ];
     };
   };
 in
-{ 
+{
   config = lib.mkIf (config.systemConfig.graphicalEnv) {
-    environment.systemPackages = packages;
+    # environment.systemPackages = packages;
 
-    services.displayManager.sddm.theme = themeName;
+    # services.displayManager.sddm.theme = themeName;
   };
 }

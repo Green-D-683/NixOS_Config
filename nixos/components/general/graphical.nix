@@ -7,17 +7,31 @@
 
   config= lib.mkIf (config.systemConfig.graphicalEnv) {
     # Enable the X11 windowing system.
+
+    environment.etc."plasmalogin.conf.d/98-bg.conf".text= ''
+    [Greeter]
+    WallpaperPluginId=org.kde.image
+
+    [Greeter][Wallpaper][org.kde.image][General]
+    Image=file://${pkgs.resources}/share/resources/lock.png
+    '';
+
     services = {
       displayManager={
         # SDDM
-        sddm={
-          enable=true;
-          enableHidpi=true;
-          package=lib.mkForce pkgs.kdePackages.sddm;
-          wayland={
-            enable=true;
-            compositor="kwin";
-          };
+        # sddm={
+        #   enable=true;
+        #   enableHidpi=true;
+        #   package=lib.mkForce pkgs.kdePackages.sddm;
+        #   wayland={
+        #     enable=true;
+        #     compositor="kwin";
+        #   };
+        # };
+        plasma-login-manager = {
+            enable = true;
+            settings = {
+            };
         };
         defaultSession="plasma";#"plasmawayland";
       };
@@ -111,14 +125,13 @@
         {
           runCommand,
           gzip,
-          xorg,
+          mkfontscale,
         }:
         runCommand "system-fonts" {
             preferLocalBuild = true;
             nativeBuildInputs = [
                 gzip
-                xorg.mkfontscale
-                xorg.mkfontdir
+                mkfontscale
             ];
         }
           ''
@@ -130,7 +143,7 @@
             gunzip -f *.gz
             mkfontscale
             mkfontdir
-            cat $(find ${pkgs.xorg.fontalias}/ -name fonts.alias) >fonts.alias
+            cat $(find ${pkgs.font-alias}/ -name fonts.alias) >fonts.alias
           ''
       ) { };
     in {
