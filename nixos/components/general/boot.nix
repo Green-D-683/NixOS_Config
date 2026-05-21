@@ -35,7 +35,11 @@
     kernel.sysctl = { "vm.swappiness" = 10;};
 
     # Reading Windows Drives
-    supportedFilesystems = [ "ntfs" "exfat" ];
+    supportedFilesystems = [
+        "ntfs"
+        "exfat"
+        # "apfs"
+    ];
 
     # Using latest kernel
     kernelPackages = (

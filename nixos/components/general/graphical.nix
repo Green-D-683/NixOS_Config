@@ -13,7 +13,7 @@
     WallpaperPluginId=org.kde.image
 
     [Greeter][Wallpaper][org.kde.image][General]
-    Image=file://${pkgs.resources}/share/resources/lock.png
+    Image=file:///etc/backgrounds/lock.png
     '';
 
     services = {
@@ -31,6 +31,17 @@
         plasma-login-manager = {
             enable = true;
             settings = {
+                Greeter = {
+                    WallpaperPlugin = "org.kde.image";
+                };
+
+                # This injects the path to your Nix-store image into the plugin settings
+                "Greeter/Wallpaper/org.kde.image/General" = {
+                    # Image = "file:///etc/backgrounds/lock.png";
+
+                    # Options: 0 = Scaled&Cropped, 1 = Tiled, 2 = Stretched, 3 = Centered
+                    FillMode = "0";
+                };
             };
         };
         defaultSession="plasma";#"plasmawayland";
@@ -58,18 +69,27 @@
     };
 
     # Remove Unnecessary Plasma Programs
-    environment.plasma6.excludePackages = with pkgs.kdePackages; [
-      kate
-      elisa
-    ];
+    environment = {
+        plasma6.excludePackages = with pkgs.kdePackages; [
+        kate
+        elisa
+        ];
 
-    environment.sessionVariables = {
-      NIXOS_OZONE_WL=1; # Wayland webapps
-      ELECTRON_DISABLE_GPU=1; # Disabled until https://github.com/NixOS/nixpkgs/issues/382612 fixed
-      MOZ_ENABLE_WAYLAND=1; # Firefox Wayland
-      MOZ_WEBRENDER=1;
-      KWIN_DRM_ALLOW_INTEL_COLORSPACE=1;
-      KWIN_FORCE_ASSUME_HDR_SUPPORT=1;
+        sessionVariables = {
+            NIXOS_OZONE_WL=1; # Wayland webapps
+            ELECTRON_DISABLE_GPU=1; # Disabled until https://github.com/NixOS/nixpkgs/issues/382612 fixed
+            MOZ_ENABLE_WAYLAND=1; # Firefox Wayland
+            MOZ_WEBRENDER=1;
+            KWIN_DRM_ALLOW_INTEL_COLORSPACE=1;
+            KWIN_FORCE_ASSUME_HDR_SUPPORT=1;
+        };
+
+        # systemPackages = with pkgs; [ plasma-login-bg ];
+
+        etc."backgrounds/lock.png" = {
+            source = "${pkgs.resources}/share/resources/lock.png";
+            mode = "644";
+        };
     };
 
     programs={
