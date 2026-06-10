@@ -14,6 +14,7 @@
       git
       git-crypt
       thunderbird
+      helix
     ];
     shells = [
       pkgs.bash
