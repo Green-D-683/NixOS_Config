@@ -227,17 +227,22 @@
       }
     },
     "nixos-hardware": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
       "locked": {
-        "lastModified": 1771257191,
-        "narHash": "sha256-H1l+zHq+ZinWH7F1IidpJ2farmbfHXjaxAm1RKWE1KI=",
-        "owner": "NixOS",
+        "lastModified": 1781116512,
+        "narHash": "sha256-2jRd5LPzeTS/hCFYQzAnVxy4KzEG2QwUQbSdrYZ87j0=",
+        "owner": "Green-D-683",
         "repo": "nixos-hardware",
-        "rev": "66e1a090ded57a0f88e2b381a7d4daf4a5722c3f",
+        "rev": "b40e6d4063838aef705afedcf9f13902d82d769c",
         "type": "github"
       },
       "original": {
-        "owner": "NixOS",
-        "ref": "master",
+        "owner": "Green-D-683",
+        "ref": "rpi-regdom",
         "repo": "nixos-hardware",
         "type": "github"
       }

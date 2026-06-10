@@ -26,8 +26,9 @@
       inputs.home-manager.follows = "home-manager";
     };
     nixos-hardware = {
-      # url = "github:Green-D-683/nixos-hardware/ux535"; # Temporary until PR merged
-      url = "github:NixOS/nixos-hardware/master";
+      url = "github:Green-D-683/nixos-hardware/rpi-regdom"; # test
+      # url = "github:NixOS/nixos-hardware/master";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-on-droid = {
       url = "github:nix-community/nix-on-droid/release-24.05";
