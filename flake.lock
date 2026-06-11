@@ -233,11 +233,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1781116512,
-        "narHash": "sha256-2jRd5LPzeTS/hCFYQzAnVxy4KzEG2QwUQbSdrYZ87j0=",
+        "lastModified": 1781188256,
+        "narHash": "sha256-CEX2kp2qXPw6G9x02lxsSIh/R5mm6QjRntr+i6S6BPs=",
         "owner": "Green-D-683",
         "repo": "nixos-hardware",
-        "rev": "b40e6d4063838aef705afedcf9f13902d82d769c",
+        "rev": "a3036467625036d19f5710964e3bca0f5d5b0e8f",
         "type": "github"
       },
       "original": {
