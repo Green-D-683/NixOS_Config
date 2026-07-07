@@ -12,6 +12,7 @@
       nvidiaSettings = true;
       powerManagement = {
         enable = true;
+        kernelSuspendNotifier = false;
         #finegrained = true;
       };
       # package=config.boot.kernelPackages.nvidiaPackages.beta;

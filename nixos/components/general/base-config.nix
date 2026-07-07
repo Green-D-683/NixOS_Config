@@ -69,11 +69,13 @@
 
     services.kmscon = { # KMSCon doesn't want to actually show ttys at the moment, so disable for now
       enable=false;
-      fonts = with pkgs; [{name = "Source Code Pro"; package = termfont;}];
-      extraConfig = lib.mkDefault ''
-      "font-size=24"
-      '';
+      config = lib.mkDefault {
+          font-size=24;
+          font-name="Source Code Pro";
+      };
     };
+
+    fonts.packages = with pkgs; [ termfont ];
 
     programs.ssh = {
       startAgent = true;
