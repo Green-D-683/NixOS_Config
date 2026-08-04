@@ -390,7 +390,7 @@
     ];
   };
 
-  xdg.desktopEntries = {
+  xdg.desktopEntries = lib.mkIf (builtins.elem "ciccu" config.userModule.install-lists) {
     openlp = {
       type = "Application";
       exec = "openlp";
