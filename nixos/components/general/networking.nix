@@ -35,7 +35,10 @@
           backend = "wpa_supplicant";
         };
         plugins = with pkgs; [
-          networkmanager-strongswan
+            networkmanager_strongswan
+            networkmanager-fortisslvpn
+            networkmanager-l2tp
+            networkmanager-openvpn
         ];
       };
       hostName = config.systemConfig.hostname;
@@ -46,6 +49,9 @@
       strongswan.secrets = [
         "ipsec.d/ipsec.nm-l2tp.secrets"
       ];
+      libreswan = {
+          enable = true;
+      };
       # Avahi implements mDNS
       avahi = {
         enable = true;
@@ -105,6 +111,13 @@
             )
           )
         );
+    };
+    environment.etc."strongswan.conf" = {
+        text = '''';
+    };
+    services.dbus = {
+        packages = [ pkgs.networkmanager pkgs.strongswanNM ];
+        enable = true;
     };
   };
 }

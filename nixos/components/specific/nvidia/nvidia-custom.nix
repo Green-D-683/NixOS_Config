@@ -63,7 +63,15 @@
         before = [ "systemd-suspend-then-hibernate.service" ];
         requiredBy = [ "systemd-suspend-then-hibernate.service" ];
       };
-    };
+    } // builtins.listToAttrs (map (service: {
+          name = service;
+          value.environment.SYSTEMD_SLEEP_FREEZE_USER_SESSIONS = "false";
+        }) [
+          "systemd-suspend"
+          "systemd-hibernate"
+          "systemd-hybrid-sleep"
+          "systemd-suspend-then-hibernate"
+        ]);
 
     environment.sessionVariables = {
       KWIN_DRM_ALLOW_NVIDIA_COLORSPACE = 1;

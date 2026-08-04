@@ -50,6 +50,16 @@ in
       ] ++ (lib.lists.map (u: {${u}={};}) config.userConfig.users)); # these two lines temporary until https://github.com/NixOS/nixpkgs/pull/199705 merged
       users = lib.mkMerge (lib.lists.map (u: {${u} = {group=u;homeMode="750";};}) config.userConfig.users);
     };
-  };
 
+    systemd.services.user-sleep-bridge = {
+      description = "Bridge system suspend to user instance";
+      wantedBy = [ "suspend.target" "suspend-then-hibernate.target" "hibernate.target" ];
+      after = [ "suspend.target" "suspend-then-hibernate.target" "hibernate.target" ];
+      serviceConfig = {
+        Type = "oneshot";
+        # Replace 'your-username' with your actual username
+        ExecStart = "${pkgs.writeShellScript "bridge-user-sleep" (lib.strings.concatMapStringsSep "\n" (user: "/run/current-system/sw/bin/systemctl --user --machine=${user}@ start sleep.target") config.userConfig.users)}";
+      };
+    };
+  };
 }
