@@ -13,7 +13,7 @@
     services = {
         ssh-agent = {
             enable = true;
-            enableBashIntegration = true;
+            # enableBashIntegration = true;
             package = pkgs.opensshWithKerberos;
         };
     };
