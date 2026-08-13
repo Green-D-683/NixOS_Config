@@ -6,7 +6,7 @@
             set tabsize 4
             set tabstospaces
 
-            include /etc/profiles/per-user/${config.home.username}/share/nano/*.nanorc
+            include ${config.home.profileDirectory}/share/nano/*.nanorc
         '';
     };
 }
