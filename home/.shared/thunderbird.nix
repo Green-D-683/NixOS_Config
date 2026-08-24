@@ -12,6 +12,7 @@
           Service = {
             Type = "simple";
             ExecStart = "${pkgs.coreutils}/bin/timeout 30 ${pkgs.thunderbird}/bin/thunderbird --headless";
+            ExecStartPre = "${pkgs.coreutils}/bin/sleep 10";
           };
         };
       };
