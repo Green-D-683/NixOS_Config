@@ -12,8 +12,7 @@ filterSecrets = lib.lists.filter (d: d != "secrets" );
 
 in rec
 {
-  getDir = (
-    dir: getNixFilesF dir);
+  getDir = getNixFilesF;
 
   getDirNamesOnly = (
     dir: builtins.map (str: lib.strings.removeSuffix ".nix" (lib.strings.removePrefix "${dir}/" str)) (getDir dir)

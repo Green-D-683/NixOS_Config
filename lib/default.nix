@@ -4,11 +4,6 @@
 # in (lib.lists.foldr (a: b: a//b) {} (importDirRec ./. {inherit lib self;}))
 
 let
-importDirRec = (import ./base/dirOps.nix {inherit lib;}).importDirRec;
-attrListMerge = (import ./base/attrListMerge.nix {inherit lib;}).attrListMerge;
+getDir = (import ./00-dirOps.nix {inherit lib;}).getDir;
 
-base = attrListMerge (importDirRec ./base true {inherit lib self;});
-libBase = lib.extend(_: _: base);
-
-aug = attrListMerge (importDirRec ./aug true {inherit self; lib = libBase;});
-in base // aug
+in lib.foldl (lib: ext: lib.extend(_: _: import ext {inherit self lib;})) lib (lib.naturalSort (getDir ./.))
