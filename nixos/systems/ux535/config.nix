@@ -58,16 +58,16 @@
       };
     };
 
-    # services.kmscon = {
-    #   extraConfig = lib.mkForce ''
-    #   "font-size=48"
-    #   '';
-    # };
-
-    # boot.kernelParams = [
-    #   # Disable Screenpad in TTY - but also DE
-    #   "video=HDMI-A-2:Dd"
-    # ];
+    # Bind TTY4 to external displays
+    systemd.services.con2fbmap-setup = {
+      description = "Map TTY4 to External Monitor Framebuffer";
+      wantedBy = [ "multi-user.target" ];
+      after = [ "systemd-udev-settle.service" ];
+      serviceConfig = {
+        Type = "oneshot";
+        ExecStart = "${pkgs.fbset}/bin/con2fbmap 4 1";
+      };
+    };
   };
 
 }

@@ -7,7 +7,6 @@ self: super: {
       gst-plugins-ugly
       gst-plugins-bad
       gst-libav
-      gst-vaapi
     ]) ++ (with self; [
       openh264
       x264

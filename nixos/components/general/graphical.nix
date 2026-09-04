@@ -8,14 +8,6 @@
   config= lib.mkIf (config.systemConfig.graphicalEnv) {
     # Enable the X11 windowing system.
 
-    environment.etc."plasmalogin.conf.d/98-bg.conf".text= ''
-    [Greeter]
-    WallpaperPluginId=org.kde.image
-
-    [Greeter][Wallpaper][org.kde.image][General]
-    Image=file:///etc/backgrounds/lock.png
-    '';
-
     services = {
       displayManager={
         # SDDM
@@ -31,18 +23,11 @@
         plasma-login-manager = {
             enable = true;
             settings = {
-                Greeter = {
-                    WallpaperPlugin = "org.kde.image";
-                };
-
-                # This injects the path to your Nix-store image into the plugin settings
-                "Greeter/Wallpaper/org.kde.image/General" = {
-                    # Image = "file:///etc/backgrounds/lock.png";
-
-                    # Options: 0 = Scaled&Cropped, 1 = Tiled, 2 = Stretched, 3 = Centered
-                    FillMode = "0";
-                };
+                # Greeter = {
+                #     WallpaperPlugin = "org.kde.image";
+                # };
             };
+            applyCustomTheme = true;
         };
         defaultSession="plasma";#"plasmawayland";
       };
@@ -82,13 +67,6 @@
             MOZ_WEBRENDER=1;
             KWIN_DRM_ALLOW_INTEL_COLORSPACE=1;
             KWIN_FORCE_ASSUME_HDR_SUPPORT=1;
-        };
-
-        # systemPackages = with pkgs; [ plasma-login-bg ];
-
-        etc."backgrounds/lock.png" = {
-            source = "${pkgs.resources}/share/resources/lock.png";
-            mode = "644";
         };
     };
 

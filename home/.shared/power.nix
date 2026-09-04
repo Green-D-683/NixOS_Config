@@ -14,25 +14,17 @@ let common = {
 in
 {
   programs.plasma.powerdevil = lib.mkDefault {
-    AC = lib.mkMerge [
-      common
-      {
+    AC = common // {
         powerProfile = "performance";
-      }
-    ];
-    battery = lib.mkMerge [
-      common
-      {
+        inhibitLidActionWhenExternalMonitorConnected = true;
+    };
+    battery = common // {
         powerProfile = "powerSaving";
-      }
-    ];
-    lowBattery = lib.mkMerge [
-      common
-      {
+    };
+    lowBattery = common // {
         displayBrightness = 5;
         powerProfile = "powerSaving";
-      }
-    ];
+    };
     general.pausePlayersOnSuspend = true;
     batteryLevels = {
       lowLevel = 10;

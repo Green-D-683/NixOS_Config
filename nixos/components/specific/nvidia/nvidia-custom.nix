@@ -12,7 +12,7 @@
       nvidiaSettings = true;
       powerManagement = {
         enable = true;
-        kernelSuspendNotifier = false;
+        kernelSuspendNotifier = true;
         #finegrained = true;
       };
       # package=config.boot.kernelPackages.nvidiaPackages.beta;
@@ -47,31 +47,31 @@
       open = true;
     };
 
-    # Suspend Then Hibernate
-    systemd.services = let package = config.hardware.nvidia.package; in {
-      nvidia-resume = {
-        after = ["systemd-suspend-then-hibernate.service"];
-        requiredBy = ["systemd-suspend-then-hibernate.service"];
-      };
-      nvidia-suspend-then-hibernate = {
-        description = "NVIDIA system suspend-then-hibernate actions";
-        path = [ pkgs.kbd ];
-        serviceConfig = {
-          Type = "oneshot";
-          ExecStart = "${package.out}/bin/nvidia-sleep.sh 'hibernate'";
-        };
-        before = [ "systemd-suspend-then-hibernate.service" ];
-        requiredBy = [ "systemd-suspend-then-hibernate.service" ];
-      };
-    } // builtins.listToAttrs (map (service: {
-          name = service;
-          value.environment.SYSTEMD_SLEEP_FREEZE_USER_SESSIONS = "false";
-        }) [
-          "systemd-suspend"
-          "systemd-hibernate"
-          "systemd-hybrid-sleep"
-          "systemd-suspend-then-hibernate"
-        ]);
+    # # Suspend Then Hibernate
+    # systemd.services = let package = config.hardware.nvidia.package; in {
+    #   nvidia-resume = {
+    #     after = ["systemd-suspend-then-hibernate.service"];
+    #     requiredBy = ["systemd-suspend-then-hibernate.service"];
+    #   };
+    #   nvidia-suspend-then-hibernate = {
+    #     description = "NVIDIA system suspend-then-hibernate actions";
+    #     path = [ pkgs.kbd ];
+    #     serviceConfig = {
+    #       Type = "oneshot";
+    #       ExecStart = "${package.out}/bin/nvidia-sleep.sh 'hibernate'";
+    #     };
+    #     before = [ "systemd-suspend-then-hibernate.service" ];
+    #     requiredBy = [ "systemd-suspend-then-hibernate.service" ];
+    #   };
+    # } // builtins.listToAttrs (map (service: {
+    #       name = service;
+    #       value.environment.SYSTEMD_SLEEP_FREEZE_USER_SESSIONS = "false";
+    #     }) [
+    #       "systemd-suspend"
+    #       "systemd-hibernate"
+    #       "systemd-hybrid-sleep"
+    #       "systemd-suspend-then-hibernate"
+    #     ]);
 
     environment.sessionVariables = {
       KWIN_DRM_ALLOW_NVIDIA_COLORSPACE = 1;
