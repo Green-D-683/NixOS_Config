@@ -1,0 +1,21 @@
+keys:
+  - &admin_daniel age1zfvkz8spx50uqtr94dkahzzxwrdq0w3q45pq0ytus6gfh5lc7fkqcrptnf
+  - &system_key age16uzamzqqn377hym8mw9f35n6msavna2d8974vkaj67c6v34gdqqqp5pu68
+  - &user_daniel age1yf09p2ryufskgv8cag43s468fmugfxyuwvuc4f3lua7mh40yud9s3lnh3k
+  - &user_ciccu age15earhml68zx4604k6805lnkm2t53exy4v4x2wjelyq7mxhrnyfds8jftcc
+creation_rules:
+  - path_regex: sops/(crypt/)?system/[^/]+\.(yaml|json|env|ini|txt|bin)$
+    key_groups:
+    - age:
+      - *admin_daniel
+      - *system_key
+  - path_regex: home/daniel/home/sops/(crypt/)?[^/]+\.(yaml|json|env|ini|txt|bin)$
+    key_groups:
+    - age:
+      - *admin_daniel
+      - *user_daniel
+  - path_regex: home/ciccu/home/sops/(crypt/)?[^/]+\.(yaml|json|env|ini|txt|bin)$
+    key_groups:
+    - age:
+        - *admin_daniel
+        - *user_ciccu

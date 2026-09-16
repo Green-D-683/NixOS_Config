@@ -1,5 +1,5 @@
 {lib, config, pkgs, ...}:{
-  
+
   imports = lib.getDir (./.);
 
   ## Use this to pass extra arguments to home-manager
@@ -30,7 +30,7 @@
         default = {};
       };
       userModule = mkOption {
-        type = lib.userModule;
+        type = lib.userModule "default";
         description = "User-Specific Configuration passed from NixOS";
       };
       isNixOS = lib.mkOption {
@@ -55,11 +55,11 @@
         enable = true;
       };
     };
-    
+
     isNixOS = (if config.args ? isNixOS then config.args.isNixOS else false);
 
     isNixOnDroid = (if config.args ? isNixOnDroid then config.args.isNixOnDroid else false);
-    
+
     userModule = (let cfg = config.args.cfg; in (if config.isNixOS then (lib.getUser config.home.username cfg) else cfg));
 
     home = {

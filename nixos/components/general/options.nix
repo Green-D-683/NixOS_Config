@@ -26,7 +26,7 @@
       };
 
       userModules = mkOption {
-        type = types.attrsOf lib.userModule;
+        type = lib.userModules;
         default = {
           "default"={};
         };

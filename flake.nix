@@ -51,6 +51,11 @@
       url = "github:homebrew/homebrew-cask";
       flake = false;
     };
+    # SOPS
+    sops-nix = {
+        url = "github:Mic92/sops-nix";
+        inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # I should probably get this working at some point...
     vscode-server={
@@ -72,6 +77,7 @@
     nix-homebrew,
     homebrew-core,
     homebrew-cask,
+    sops-nix,
   ...}:
     let
       # Build lib of all nix functions - nixpkgs, home-manager and my custom functions, found in ./lib
@@ -135,6 +141,7 @@
 
     in
     {
+
     nixosConfigurations = lib.nixosSystemAttrs systems;
     nixosImages = lib.nixosImageAttrs images;
     nixosInstallers = lib.nixosInstallerAttrs installers;
@@ -164,6 +171,7 @@
       modules = [
         ./nix-darwin/components/configuration.nix
         nix-homebrew.darwinModules.nix-homebrew
+        sops-nix.darwinModules.sops
         ({...}:{
           environment.variables."DARWIN_SYSTEM_NAME" = "UnknowniMac";
         })
@@ -202,6 +210,7 @@
 
     packageListNames = (lib.getDirNamesOnly ./pkgs/programs);
 
+    # TODO - Export Lib overlay to allow override of user directories
     lib = import ./lib {inherit self; lib = nixpkgs.lib;};
 
     nixOnDroidConfigurations.default = nix-on-droid.lib.nixOnDroidConfiguration {
@@ -221,6 +230,8 @@
             packages = with pkgs; [
               nil
               nixd
+              sops
+              age
             ] ++ (lib.lists.map (n: lib.pkgScript {inherit pkgs; name=n; scriptFile=./scripts/${n}.sh; runtimeDeps=with pkgs; ([ bash coreutils e2fsprogs] ++ lib.optionals pkgs.stdenv.isLinux [parted]);}) (lib.attrsets.attrValues (lib.attrsets.mapAttrs (s: _: "${lib.strings.removeSuffix ".sh" s}") (builtins.readDir ./scripts))));
           };
         };

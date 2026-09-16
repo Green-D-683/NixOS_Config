@@ -22,7 +22,10 @@
       modules = [
         self.nixosModules.default
         self.nixosModules.${configModule}
-      ] ++ extraModules;
+      ] ++ extraModules ++ (with self.inputs; [
+          home-manager.nixosModules.home-manager
+          sops-nix.nixosModules.sops
+      ]);
       specialArgs = {inherit self system; inputs = self.inputs;};
     }
   );
