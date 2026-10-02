@@ -1,25 +1,17 @@
 {config, pkgs, lib, ...}:
 
 {
-  imports=[
-    ../specific/sddm/theming.nix
-  ];
+  options = {
+    systemConfig.niceties = {
+      enableEmojiFont = lib.mkEnableOption "Add WhatsApp Emoji Font to `fonts.packages`";
+    };
+  };
 
   config= lib.mkIf (config.systemConfig.graphicalEnv) {
     # Enable the X11 windowing system.
 
     services = {
       displayManager={
-        # SDDM
-        # sddm={
-        #   enable=true;
-        #   enableHidpi=true;
-        #   package=lib.mkForce pkgs.kdePackages.sddm;
-        #   wayland={
-        #     enable=true;
-        #     compositor="kwin";
-        #   };
-        # };
         plasma-login-manager = {
             enable = true;
             settings = {
@@ -29,7 +21,7 @@
             };
             applyCustomTheme = true;
         };
-        defaultSession="plasma";#"plasmawayland";
+        defaultSession="plasma";
       };
       xserver={
         enable = true;
@@ -45,7 +37,6 @@
       libinput.enable = true;
     desktopManager={
         # Enable KDE Plasma
-        # plasma5.enable = true;
         plasma6={
           enable = true;
           enableQt5Integration = true;
@@ -62,7 +53,6 @@
 
         sessionVariables = {
             NIXOS_OZONE_WL=1; # Wayland webapps
-            ELECTRON_DISABLE_GPU=1; # Disabled until https://github.com/NixOS/nixpkgs/issues/382612 fixed
             MOZ_ENABLE_WAYLAND=1; # Firefox Wayland
             MOZ_WEBRENDER=1;
             KWIN_DRM_ALLOW_INTEL_COLORSPACE=1;
@@ -104,9 +94,8 @@
       enableDefaultPackages = true;
       packages = with pkgs; [
         corefonts
-        whatsapp-emoji-font
         open-fonts
-      ];
+      ] ++ (lib.optional (config.systemConfig.niceties.enableEmojiFont) whatsapp-emoji-font);
       fontDir.enable=true;
       fontconfig.useEmbeddedBitmaps = true;
     };
@@ -148,17 +137,8 @@
         "/usr/share/fonts" = mkRoSymBind "${aggregated}/share/fonts";
     };
 
-      # fonts.packages = with pkgs; [
-      #   noto-fonts
-      #   noto-fonts-emoji
-      #   noto-fonts-cjk
-      # ];
-
     # Flatpak
     services.flatpak.enable = true;
-
-    ## Onedrive now configured using rClone
-    #services.onedrive.enable = true;
 
     ## Ports for MiraCast
     networking.firewall = {

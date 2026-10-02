@@ -22,6 +22,7 @@
         # "virtualbox"
         "distrobox"
       ];
+      niceties.enableEmojiFont = true;
     };
     userConfig = {
       users = [
