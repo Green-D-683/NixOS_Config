@@ -6,6 +6,7 @@
     systemd.services.flatpak-flathub-repo = {
       wantedBy = [ "multi-user.target" ];
       after = [ "network-online.target" ];
+      requires = [ "network-online.target" ];
       script = ''
         ${lib.getExe pkgs.flatpak} remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
       '';
