@@ -12,6 +12,7 @@
         "electron-39.8.10"
         "ventoy-1.1.17"
       ];
+      nvidia.acceptLicense = true;
     };
   });
   customNixosSystem = {system, configModule, extraModules ? []}: (
