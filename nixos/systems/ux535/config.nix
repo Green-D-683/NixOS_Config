@@ -22,7 +22,10 @@
         # "virtualbox"
         "distrobox"
       ];
-      niceties.enableEmojiFont = true;
+      niceties = {
+        enableEmojiFont = true;
+        enableFlatpak = true;
+      };
     };
     userConfig = {
       users = [

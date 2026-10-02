@@ -33,6 +33,7 @@
         #   "pihole"
         # ]
       };
+      niceties.enableFlatpak = true;
     };
     userConfig = {
       users = [

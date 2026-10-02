@@ -137,9 +137,6 @@
         "/usr/share/fonts" = mkRoSymBind "${aggregated}/share/fonts";
     };
 
-    # Flatpak
-    services.flatpak.enable = true;
-
     ## Ports for MiraCast
     networking.firewall = {
       allowedTCPPorts = [ 17500 7236 7250 ];

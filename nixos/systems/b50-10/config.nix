@@ -23,6 +23,7 @@
         # "virtualbox"
         "distrobox"
       ];
+      niceties.enableFlatpak = true;
     };
     userConfig = {
       users = [
