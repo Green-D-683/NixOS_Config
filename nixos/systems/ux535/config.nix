@@ -30,7 +30,7 @@
     userConfig = {
       users = [
         "daniel"
-        "ciccu"
+        "ffion"
       ];
 
       userModules = {
@@ -46,9 +46,11 @@
           ];
           gui = true;
         };
-        ciccu = {
+        ffion = {
           install-lists = [
-            "ciccu"
+            "core_gui"
+            "core_utils"
+            "general"
           ];
           gui = true;
         };

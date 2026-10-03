@@ -18,13 +18,4 @@
       "ls" = "ls --color=tty";
     };
   };
-
-
-
-  services = {
-    kdeconnect = {
-      enable = true;
-      package = pkgs.kdeConnect;
-    };
-  };
 }

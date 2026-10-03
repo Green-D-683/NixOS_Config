@@ -38,10 +38,19 @@
     userConfig = {
       users = [
         "daniel"
+        "ffion"
       ];
 
       userModules = {
         daniel = {
+          install-lists = [
+            "core_utils"
+            # "core_gui"
+            "general"
+          ];
+          gui = true;
+        };
+        ffion = {
           install-lists = [
             "core_utils"
             # "core_gui"
