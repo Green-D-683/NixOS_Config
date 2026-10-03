@@ -22,7 +22,8 @@ with pkgs; [
   git-crypt
   cryptsetup
   htop
-  btop
+  # Btop is wrapped to allow iGPU access on non-root accounts
+  # btop
   krb5 # Kerberos
   opensshWithKerberos
 ]

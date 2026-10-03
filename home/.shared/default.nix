@@ -63,7 +63,7 @@
     userModule = (let cfg = config.args.cfg; in (if config.isNixOS then (lib.getUser config.home.username cfg) else cfg));
 
     home = {
-        packages = (builtins.concatLists (builtins.map (x: import ../../pkgs/programs/${x}.nix {inherit pkgs;}) config.userModule.install-lists)) ++ (with pkgs; [ home-manager nil ]) ++ (lib.optionals (pkgs.stdenv.hostPlatform.system == "x86_64-linux") [pkgs.steam-run]);
+        packages = (builtins.concatLists (builtins.map (x: import ../../pkgs/programs/${x}.nix {inherit pkgs;}) config.userModule.install-lists)) ++ (with pkgs; [ home-manager nil ]) ++ (lib.optionals (pkgs.stdenv.hostPlatform.system == "x86_64-linux") [pkgs.steam-run]) ++ (lib.optional (config.isNixOS == false) pkgs.btop);
         sessionVariables = {
             "EDITOR" = lib.mkDefault "${pkgs.nano}/bin/nano";
         };
