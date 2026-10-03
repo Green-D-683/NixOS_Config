@@ -88,6 +88,8 @@ if [ $sflag ]; then
             sudo resize2fs "$device"p2
         fi
 
+        # TODO - Add sops key to root partition
+
         if [ $? = 0 ]; then
             printf "Filesystem Resized\nDrive can be removed freely!\n"
             exit 0
