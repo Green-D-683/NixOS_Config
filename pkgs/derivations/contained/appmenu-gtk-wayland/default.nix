@@ -3,6 +3,7 @@ pkgs.callPackage
 (
   {
     stdenv,
+    lib,
     fetchFromGitHub,
     cmake,
     meson,
@@ -11,6 +12,7 @@ pkgs.callPackage
     gtk3,
     glib,
     libdbusmenu-gtk3,
+    patchelf,
     ...
   }:
   stdenv.mkDerivation rec {
@@ -20,7 +22,7 @@ pkgs.callPackage
       owner = "rocka";
       repo = "appmenu-gtk-module-wayland";
       rev = version;
-      hash = "sha256-omJ0TPj/RPfB9BCeX9P6VZFuroskpgkP+elXrCN/+BU=";
+      hash = "sha256-cTgrITeqGtGFq5akxIWYruImp780Lgflz2y2bger9MM=";
       fetchSubmodules = true;
     };
     postPatch = ''
@@ -48,14 +50,20 @@ pkgs.callPackage
     cat replacement.c >> src/appmenu-gtk-module.c
     '';
     stripping = false;
-    nativeBuildInputs =[ cmake pkg-config ];
+    nativeBuildInputs =[ cmake pkg-config patchelf ];
     buildInputs = [ gtk3 glib libdbusmenu-gtk3 ];
     NIX_LDFLAGS = "-ldbusmenu-gtk3 -ldbusmenu-glib";
     installPhase = ''
       runHook preInstall
       mkdir -p $out/lib/gtk-3.0/modules/
       install -D -m755 libappmenu-gtk-module-wayland.so $out/lib/gtk-3.0/modules/libappmenu-gtk-module.so
+      install -D -m755 libdbusmenu/libdbusmenu-glib.so $out/lib/libdbusmenu-glib.so
       runHook postInstall
+    '';
+    postInstall = ''
+      patchelf --print-rpath "$out/lib/gtk-3.0/modules/libappmenu-gtk-module.so"
+      patchelf --shrink-rpath --allowed-rpath-prefixes /nix/store "$out/lib/gtk-3.0/modules/libappmenu-gtk-module.so"
+      patchelf --print-rpath "$out/lib/gtk-3.0/modules/libappmenu-gtk-module.so"
     '';
   }
 ) {}

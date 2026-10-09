@@ -17,7 +17,7 @@
 
           sessionVariables = {
             # Tells GTK to load the module at startup
-            GTK_MODULES = "appmenu-gtk-module";
+            GTK_MODULES = "${pkgs.appmenu-gtk-wayland}/lib/gtk-3.0/modules/libappmenu-gtk-module.so";
             # Ensures the desktop bridge registers properly
             UBUNTU_MENUPROXY = "1";
           };
