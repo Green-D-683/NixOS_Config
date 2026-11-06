@@ -117,12 +117,18 @@
        	  configModule = "optiplex-3020";
        	  extraModules = [];
        	}
-	{
-	  name = "UnknowniMac";
-	  platform = "x86_64-linux";
-	  configModule = "iMac";
-	  extraModules = [];
-	}
+        {
+          name = "UnknowniMac";
+          platform = "x86_64-linux";
+          configModule = "iMac";
+          extraModules = [];
+        }
+        {
+          name = "Dev-VM";
+          platform = "x86_64-linux";
+          configModule = "dev-vm";
+          extraModules = [];
+        }
       ];
 
       # Build disk images for each of the systems specified above - for direct building and installation - these may be large and take a long time to build
