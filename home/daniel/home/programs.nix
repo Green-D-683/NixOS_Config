@@ -56,6 +56,11 @@
         enableCompletion = true;
     };
 
+    zed-editor = {
+        enable = true;
+        installRemoteServer = true;
+    };
+
     dircolors = {
         enable=true;
         settings = {
