@@ -55,7 +55,7 @@
             done
             '' }";
         };
-        Install.WantedBy = [ "default.target" ];
+        Install.WantedBy = [ "network-dependent.target" ];
         };
     };
   };
