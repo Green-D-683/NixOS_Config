@@ -202,7 +202,11 @@
     homeManagerModules = {
       # Common configuration shared by all users
       shared = {...}:{
-        imports = [./home/.shared];
+        imports = [
+          ./home/.shared
+          inputs.plasma-manager.homeModules.plasma-manager
+          inputs.sops-nix.homeManagerModules.sops
+        ];
       };
       # Sets up a systemd service to automatically mount configured rclone remotes when network online
       rclone = {...}:{

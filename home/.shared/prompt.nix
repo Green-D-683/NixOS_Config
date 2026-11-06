@@ -1,4 +1,4 @@
-{inputs, config, lib, ...}:
+{config, lib, ...}:
 {
     config = lib.mkIf (config.isNixOnDroid) {
         programs.bash.profileExtra = ''

@@ -1,4 +1,4 @@
-{self, config, pkgs, lib, inputs, ...}:
+{self, config, pkgs, lib, ...}:
 let
 users = lib.getSubDirNames ./.;
 
@@ -33,8 +33,6 @@ in
             };
           }
           self.homeManagerModules.shared
-          inputs.plasma-manager.homeModules.plasma-manager
-          inputs.sops-nix.homeManagerModules.sops
         ];
         backupFileExtension = "backup";
     };

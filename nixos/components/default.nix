@@ -1,5 +1,5 @@
 {lib, ...}:
 
 {
-  imports = lib.getDirRec ./. true;
+  imports = lib.getDirRec ./.;
 }

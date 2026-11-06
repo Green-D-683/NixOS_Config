@@ -8,8 +8,6 @@ importerF = f: args: import f args;
 
 importAllF = fs: args: builtins.map (f: importerF f args) fs;
 
-filterSecrets = lib.lists.filter (d: d != "secrets" );
-
 in rec
 {
   getDir = getNixFilesF;
@@ -18,14 +16,13 @@ in rec
     dir: builtins.map (str: lib.strings.removeSuffix ".nix" (lib.strings.removePrefix "${dir}/" str)) (getDir dir)
   );
 
-  getDirRec = dir: withSecrets: (
+  getDirRec = dir: (
     getDir dir ++ (
         let
-            withSecretsDirs = getSubDirNames dir;
-            subDirs = if withSecrets then withSecretsDirs else filterSecrets withSecretsDirs;
+            subDirs = getSubDirNames dir;
         in
             if (subDirs != []) then
-                lib.lists.flatten (builtins.map (subdir: (getDirRec "${dir}/${subdir}" withSecrets )) subDirs )
+                lib.lists.flatten (builtins.map (subdir: (getDirRec "${dir}/${subdir}" )) subDirs )
             else
                 []
         )
@@ -48,6 +45,6 @@ in rec
   importDir = ( dir: args:
     importAllF (getDir dir) args);
 
-  importDirRec = ( dir: withSecrets: args:
-    importAllF (getDirRec dir withSecrets) args);
+  importDirRec = ( dir: args:
+    importAllF (getDirRec dir) args);
 }
