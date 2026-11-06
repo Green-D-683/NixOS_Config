@@ -33,6 +33,11 @@
                 default = "${self.outPath}/sops/system/user-${uname}-key.txt";
                 description = "Key for the user's home sops secrets";
             };
+            enableSops = mkOption {
+                type = lib.types.bool;
+                default = true;
+                description = "Enable SOPS for this User";
+            };
         };
     });
 

@@ -1,7 +1,7 @@
 {self, config, pkgs, lib, ...}:
 let
 users = lib.getSubDirNames ./.;
-
+enableSops = config.systemConfig.sops.enable;
 getUserConfigs = builtins.map (name: ./. + "/${name}/${name}.nix") users;
 in
 {
@@ -63,17 +63,19 @@ in
       };
     };
 
-    sops.secrets = lib.mkMerge ( let cfg = config.userConfig; in
-        builtins.map (name: let ucfg = (lib.getUser name cfg); in {
-            "${name}-user-key" = {
-                sopsFile = ucfg.sopsKey;
-                path = "/home/${name}/.sops_key.txt";
-                format = "binary";
-                owner = config.users.users.${name}.name;
-                group = config.users.users.${name}.group;
-                mode = "0440";
-            };
-        }) cfg.users
-    );
+    sops.secrets = lib.mkIf enableSops (
+        lib.mkMerge ( let cfg = config.userConfig; in
+            builtins.map (name: let ucfg = (lib.getUser name cfg); in {
+                "${name}-user-key" = {
+                    sopsFile = ucfg.sopsKey;
+                    path = "/home/${name}/.sops_key.txt";
+                    format = "binary";
+                    owner = config.users.users.${name}.name;
+                    group = config.users.users.${name}.group;
+                    mode = "0440";
+                };
+            }) cfg.users
+          )
+      );
   };
 }

@@ -1,8 +1,10 @@
 {config, pkgs, lib, ...}:
-let masterKeyFile = "dg683-KEYS-key";
+let 
+masterKeyFile = "dg683-KEYS-key";
+enableSops = config.systemConfig.sops.enable; 
 in
 {
-    config = {
+    config = lib.mkIf enableSops {
         sops.secrets.${masterKeyFile} = let daniel = config.users.users.daniel; in {
             format = "binary";
             sopsFile = "${config.sopsDir}/key-usb-keyfile.bin";

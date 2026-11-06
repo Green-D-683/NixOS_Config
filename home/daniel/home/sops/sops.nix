@@ -1,5 +1,5 @@
-{config, ...}:{
-    config = {
+{config, lib, ...}:{
+    config = lib.mkIf config.enableSops {
         sops = {
             secrets = {
                 Config-Sops-Key = {
