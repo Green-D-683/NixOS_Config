@@ -3,7 +3,9 @@
 // For a full list of overridable settings, and general information on folder-specific settings,//zed.dev/docs/configuring-zed#settings-files
   "languages": {
     "Nix": {
+      "tab_size": 4,
       "format_on_save": "on",
+      "remove_trailing_whitespace_on_save": true,
       "formatter": {
         "external": {
           "command": "nix",
