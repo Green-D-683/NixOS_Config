@@ -68,12 +68,6 @@
                 description = "Hostname for Network connections";
             };
 
-            swapSize = mkOption {
-                default = 0;
-                type = types.int;
-                description = "Size of the `.swapfile`";
-            };
-
             virtualisationTools = mkOption {
                 default = [];
                 type = with types;
