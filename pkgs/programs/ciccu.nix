@@ -1,5 +1,3 @@
-{pkgs, ...}:
-
-(with pkgs; [
-  #openlp
+{pkgs, ...}: (with pkgs; [
+    #openlp
 ])

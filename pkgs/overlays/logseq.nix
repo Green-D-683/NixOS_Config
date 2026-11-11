@@ -1,6 +1,5 @@
-{...}:
-self: super: {
-  # logseq = super.logseq.override{
-  #   electron = super.electron_27;
-  # };
+{...}: self: super: {
+    # logseq = super.logseq.override{
+    #   electron = super.electron_27;
+    # };
 }

@@ -1,7 +1,6 @@
-{...}:
-{
-  imports = [
-    ./config.nix
-    ./hardware-configuration.nix
-  ];
+{...}: {
+    imports = [
+        ./config.nix
+        ./hardware-configuration.nix
+    ];
 }

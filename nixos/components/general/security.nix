@@ -1,6 +1,5 @@
 # There isn't actually any secrets here, don't bother looking...
-{pkgs, ...}:
-{
+{pkgs, ...}: {
     config.security = {
         krb5 = {
             enable = true;
@@ -12,10 +11,10 @@
             };
         };
         wrappers.btop = {
-          source = "${pkgs.btop}/bin/btop";
-          capabilities = "cap_perfmon+ep";
-          owner = "root";
-          group = "root";
+            source = "${pkgs.btop}/bin/btop";
+            capabilities = "cap_perfmon+ep";
+            owner = "root";
+            group = "root";
         };
     };
 }

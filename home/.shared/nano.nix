@@ -1,6 +1,5 @@
-{config, ...}:
-{
-    config.home.file.".nanorc"={
+{config, ...}: {
+    config.home.file.".nanorc" = {
         enable = true;
         text = ''
             set tabsize 4

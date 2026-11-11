@@ -1,5 +1,8 @@
-{config, lib, ...}:{
-
+{
+    config,
+    lib,
+    ...
+}: {
     options = {
         enableSops = lib.mkEnableOption "SOPS Secrets for this user";
         sopsDir = lib.mkOption {
@@ -15,7 +18,7 @@
             };
         })
         {
-            enableSops = config.userModule.enableSops; 
+            enableSops = config.userModule.enableSops;
         }
     ];
 }

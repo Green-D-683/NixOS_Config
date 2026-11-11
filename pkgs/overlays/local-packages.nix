@@ -1,2 +1,5 @@
-{self, system, ...}:
-final: prev: self.packages.${system}
+{
+    self,
+    system,
+    ...
+}: final: prev: self.packages.${system}

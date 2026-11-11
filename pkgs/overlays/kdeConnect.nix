@@ -1,4 +1,3 @@
-{...}:
-self: super: {
-  kdeConnect = self.kdePackages.kdeconnect-kde;
+{...}: self: super: {
+    kdeConnect = self.kdePackages.kdeconnect-kde;
 }

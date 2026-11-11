@@ -1,9 +1,12 @@
-{config, pkgs, lib, ...}:
-
 {
-  # Enable Bluetooth
+    config,
+    pkgs,
+    lib,
+    ...
+}: {
+    # Enable Bluetooth
     config = lib.mkIf (config.systemConfig.optimiseFor != "server") {
-        hardware.bluetooth=  {
+        hardware.bluetooth = {
             enable = true;
             powerOnBoot = true;
             settings = {

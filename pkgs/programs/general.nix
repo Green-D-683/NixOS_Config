@@ -1,27 +1,27 @@
-{ pkgs, ... }:
+{pkgs, ...}:
 with pkgs;
-[
-  firefox
-  widevine-cdm
-  spotify
-  zed-editor
-]
-++ (with pkgs.kdePackages; [
-  kio-gdrive
-  kaccounts-integration
-  kaccounts-providers
-  signond
+    [
+        firefox
+        widevine-cdm
+        spotify
+        zed-editor
+    ]
+    ++ (with pkgs.kdePackages; [
+        kio-gdrive
+        kaccounts-integration
+        kaccounts-providers
+        signond
 
-  # kamoso
+        # kamoso
 
-  kinfocenter
+        kinfocenter
 
-  plasma-browser-integration
+        plasma-browser-integration
 
-  keysmith
+        keysmith
 
-  kcharselect
+        kcharselect
 
-  # Camera
-  kamoso
-])
+        # Camera
+        kamoso
+    ])

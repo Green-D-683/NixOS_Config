@@ -1,5 +1,5 @@
-{withSecrets ? true}:
-{lib, ...}:
 {
+    withSecrets ? true,
+}: {lib, ...}: {
     imports = lib.getDirRec ./.;
 }

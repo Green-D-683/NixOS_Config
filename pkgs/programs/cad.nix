@@ -1,7 +1,6 @@
 {pkgs, ...}:
-
 with pkgs; [
-  freecad
-  # kicad
-  cura-appimage
+    freecad
+    # kicad
+    cura-appimage
 ]

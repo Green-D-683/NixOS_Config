@@ -1,4 +1,3 @@
-{...}:
-self: super: {
-  #firefox = super.firefox-bin;
+{...}: self: super: {
+    #firefox = super.firefox-bin;
 }

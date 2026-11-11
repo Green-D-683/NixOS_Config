@@ -1,19 +1,18 @@
 {pkgs, ...}:
-
 with pkgs; [
-  #vscode # Included in core.nix
-  powershell
-  github-desktop
-  android-tools
-  universal-android-debloater
+    #vscode # Included in core.nix
+    powershell
+    github-desktop
+    android-tools
+    universal-android-debloater
 
-  # Distrobox GUI
-  # boxbuddy
-  # distrobox
+    # Distrobox GUI
+    # boxbuddy
+    # distrobox
 
-  docker
+    docker
 
-  ventoy-full
-  uefitool
-  flashrom
+    ventoy-full
+    uefitool
+    flashrom
 ]

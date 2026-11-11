@@ -1,5 +1,8 @@
-{config, lib, ...}:
 {
+    config,
+    lib,
+    ...
+}: {
     config = lib.mkIf (builtins.elem "rpi4" config.systemConfig.extraHardware) {
         boot.extraModprobeConfig = ''
             options cfg80211 ieee80211_regdom=GB

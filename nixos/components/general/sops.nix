@@ -1,6 +1,11 @@
-{config, lib, self, ...}:
-let enableSops = config.systemConfig.sops.enable; in
 {
+    config,
+    lib,
+    self,
+    ...
+}: let
+    enableSops = config.systemConfig.sops.enable;
+in {
     options.systemConfig.sops = {
         enable = lib.mkOption {
             type = lib.types.bool;

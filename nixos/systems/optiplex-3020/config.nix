@@ -1,50 +1,53 @@
-{config, pkgs, lib, ...}:
-
 {
-  config = {
-    systemConfig = {
-      laptop = false;
-      desktop = false;
-      server = true;
-      gpu = "";
-      extraHardware = [
-        # "thunderbolt"
-        # "screenpad"
-        # "asus-battery"
-        # "rpi4"
-      ];
-      hostname = "UnknownServer";
-      swapSize = 0;
-      virtualisationTools = [
-        # "docker"
-        # "waydroid"
-        # "virtualbox"
-      ];
-      servers = {
-        # enable = true;
-        # ap = {};
-        # router = {};
-        basic = [
-        #   "pihole"
-          "zfs"
-        ];
-      };
-    };
-    userConfig = {
-      users = [
-        "daniel"
-      ];
-
-      userModules = {
-        daniel = {
-          install-lists = [
-            "core_utils"
-            "general"
-          ];
+    config,
+    pkgs,
+    lib,
+    ...
+}: {
+    config = {
+        systemConfig = {
+            laptop = false;
+            desktop = false;
+            server = true;
+            gpu = "";
+            extraHardware = [
+                # "thunderbolt"
+                # "screenpad"
+                # "asus-battery"
+                # "rpi4"
+            ];
+            hostname = "UnknownServer";
+            swapSize = 0;
+            virtualisationTools = [
+                # "docker"
+                # "waydroid"
+                # "virtualbox"
+            ];
+            servers = {
+                # enable = true;
+                # ap = {};
+                # router = {};
+                basic = [
+                    #   "pihole"
+                    "zfs"
+                ];
+            };
         };
-      };
+        userConfig = {
+            users = [
+                "daniel"
+            ];
+
+            userModules = {
+                daniel = {
+                    install-lists = [
+                        "core_utils"
+                        "general"
+                    ];
+                };
+            };
+        };
+        networking.hostId = "194d40ab";
+        boot.zfs.extraPools = ["raidZ1TB"];
     };
-    networking.hostId = "194d40ab";
-    boot.zfs.extraPools = ["raidZ1TB"];
-  };
 }

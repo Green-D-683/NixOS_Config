@@ -1,4 +1,3 @@
-{...}:
-final: super: {
-makeModulesClosure = x: super.makeModulesClosure (x // { allowMissing = true; });
+{...}: final: super: {
+    makeModulesClosure = x: super.makeModulesClosure (x // {allowMissing = true;});
 }

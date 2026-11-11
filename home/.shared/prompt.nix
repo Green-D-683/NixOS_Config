@@ -1,5 +1,8 @@
-{config, lib, ...}:
 {
+    config,
+    lib,
+    ...
+}: {
     config = lib.mkIf (config.isNixOnDroid) {
         programs.bash.profileExtra = ''
             # Provide a nice prompt if the terminal supports it.
@@ -16,6 +19,6 @@
                     PS1="\[\033]2;\h:\u:\w\007\]$PS1"
                 fi
             fi                        
-        '';        
+        '';
     };
 }

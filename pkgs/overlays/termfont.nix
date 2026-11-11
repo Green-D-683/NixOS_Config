@@ -1,4 +1,3 @@
-{...}:
-self: super: {
-  termfont = self.google-fonts.override {fonts = ["SourceCodePro"];};
+{...}: self: super: {
+    termfont = self.google-fonts.override {fonts = ["SourceCodePro"];};
 }
