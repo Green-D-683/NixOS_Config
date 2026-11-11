@@ -1,0 +1,22 @@
+{// Folder-specific settings
+//
+// For a full list of overridable settings, and general information on folder-specific settings,//zed.dev/docs/configuring-zed#settings-files
+  "languages": {
+    "Nix": {
+      "format_on_save": "on",
+      "formatter": {
+        "external": {
+          "command": "nix",
+          "arguments": [
+            "fmt",
+            "--",
+            "--tree-root-file",
+            "{buffer_path}",
+            "--stdin",
+            "{buffer_path}"
+          ]
+        }
+      }
+    }
+  }
+}
