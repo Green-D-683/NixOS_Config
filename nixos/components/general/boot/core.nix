@@ -1,9 +1,4 @@
-{
-    config,
-    pkgs,
-    lib,
-    ...
-}: {
+{...}: {
     config.boot = {
         # Reading Windows/External Drives
         supportedFilesystems = [
