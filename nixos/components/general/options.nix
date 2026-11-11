@@ -47,13 +47,6 @@
                 visible = false;
             };
 
-            ## Graphical User Environment
-            graphicalEnv = mkEnableOption "Graphical User Interface";
-            gpu = mkOption {
-                default = "";
-                type = types.enum ["" "intel" "nvidia" "amd"];
-            };
-
             ## Common Hardware
             extraHardware = mkOption {
                 default = [];
