@@ -1,5 +1,5 @@
-{lib, self, ...}: rec
-{
+{lib, self, ...}: 
+let userModule = rec {
   getUser = (
     user: userConfig: if userConfig.userModules ? ${user} then userConfig.userModules.${user} else userConfig.userModules."default"
   );
@@ -42,4 +42,6 @@
     });
 
   userModules = lib.types.submodule {options = (lib.attrListMerge (builtins.map (user: {${user} = lib.mkOption {type = userModule user; description = "Configuration for user '${user}'";};}) (availableUsers ++ ["default"])));};
-}
+}; in {
+  inherit userModule;
+} // userModule

@@ -8,7 +8,7 @@ importerF = f: args: import f args;
 
 importAllF = fs: args: builtins.map (f: importerF f args) fs;
 
-in rec
+dirOps = rec
 {
   getDir = getNixFilesF;
 
@@ -47,4 +47,6 @@ in rec
 
   importDirRec = ( dir: args:
     importAllF (getDirRec dir) args);
-}
+}; in {
+  inherit dirOps;
+} // dirOps

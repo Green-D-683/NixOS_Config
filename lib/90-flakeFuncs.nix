@@ -1,5 +1,5 @@
-{self, lib, ...}: rec
-{
+{self, lib, ...}: 
+let flakeHelpers = rec {
   pkgsForSys = (system: import self.inputs.nixpkgs {
     system = system;
     overlays = [self.overlays.${system}];
@@ -44,4 +44,6 @@
   nixosSystemAttrs = (systems: lib.attrListMerge (lib.lists.map nixosSystemAttr systems));
   nixosImageAttrs = (images: lib.attrsets.concatMapAttrs (name: system: {${name} = system.config.system.build.sdImage;}) (nixosSystemAttrs images));
   nixosInstallerAttrs = (systems: lib.attrsets.concatMapAttrs (name: system: {${name} = system.config.system.build.isoImage;}) (nixosSystemAttrs systems));
-}
+}; in {
+  inherit flakeHelpers;
+} // flakeHelpers
