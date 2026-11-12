@@ -4,10 +4,6 @@
     lib,
     ...
 }: {
-    imports = [
-        ./hardware-configuration.nix
-    ];
-
     config = {
         systemConfig = {
             laptop = true;

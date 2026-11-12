@@ -180,19 +180,9 @@
                 }
                 //
                 # Create a module for each specific system to be defined - each dir in ./nixos/systems/${dir} is a computer I want a configuration for, exclusing hidden directories (starting with `.`)
-                lib.attrListMerge (
-                    lib.lists.map (dir: {
-                        ${dir} = (
-                            {...}: {
-                                imports = [
-                                    ./nixos/systems/${dir}
-                                ];
-                            }
-                        );
-                    }) (lib.getSubDirNames ./nixos/systems)
-                )
+                # These contain nixosModule subdirs, so are loaded using the below:
                 # Finds all `*/<name>/nixosModule/*` paths, and loads these as separate modules - available to be consumed by other flakes
-                // lib.findNixOSModules self.outPath
+                lib.findNixOSModules self.outPath
             );
 
             darwinConfigurations."UnknowniMac" = nix-darwin.lib.darwinSystem {
