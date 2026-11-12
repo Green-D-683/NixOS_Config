@@ -5,7 +5,7 @@
     ...
 }: {
     config = lib.mkIf (builtins.elem "virtualbox" config.systemConfig.virtualisationTools) {
-        virtualbox = {
+        virtualisation.virtualbox = {
             host = {
                 enable = true;
                 enableExtensionPack = true;

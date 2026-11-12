@@ -32,8 +32,8 @@
                 modules =
                     [
                         self.nixosModules.default
-                        self.nixosModules.${configModule}
                     ]
+                    ++ (lib.optional (configModule != null) self.nixosModules.${configModule})
                     ++ extraModules
                     ++ (with self.inputs; [
                         home-manager.nixosModules.home-manager
@@ -61,15 +61,62 @@
         nixosImageAttrs = images: lib.attrsets.concatMapAttrs (name: system: {${name} = system.config.system.build.sdImage;}) (nixosSystemAttrs images);
         nixosInstallerAttrs = systems: lib.attrsets.concatMapAttrs (name: system: {${name} = system.config.system.build.isoImage;}) (nixosSystemAttrs systems);
 
-        findNixOSModules = dir: lib.attrListMerge (
-            lib.lists.map (dir: {
-                ${lib.dirOps.getParentName dir} = (
-                    {...}: {
-                        imports = lib.getDirRec dir;
-                    }
-                );
-            }) (lib.dirOps.findDirRec "nixosModule" dir)
+        findNixOSModules = dir:
+            lib.attrListMerge (
+                lib.lists.map (dir: {
+                    ${lib.dirOps.getParentName dir} = (
+                        {...}: {
+                            imports = lib.getDirRec dir;
+                        }
+                    );
+                }) (lib.dirOps.findDirRec "nixosModule" dir)
+            );
+
+        findNixOSSystems = dir: (
+            builtins.map (systemDir: import "${systemDir.dir}/host.nix" {inherit self;} // {configModule = systemDir.name;})
+            (builtins.map (file: {name = lib.dirOps.getParentName file; dir = lib.dirOps.getParent file;}) (lib.findFileRec "host.nix" dir))
         );
+
+        findNixOSImages = dir: (
+            let
+                systems = findNixOSSystems dir;
+                getArch = platform: builtins.head (lib.strings.splitString "-" platform);
+            in
+                builtins.map (
+                    spec:
+                        lib.mergeAttrsRecComb spec {
+                            extraModules = [
+                                "${self.inputs.nixpkgs}/nixos/modules/installer/sd-card/sd-image-${getArch spec.platform}.nix"
+                                ({...}: {sdImage.compressImage = false;})
+                            ];
+                        }
+                )
+                systems
+        );
+
+        nixOSIsoSpec = {
+            platform,
+            isoModule,
+        }: {
+            name = platform;
+            inherit platform;
+            extraModules = [
+                "${self.inputs.nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-base.nix"
+                isoModule
+            ];
+            configModule = null; # ISO specific basic config - single user, minimal packages
+        };
+
+        buildNixOSSystems = dir: nixosSystemAttrs (findNixOSSystems dir);
+
+        buildNixOSImages = dir: nixosImageAttrs (findNixOSImages dir);
+
+        buildNixOSInstallers = isoModule: platforms:
+            nixosInstallerAttrs (
+                lib.lists.map
+                (platform: nixOSIsoSpec {inherit platform isoModule;})
+                platforms
+            );
     };
 in
     {

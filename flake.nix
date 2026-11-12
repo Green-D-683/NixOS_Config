@@ -83,89 +83,19 @@
         # Build lib of all nix functions - nixpkgs, home-manager and my custom functions, found in ./lib
         lib = nixpkgs.lib.extend (_: _: self.lib // home-manager.lib);
 
-        # Define each system to be declared in nixosConfigurations here:
-        systems = [
-            # {
-            #   name = "< name of attrset value >";
-            #   platform = "< platform of system - some kind of linux >";
-            #   configModule = "< nixosModule to import with system-specific configuration >";
-            #   extraModules = []; # Any extra modules to import - probably should be imported in the specified nixosModule instead
-            # }
-            {
-                name = "UnknownDevice_ux535";
-                platform = "x86_64-linux";
-                configModule = "ux535";
-                extraModules = [];
-            }
-            {
-                name = "UnknownDevice_b50-10";
-                platform = "x86_64-linux";
-                configModule = "b50-10";
-                extraModules = [];
-            }
-            {
-                name = "UnknownPi4";
-                platform = "aarch64-linux";
-                configModule = "Pi4";
-                extraModules = [];
-            }
-            {
-                name = "UnknownServer_optiplex-3020";
-                platform = "x86_64-linux";
-                configModule = "optiplex-3020";
-                extraModules = [];
-            }
-            {
-                name = "UnknowniMac";
-                platform = "x86_64-linux";
-                configModule = "iMac";
-                extraModules = [];
-            }
-            {
-                name = "Dev-VM";
-                platform = "x86_64-linux";
-                configModule = "dev-vm";
-                extraModules = [];
-            }
-        ];
-
-        # Build disk images for each of the systems specified above - for direct building and installation - these may be large and take a long time to build
-        images =
-            lib.lists.map (
-                spec:
-                    spec
-                    // {
-                        extraModules = let
-                            arch = builtins.elemAt (lib.strings.splitString "-" spec.platform) 0;
-                        in [
-                            "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-${arch}.nix"
-                            ({...}: {sdImage.compressImage = false;})
-                        ];
-                    }
-            )
-            systems;
-
+        systemsDir = ./nixos/systems;
         # Build an install media for each linux arch
-        installers =
-            lib.lists.map
-            (platform: {
-                name = platform;
-                inherit platform;
-                extraModules = [
-                    "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-base.nix"
-                ];
-                configModule = "iso"; # ISO specific basic config - single user, minimal packages
-            })
-            [
+    in
+        {
+            # Detect each system to be declared in nixosConfigurations here:
+            nixosConfigurations = lib.buildNixOSSystems systemsDir;
+            # Build disk images for each system - for direct building and installation - these may be large and take a long time to build
+            nixosImages = lib.buildNixOSImages systemsDir;
+            nixosInstallers = lib.buildNixOSInstallers self.nixosModules.iso [
                 "aarch64-linux"
                 "x86_64-linux"
                 "i686-linux"
             ];
-    in
-        {
-            nixosConfigurations = lib.nixosSystemAttrs systems;
-            nixosImages = lib.nixosImageAttrs images;
-            nixosInstallers = lib.nixosInstallerAttrs installers;
             nixosModules = (
                 {
                     # Default Module containing all configuration found in ./nixos/components

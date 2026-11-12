@@ -9,23 +9,21 @@
 
     dirOps = rec
     {
+        mapDirRec = f: dir: let
+            imm = f dir;
+            subDirs = getSubDirNames dir;
+        in
+            if (subDirs != [])
+            then imm ++ (lib.lists.flatten (builtins.map (subdir: (mapDirRec f "${dir}/${subdir}")) subDirs))
+            else imm;
+
         getDir = getNixFilesF;
 
         getDirNamesOnly = (
             dir: builtins.map (str: lib.strings.removeSuffix ".nix" (lib.strings.removePrefix "${dir}/" str)) (getDir dir)
         );
 
-        getDirRec = dir: (
-            getDir dir
-            ++ (
-                let
-                    subDirs = getSubDirNames dir;
-                in
-                    if (subDirs != [])
-                    then lib.lists.flatten (builtins.map (subdir: (getDirRec "${dir}/${subdir}")) subDirs)
-                    else []
-            )
-        );
+        getDirRec = mapDirRec getDir;
 
         getSubDirNames = (
             dir: builtins.filter (x: !(lib.strings.hasPrefix "." x)) (getSubDirNamesF dir)
@@ -50,18 +48,11 @@
         importDirRec = dir: args:
             importAllF (getDirRec dir) args;
 
-        ## Redo to give relative paths from root
+        findFile = find: dir: builtins.filter (lib.hasSuffix find) (getDir dir);
 
-        findDirRec = find: dir: let
-            subDirNames = getSubDirNames dir;
-            subDirs = getSubDirs dir;
-            reCall = builtins.map (findDirRec find) subDirs;
-        in
-            if (builtins.length subDirs == 0)
-            then []
-            else if (builtins.elem find subDirNames)
-            then lib.lists.flatten [["${dir}/${find}"]] ++ reCall
-            else lib.lists.flatten reCall;
+        findFileRec = find: mapDirRec (findFile find);
+
+        findDirRec = find: mapDirRec (dir: lib.optional (builtins.elem find (getSubDirNames dir)) "${dir}/${find}");
 
         getParent = builtins.dirOf;
 

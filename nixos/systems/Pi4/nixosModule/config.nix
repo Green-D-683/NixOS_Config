@@ -1,14 +1,9 @@
 {
-    inputs,
     config,
     pkgs,
     lib,
     ...
 }: {
-    imports = [
-        inputs.nixos-hardware.nixosModules.raspberry-pi-4
-    ];
-
     config = {
         ## Call Declared Modules here:
         systemConfig = {
@@ -68,7 +63,5 @@
         ];
 
         networking.networkmanager.wifi.powersave = false;
-
-        # boot.blacklistedKernelModules = [ "brcmfmac" ]; # Use USB WiFi adapter only for now
     };
 }

@@ -30,6 +30,5 @@
             # Libinput needed for Wayland
             libinput.enable = true;
         };
-        
     };
 }

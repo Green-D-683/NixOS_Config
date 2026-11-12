@@ -4,7 +4,7 @@
     ...
 }: {
     config = lib.mkIf (builtins.elem "docker" config.systemConfig.virtualisationTools) {
-        podman = {
+        virtualisation.podman = {
             enable = true;
             dockerCompat = true;
         };

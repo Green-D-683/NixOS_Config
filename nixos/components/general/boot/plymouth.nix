@@ -11,7 +11,7 @@
     in {
         systemConfig.niceties.plymouth = {
             theme = mkOption {
-                type = types.string;
+                type = types.nonEmptyStr;
                 default = "darth_vader";
                 description = "Plymouth Theme to install and use";
             };

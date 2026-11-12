@@ -5,7 +5,7 @@
     system,
     ...
 }: {
-    config = lib.mkIf (!config.isISO) {
+    config.boot = lib.mkIf (!config.isISO) {
         kernel = {
             # Swappiness - lower is less aggressive
             sysctl = {"vm.swappiness" = 10;};

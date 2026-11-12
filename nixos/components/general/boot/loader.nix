@@ -30,7 +30,8 @@ in {
             initrd = {
                 systemd = lib.mkMerge [
                     {
-                        enable = true;
+                        # This is always true - no longer an alternative
+                        # enable = true;
                     }
                     (lib.mkIf isRasPi4 {
                         # Raspi 4 Boards don't have TPM

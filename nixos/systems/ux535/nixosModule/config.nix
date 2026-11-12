@@ -1,14 +1,9 @@
 {
-    inputs,
     config,
     pkgs,
     lib,
     ...
 }: {
-    imports = [
-        inputs.nixos-hardware.nixosModules.asus-zenbook-ux535
-    ];
-
     config = {
         systemConfig = {
             laptop = true;

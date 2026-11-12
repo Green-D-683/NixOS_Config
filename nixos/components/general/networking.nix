@@ -32,7 +32,7 @@
                 };
                 plugins = with pkgs; [
                     networkmanager_strongswan
-                    networkmanager-fortisslvpn
+                    networkmanager-openconnect
                     networkmanager-l2tp
                     networkmanager-openvpn
                 ];
