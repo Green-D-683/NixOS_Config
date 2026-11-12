@@ -191,6 +191,8 @@
                         );
                     }) (lib.getSubDirNames ./nixos/systems)
                 )
+                # Finds all `*/<name>/nixosModule/*` paths, and loads these as separate modules - available to be consumed by other flakes
+                // lib.findNixOSModules self.outPath
             );
 
             darwinConfigurations."UnknowniMac" = nix-darwin.lib.darwinSystem {

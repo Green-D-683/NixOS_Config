@@ -60,6 +60,16 @@
         nixosSystemAttrs = systems: lib.attrListMerge (lib.lists.map nixosSystemAttr systems);
         nixosImageAttrs = images: lib.attrsets.concatMapAttrs (name: system: {${name} = system.config.system.build.sdImage;}) (nixosSystemAttrs images);
         nixosInstallerAttrs = systems: lib.attrsets.concatMapAttrs (name: system: {${name} = system.config.system.build.isoImage;}) (nixosSystemAttrs systems);
+
+        findNixOSModules = dir: lib.attrListMerge (
+            lib.lists.map (dir: {
+                ${lib.dirOps.getParentName dir} = (
+                    {...}: {
+                        imports = lib.getDirRec dir;
+                    }
+                );
+            }) (lib.dirOps.findDirRec "nixosModule" dir)
+        );
     };
 in
     {

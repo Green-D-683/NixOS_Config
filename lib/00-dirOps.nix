@@ -49,6 +49,28 @@
 
         importDirRec = dir: args:
             importAllF (getDirRec dir) args;
+
+        ## Redo to give relative paths from root
+
+        findDirRec = find: dir: let
+            subDirNames = getSubDirNames dir;
+            subDirs = getSubDirs dir;
+            reCall = builtins.map (findDirRec find) subDirs;
+        in
+            if (builtins.length subDirs == 0)
+            then []
+            else if (builtins.elem find subDirNames)
+            then lib.lists.flatten [["${dir}/${find}"]] ++ reCall
+            else lib.lists.flatten reCall;
+
+        getParent = builtins.dirOf;
+
+        getParentName = dir: let
+            hierarchy = lib.splitString "/" dir;
+            dirName = lib.last hierarchy;
+            parentPath = lib.remove dirName hierarchy;
+        in
+            builtins.unsafeDiscardStringContext (lib.last parentPath);
     };
 in
     {
