@@ -1,12 +1,13 @@
 {
     pkgs,
-    inputs,
+    lib,
     ...
 }: {
     config = {
         nix = {
             package = pkgs.nixVersions.stable;
             settings = {
+                flake-registry = "";
                 auto-optimise-store = true;
                 trusted-users = [
                     "@wheel"
@@ -18,15 +19,7 @@
                 experimental-features = nix-command flakes
                 warn-dirty = false
             '';
-            registry = {
-                nixpkgs = {
-                    from = {
-                        id = "nixpkgs";
-                        type = "indirect";
-                    };
-                    flake = inputs.nixpkgs;
-                };
-            };
+            registry = lib.registry.getRegistry;
         };
     };
 }

@@ -2,20 +2,9 @@
     config,
     pkgs,
     lib,
-    inputs,
     ...
-}: let
-    screenpad-driver-package = (
-        kernelPackage: let
-            asus-wmi-screenpad = inputs.screenpad-driver.defaultPackage.${pkgs.stdenv.hostPlatform.system}.override {kernel = kernelPackage;};
-        in [
-            asus-wmi-screenpad
-        ]
-    );
-in {
-    # Screenpad SDDM
-    #config.services.xserver.displayManager.setupCommands="${pkgs.xorg.xrandr}/bin/xrandr --output eDP-1 --mode 3840x2160 --output ${screenpadPort} --off";
-    #config.services.xserver.displayManager.setupCommands="kscreen-doctor output.${screenpadPort}.disable";
+}: {
+    # Screenpad Display-Manager
     config = lib.mkIf (builtins.elem "screenpad" config.systemConfig.extraHardware) (let
         screenpadSetup = pkgs.writeScript "setup-screenpad" ''
             #!${pkgs.runtimeShell}
@@ -56,7 +45,9 @@ in {
         ];
 
         boot = {
-            extraModulePackages = screenpad-driver-package config.boot.kernelPackages.kernel;
+            extraModulePackages = [
+                (pkgs.asus-wmi-screenpad-for-kernel config.boot.kernelPackages.kernel)
+            ];
             kernelModules = [
                 "asus-wmi-screenpad"
             ];

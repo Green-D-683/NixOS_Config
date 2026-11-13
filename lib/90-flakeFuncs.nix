@@ -39,7 +39,7 @@
                         home-manager.nixosModules.home-manager
                         sops-nix.nixosModules.sops
                     ]);
-                specialArgs = {inherit self system; inputs = self.inputs;};
+                specialArgs = {inherit self system;};
             }
         );
 
