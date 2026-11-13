@@ -15,7 +15,15 @@
             type = types.submodule {
                 options = {
                     cfg = mkOption {
-                        type = types.attrs; #with types; either (lib.userModule) (attrsOf (oneOf [lib.userModule bool (listOf str)] ));
+                        type = with types;
+                            attrTag {
+                                nixos = mkOption {
+                                    type = lib.userCfg.userConfig;
+                                };
+                                hm = mkOption {
+                                    type = lib.userCfg.userModule config.home.username;
+                                };
+                            };
                     };
                     system = mkOption {
                         type = types.str;
@@ -77,8 +85,8 @@
             cfg = config.args.cfg;
         in (
             if config.isNixOS
-            then (lib.getUser config.home.username cfg)
-            else cfg
+            then (lib.getUser config.home.username cfg.nixos)
+            else cfg.hm
         );
 
         home = {

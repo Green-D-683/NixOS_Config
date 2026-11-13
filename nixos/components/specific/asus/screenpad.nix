@@ -46,6 +46,8 @@ in {
             };
         };
     in {
+        userConfig.hardwareSpecific.screenpad = true;
+
         services.xserver.displayManager.setupCommands = ''
             screenPadOff
         '';

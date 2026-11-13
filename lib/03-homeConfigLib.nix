@@ -3,7 +3,7 @@
     self,
     ...
 }: let
-    userModule = rec {
+    userCfg = rec {
         getUser = (
             user: userConfig:
                 if userConfig.userModules ? ${user}
@@ -48,9 +48,41 @@
         });
 
         userModules = lib.types.submodule {options = lib.attrListMerge (builtins.map (user: {${user} = lib.mkOption {type = userModule user; description = "Configuration for user '${user}'";};}) (availableUsers ++ ["default"]));};
+
+        userConfig = let
+            types = lib.types;
+            mkOption = lib.mkOption;
+            mkEnableOption = lib.mkEnableOption;
+        in
+            lib.types.submodule {
+                options = {
+                    users = mkOption {
+                        default = ["daniel"];
+                        type = with types; listOf (enum []);
+                        description = "The users to include for the device";
+                    };
+
+                    hardwareSpecific = {
+                        screenpad = mkEnableOption "Enable Screenpad-specific configuration for the user";
+                    };
+
+                    isNixOS = mkOption {
+                        visible = false;
+                        type = types.bool;
+                        default = true;
+                    };
+
+                    userModules = mkOption {
+                        type = userModules;
+                        default = {
+                            "default" = {};
+                        };
+                    };
+                };
+            };
     };
 in
     {
-        inherit userModule;
+        inherit userCfg;
     }
-    // userModule
+    // userCfg

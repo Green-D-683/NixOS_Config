@@ -8,31 +8,10 @@
         mkEnableOption = lib.mkEnableOption;
         types = lib.types;
     in {
-        userConfig = {
-            users = mkOption {
-                default = ["daniel"];
-                type = with types; listOf (enum []);
-                description = "The users to include for the device";
-            };
-
-            hasScreenpad = mkOption {
-                visible = false;
-                type = types.bool;
-                default = false;
-            };
-
-            isNixOS = mkOption {
-                visible = false;
-                type = types.bool;
-                default = true;
-            };
-
-            userModules = mkOption {
-                type = lib.userModules;
-                default = {
-                    "default" = {};
-                };
-            };
+        # See lib/03-homeConfigLib.nix for option definitions
+        userConfig = mkOption {
+            type = lib.userCfg.userConfig;
+            description = "User-level Configuration for the system";
         };
 
         systemConfig = {

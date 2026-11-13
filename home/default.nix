@@ -33,7 +33,7 @@ in {
             sharedModules = [
                 {
                     config.args = {
-                        cfg = config.userConfig;
+                        cfg.nixos = config.userConfig;
                         system = pkgs.stdenv.hostPlatform.system;
                         flake = self;
                         isNixOS = true;

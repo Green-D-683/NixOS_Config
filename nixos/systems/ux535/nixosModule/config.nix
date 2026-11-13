@@ -53,6 +53,7 @@
                     ];
                     gui = true;
                 };
+                hardwareSpecific.screenpad = true;
             };
         };
 
