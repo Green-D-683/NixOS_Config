@@ -25,8 +25,8 @@
             rCloneMounts = {
                 Unit = {
                     Description = "Mount all rClone configurations";
-                    After = ["NetworkManager-wait-online.service" "sleep.target"];
-                    Requires = ["NetworkManager-wait-online.service"];
+                    After = ["network-wait-online.service" "sleep.target"];
+                    Requires = ["network-wait-online.service"];
                     Conflicts = ["sleep.target"];
                 };
                 Service = let
