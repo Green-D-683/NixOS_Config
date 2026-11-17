@@ -4,7 +4,7 @@
             enable = true;
             package = pkgs.opensshWithKerberos;
             enableDefaultConfig = false;
-            matchBlocks."*" = {
+            settings."*" = {
                 addKeysToAgent = "yes";
             };
         };
