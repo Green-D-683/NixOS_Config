@@ -12,7 +12,7 @@
                         if ${systemctl} is-active --quiet NetworkManager.service; then
                             exec ${pkgs.networkmanager}/bin/nm-online -s -q
                         elif ${systemctl} is-active --quiet systemd-networkd.service; then
-                            exec ${pkgs.systemd}/lib/systemd/systemd-networkd-wait-online
+                            exec ${pkgs.systemd}/lib/systemd/systemd-networkd-wait-online --any
                         elif ${systemctl} is-active --quiet network-online.target; then
                             # Fallback: scripted networking, ifupdown, dhcpcd, etc.
                             exit 0
