@@ -39,21 +39,6 @@
                     ]);
                 description = "Extra Hardware Devices specific to this system, to be added to the configuration";
             };
-
-            ## Network Hostname
-            hostname = mkOption {
-                default = "UnknownDevice";
-                type = types.str;
-                description = "Hostname for Network connections";
-            };
-
-            virtualisationTools = mkOption {
-                default = [];
-                type = with types;
-                    listOf (enum [
-                        ]);
-                description = "Virtualisation Interfaces to include";
-            };
         };
     };
 
