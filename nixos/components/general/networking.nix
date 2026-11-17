@@ -41,10 +41,10 @@
         };
         services = {
             xl2tpd.enable = true;
-            strongswan.enable = true;
-            strongswan.secrets = [
-                "ipsec.d/ipsec.nm-l2tp.secrets"
-            ];
+            # strongswan.enable = true;
+            # strongswan.secrets = [
+            #     "ipsec.d/ipsec.nm-l2tp.secrets"
+            # ];
             libreswan = {
                 enable = true;
             };
