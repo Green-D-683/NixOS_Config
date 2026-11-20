@@ -42,6 +42,7 @@
                         "devkit"
                         "gaming"
                         "general"
+                        "eden"
                     ];
                     gui = true;
                 };
@@ -74,6 +75,7 @@
                 Type = "oneshot";
                 ExecStart = "${pkgs.fbset}/bin/con2fbmap 4 1";
             };
+            restartIfChanged = false;
         };
 
         # Temporary test - fix HDR on ux535 internal display
