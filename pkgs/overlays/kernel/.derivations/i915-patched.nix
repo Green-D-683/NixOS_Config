@@ -2,6 +2,7 @@
     stdenv,
     fetchurl,
     kernel,
+    kernelModuleMakeFlags,
 }:
 stdenv.mkDerivation {
     pname = "i915-patched";
@@ -15,19 +16,24 @@ stdenv.mkDerivation {
     ];
 
     nativeBuildInputs = kernel.moduleBuildDependencies;
+    makeFlags =
+        kernelModuleMakeFlags
+        ++ [
+            "-C"
+            "${kernel.dev}/lib/modules/${kernel.modDirVersion}/build"
+        ];
 
-    # Only the i915 directory needs to be built
-    buildPhase = ''
-        make -C ${kernel.dev}/lib/modules/${kernel.modDirVersion}/build \
-          M=$(pwd)/drivers/gpu/drm/i915 \
-          KCFLAGS="-I$(pwd)/include/trace" \
-          modules
+    preBuild = ''
+        makeFlagsArray+=("M=$PWD/drivers/gpu/drm/i915")
+        buildFlagsArray+=("KCFLAGS=-I$PWD/include/trace")
     '';
 
-    installPhase = ''
-        make -C ${kernel.dev}/lib/modules/${kernel.modDirVersion}/build \
-          M=$(pwd)/drivers/gpu/drm/i915 \
-          INSTALL_MOD_PATH=$out INSTALL_MOD_DIR=extra \
-          modules_install
-    '';
+    buildFlags = ["modules"];
+
+    installFlags = [
+        "INSTALL_MOD_PATH=${placeholder "out"}"
+        "INSTALL_MOD_DIR=extra"
+        "DEPMOD=true"
+    ];
+    installTargets = ["modules_install"];
 }
