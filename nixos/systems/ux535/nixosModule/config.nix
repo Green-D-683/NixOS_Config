@@ -53,7 +53,6 @@
                     ];
                     gui = true;
                 };
-                hardwareSpecific.screenpad = true;
             };
 
             hardwareSpecific.screenpad = true;
@@ -76,5 +75,10 @@
                 ExecStart = "${pkgs.fbset}/bin/con2fbmap 4 1";
             };
         };
+
+        # Temporary test - fix HDR on ux535 internal display
+        boot.extraModulePackages = with config.boot.kernelPackages; [
+            i915-patched
+        ];
     };
 }
