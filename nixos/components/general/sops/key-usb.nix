@@ -5,14 +5,15 @@
     ...
 }: let
     masterKeyFile = "dg683-KEYS-key";
-    enableSops = config.systemConfig.sops.enable;
+    sopsCfg = config.systemConfig.sops;
+    enableSops = sopsCfg.enable;
 in {
     config = lib.mkIf enableSops {
         sops.secrets.${masterKeyFile} = let
             daniel = config.users.users.daniel;
         in {
             format = "binary";
-            sopsFile = "${config.sopsDir}/key-usb-keyfile.bin";
+            sopsFile = "${sopsCfg.sopsDir}/key-usb-keyfile.bin";
             owner = daniel.name;
             group = daniel.group;
             mode = "0400";

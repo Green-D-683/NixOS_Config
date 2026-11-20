@@ -55,6 +55,8 @@
                 };
                 hardwareSpecific.screenpad = true;
             };
+
+            hardwareSpecific.screenpad = true;
         };
 
         hardware = {

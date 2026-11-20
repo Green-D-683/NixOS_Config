@@ -15,7 +15,7 @@
                         "qtwebkit-5.212.0-alpha4"
                         "electron-38.8.4"
                         "electron-39.8.10"
-                        "ventoy-1.1.17"
+                        "ventoy-1.1.18"
                     ];
                     nvidia.acceptLicense = true;
                 };

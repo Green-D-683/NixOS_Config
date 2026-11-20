@@ -59,13 +59,5 @@
                 })
             ];
         }
-
-        {
-            userConfig = lib.mkMerge [
-                (lib.mkIf (builtins.elem "screenpad" config.systemConfig.extraHardware) {
-                    hasScreenpad = true;
-                })
-            ];
-        }
     ];
 }

@@ -4,4 +4,4 @@
     lib,
     self,
 }:
-lib.importDir ./. {inherit inputs; inherit system; inherit self;}
+lib.importDirRec ./. {inherit inputs system self lib;}

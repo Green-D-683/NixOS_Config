@@ -20,7 +20,7 @@
         getDir = getNixFilesF;
 
         getDirNamesOnly = (
-            dir: builtins.map (str: lib.strings.removeSuffix ".nix" (lib.strings.removePrefix "${dir}/" str)) (getDir dir)
+            dir: builtins.map (str: builtins.unsafeDiscardStringContext (lib.strings.removeSuffix ".nix" (lib.strings.removePrefix "${dir}/" str))) (getDir dir)
         );
 
         getDirRec = mapDirRec getDir;

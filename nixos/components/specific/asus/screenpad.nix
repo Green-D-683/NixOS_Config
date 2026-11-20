@@ -46,10 +46,11 @@
 
         boot = {
             extraModulePackages = [
-                (pkgs.asus-wmi-screenpad-for-kernel config.boot.kernelPackages.kernel)
+                config.boot.kernelPackages.asus-wmi-screenpad
+                #(pkgs.asus-wmi-screenpad-for-kernel config.boot.kernelPackages.kernel)
             ];
             kernelModules = [
-                "asus-wmi-screenpad"
+                "asus-nb-wmi"
             ];
             initrd = {
                 systemd = {
@@ -58,7 +59,7 @@
                 };
                 kernelModules = [
                     "asus-wmi"
-                    "asus-wmi-screenpad"
+                    "asus-nb-wmi"
                 ];
                 services.udev.rules = screenpadSetupUdev;
             };
